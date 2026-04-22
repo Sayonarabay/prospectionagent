@@ -1625,13 +1625,11 @@ function openDrawer(id) {
         <button class="action-btn success" onclick="qualify(${opp.id})">✓ Qualifier</button>
       </div>
       <div class="action-strip" style="margin-top:8px;">
-        ${opp.url
-          ? `<button class="action-btn secondary" onclick="openSource('${opp.url}')">↗ Source</button>`
-          : `<button class="action-btn secondary" style="opacity:.4;cursor:default;" title="URL non renseignée — saisissez-la dans les notes">↗ Source (—)</button>`}
+        ${buildSourceBtn(opp)}
         <button class="action-btn secondary" onclick="showToast('Dossier — fonctionnalité v2')">📁 Dossier</button>
         <button class="action-btn danger" onclick="archiveOpp(${opp.id})">Archiver</button>
       </div>
-      <div id="source-note-${opp.id}" style="display:none;margin-top:8px;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;line-height:1.5;"></div>
+      <div style="margin-top:10px;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;line-height:1.7;">${getSourceNote(opp)}</div>
     </div>
 
     <div class="drawer-section">
@@ -1649,27 +1647,67 @@ function closeDrawer() {
   document.getElementById('detail-drawer').classList.remove('open');
 }
 
-// Source URL handler — détecte les URLs génériques de démo
-function openSource(url) {
-  const genericHosts = [
-    'www.boamp.fr/avis/detail/avis-de-marche-services/2025',
-    'www.malt.fr/s?q=direction',
-  ];
-  const isDemo = genericHosts.some(h => url.includes(h));
-
-  if (isDemo) {
-    // Ouvrir la vraie page de recherche sur la plateforme
-    const searchUrls = {
-      'boamp.fr': 'https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=design+graphique',
-      'malt.fr':  'https://www.malt.fr/s?q=direction+artistique&l=Paris',
-    };
-    const host = Object.keys(searchUrls).find(k => url.includes(k));
-    const target = host ? searchUrls[host] : url;
-    showToast('⚠ URL de démo — ouverture de la recherche sur la plateforme');
-    window.open(target, '_blank');
-  } else {
-    window.open(url, '_blank');
+// Builds the source button depending on source type and URL availability
+function buildSourceBtn(opp) {
+  if (opp.url) {
+    return `<button class="action-btn secondary" onclick="openSource('${opp.url}','${opp.source}','')">↗ Voir la source</button>`;
   }
+  const clientEnc = encodeURIComponent(opp.client || '');
+  const titleEnc  = encodeURIComponent(opp.title  || '');
+  const fallbacks = {
+    linkedin: `<button class="action-btn secondary" onclick="openSource('__linkedin__','linkedin','${clientEnc}')">↗ Chercher sur LinkedIn</button>`,
+    boamp:    `<button class="action-btn secondary" onclick="openSource('__boamp__','boamp','${titleEnc}')">↗ Chercher sur BOAMP</button>`,
+    malt:     `<button class="action-btn secondary" onclick="openSource('__malt__','malt','')">↗ Chercher sur Malt</button>`,
+    place:    `<button class="action-btn secondary" onclick="openSource('__place__','place','')">↗ Chercher sur PLACE</button>`,
+  };
+  return fallbacks[opp.source] || `<button class="action-btn secondary" style="opacity:.35;cursor:not-allowed;">↗ Source (—)</button>`;
+}
+
+// Returns a contextual explanation note per source
+function getSourceNote(opp) {
+  const notes = {
+    linkedin: opp.url
+      ? '↗ Lien LinkedIn direct — connectez-vous si nécessaire avant de cliquer.'
+      : `⚠ <strong>URL non renseignée.</strong> LinkedIn ne peut pas être automatisé. Méthode : recherchez manuellement <strong>"${opp.client}"</strong> sur LinkedIn → trouvez le post ou l'offre → copiez l'URL → éditez cette opportunité pour l'ajouter.`,
+    boamp: opp.url
+      ? 'Fiche marché BOAMP. Le DCE (dossier de consultation des entreprises) est téléchargeable depuis cette page.'
+      : '⚠ URL BOAMP manquante. Cherchez le marché sur BOAMP avec les mots-clés du titre, puis collez l\'URL exacte de l\'avis ici.',
+    malt: opp.url
+      ? 'Mission Malt — connectez-vous pour voir les détails complets et postuler.'
+      : '⚠ URL Malt manquante. Les alertes Malt arrivent par email — retrouvez l\'email d\'origine pour récupérer le lien de la mission.',
+    place: opp.url
+      ? 'Avis PLACE (profil acheteur public). Le DCE est téléchargeable après inscription gratuite.'
+      : '⚠ URL PLACE manquante. Cherchez sur marches-publics.info avec le nom du client acheteur.',
+    cold:   '📤 Opportunité issue de prospection sortante — pas de source externe. Le contact est à initier directement.',
+    manual: '✏ Saisie manuelle — ajoutez l\'URL source si disponible pour faciliter le suivi.',
+  };
+  return notes[opp.source] || 'Aucune information source disponible.';
+}
+
+// Source URL handler — gère URLs réelles, démo, et fallbacks par source
+function openSource(url, source, queryEnc) {
+  // Fallback search URLs quand l'URL spécifique est absente
+  const fallbackUrls = {
+    '__linkedin__': `https://www.linkedin.com/search/results/all/?keywords=${queryEnc}`,
+    '__boamp__':    `https://www.boamp.fr/avis/recherche?motsMatieres=${queryEnc}&nature[]=MARCHE`,
+    '__malt__':     'https://www.malt.fr/s?q=direction+artistique&l=Paris',
+    '__place__':    'https://www.marches-publics.info/?page=entreprise.EntrepriseAdvancedSearch&AllCons',
+  };
+
+  if (fallbackUrls[url]) {
+    const msg = {
+      '__linkedin__': '↗ Ouverture LinkedIn — recherche par nom de client',
+      '__boamp__':    '↗ Ouverture BOAMP — recherche par mots-clés',
+      '__malt__':     '↗ Ouverture Malt — page de recherche',
+      '__place__':    '↗ Ouverture PLACE — moteur de recherche',
+    }[url] || '↗ Ouverture de la plateforme source';
+    showToast(msg);
+    window.open(fallbackUrls[url], '_blank');
+    return;
+  }
+
+  // URL réelle — ouvrir directement
+  window.open(url, '_blank');
 }
 
 function qualify(id) {
