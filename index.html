@@ -1448,12 +1448,12 @@ body {
 // DATA (remplacé par fetch Supabase en production)
 // =============================================
 const OPPORTUNITIES = [
-  { id:1, title:"Identité visuelle Ville de Lyon", client:"Mairie de Lyon", source:"boamp", status:"in_progress", score:88, budget:"45 000€", deadline:"2025-04-25", tags:["branding","secteur-public","identité"], skills:["Branding","Logotype","Charte"], notes:"Marché public — lot 1 identité visuelle. DCE disponible sur BOAMP. Fort potentiel portfolio.", url:"https://www.boamp.fr" },
-  { id:2, title:"Direction artistique startup FinTech B2B", client:"PayFlow SAS", source:"malt", status:"qualified", score:76, budget:"TJM 650€", deadline:"2025-04-28", tags:["DA","fintech","B2B"], skills:["Direction artistique","UI Design"], notes:"Mission 3 mois, possible renouvellement. Cherchent profil sénior avec expérience finance.", url:"https://www.malt.fr" },
+  { id:1, title:"Identité visuelle Ville de Lyon", client:"Mairie de Lyon", source:"boamp", status:"in_progress", score:88, budget:"45 000€", deadline:"2025-04-25", tags:["branding","secteur-public","identité"], skills:["Branding","Logotype","Charte"], notes:"Marché public — lot 1 identité visuelle. DCE disponible sur BOAMP. Fort potentiel portfolio.", url:"https://www.boamp.fr/avis/detail/avis-de-marche-services/2025" },
+  { id:2, title:"Direction artistique startup FinTech B2B", client:"PayFlow SAS", source:"malt", status:"qualified", score:76, budget:"TJM 650€", deadline:"2025-04-28", tags:["DA","fintech","B2B"], skills:["Direction artistique","UI Design"], notes:"Mission 3 mois, possible renouvellement. Cherchent profil sénior avec expérience finance.", url:"https://www.malt.fr/s?q=direction+artistique" },
   { id:3, title:"Refonte charte graphique ONG environnement", client:"Fondation Terre Vivante", source:"place", status:"qualified", score:72, budget:"12 000€", deadline:"2025-05-05", tags:["branding","ONG","édition"], skills:["Identité visuelle","Édition"], notes:"Appel d'offres marché public. Dossier de candidature attendu.", url:"" },
   { id:4, title:"Conception éditoriale rapport annuel", client:"Groupe Schneider", source:"linkedin", status:"detected", score:64, budget:"8 500€", deadline:"2025-05-12", tags:["édition","corporate"], skills:["InDesign","Mise en page"], notes:"Signal LinkedIn — offre d'emploi DA = besoin freelance probable. Contact DirCom identifié.", url:"" },
   { id:5, title:"Packaging premium ligne cosmétique", client:"Maison Lumière", source:"cold", status:"detected", score:58, budget:"À définir", deadline:"2025-05-20", tags:["packaging","luxe"], skills:["Packaging","Illustration"], notes:"Prospection sortante — site web vieillissant, nouvelle gamme annoncée sur Instagram.", url:"" },
-  { id:6, title:"Signalétique musée Art Moderne", client:"Musée d'Art Moderne Paris", source:"boamp", status:"submitted", score:82, budget:"28 000€", deadline:"2025-04-22", tags:["signalétique","culture","secteur-public"], skills:["Signalétique","Typography"], notes:"Dossier soumis le 18 avril. Résultat attendu fin mai.", url:"https://www.boamp.fr" },
+  { id:6, title:"Signalétique musée Art Moderne", client:"Musée d'Art Moderne Paris", source:"boamp", status:"submitted", score:82, budget:"28 000€", deadline:"2025-04-22", tags:["signalétique","culture","secteur-public"], skills:["Signalétique","Typography"], notes:"Dossier soumis le 18 avril. Résultat attendu fin mai.", url:"https://www.boamp.fr/avis/detail/avis-de-marche-services/2025" },
   { id:7, title:"Identité visuelle cabinet architecture", client:"Studio Blanc", source:"malt", status:"won", score:90, budget:"6 500€", deadline:"2025-03-15", tags:["branding","architecture"], skills:["Logotype","Identité"], notes:"Mission remportée ! Démarrage le 1er avril.", url:"" },
 ];
 
@@ -1625,10 +1625,13 @@ function openDrawer(id) {
         <button class="action-btn success" onclick="qualify(${opp.id})">✓ Qualifier</button>
       </div>
       <div class="action-strip" style="margin-top:8px;">
-        ${opp.url ? `<button class="action-btn secondary" onclick="window.open('${opp.url}','_blank')">↗ Source</button>` : ''}
+        ${opp.url
+          ? `<button class="action-btn secondary" onclick="openSource('${opp.url}')">↗ Source</button>`
+          : `<button class="action-btn secondary" style="opacity:.4;cursor:default;" title="URL non renseignée — saisissez-la dans les notes">↗ Source (—)</button>`}
         <button class="action-btn secondary" onclick="showToast('Dossier — fonctionnalité v2')">📁 Dossier</button>
         <button class="action-btn danger" onclick="archiveOpp(${opp.id})">Archiver</button>
       </div>
+      <div id="source-note-${opp.id}" style="display:none;margin-top:8px;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;line-height:1.5;"></div>
     </div>
 
     <div class="drawer-section">
@@ -1644,6 +1647,29 @@ function openDrawer(id) {
 
 function closeDrawer() {
   document.getElementById('detail-drawer').classList.remove('open');
+}
+
+// Source URL handler — détecte les URLs génériques de démo
+function openSource(url) {
+  const genericHosts = [
+    'www.boamp.fr/avis/detail/avis-de-marche-services/2025',
+    'www.malt.fr/s?q=direction',
+  ];
+  const isDemo = genericHosts.some(h => url.includes(h));
+
+  if (isDemo) {
+    // Ouvrir la vraie page de recherche sur la plateforme
+    const searchUrls = {
+      'boamp.fr': 'https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=design+graphique',
+      'malt.fr':  'https://www.malt.fr/s?q=direction+artistique&l=Paris',
+    };
+    const host = Object.keys(searchUrls).find(k => url.includes(k));
+    const target = host ? searchUrls[host] : url;
+    showToast('⚠ URL de démo — ouverture de la recherche sur la plateforme');
+    window.open(target, '_blank');
+  } else {
+    window.open(url, '_blank');
+  }
 }
 
 function qualify(id) {
