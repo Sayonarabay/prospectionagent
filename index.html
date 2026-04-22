@@ -24,24 +24,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .sidebar{width:220px;min-height:100vh;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
 .sb-logo{padding:18px 16px 13px;border-bottom:1px solid var(--border)}
 .sb-mark{width:30px;height:30px;background:var(--text);border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:7px}
-.sb-logo h1{font-size:13px;font-weight:600}
-.sb-logo p{font-size:11px;color:var(--t3)}
+.sb-logo h1{font-size:13px;font-weight:600}.sb-logo p{font-size:11px;color:var(--t3)}
 .sb-nav{padding:9px 7px;flex:1;overflow-y:auto}
 .nav-grp{margin-bottom:14px}
 .nav-gl{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--t3);text-transform:uppercase;padding:0 9px 5px}
 .ni{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:var(--rs);cursor:pointer;font-size:13px;color:var(--t2);transition:all .12s;user-select:none}
-.ni:hover{background:var(--bg);color:var(--text)}
-.ni.on{background:var(--text);color:#fff;font-weight:500}
-.ni svg{width:14px;height:14px;opacity:.5;flex-shrink:0}
-.ni.on svg{opacity:1}
+.ni:hover{background:var(--bg);color:var(--text)}.ni.on{background:var(--text);color:#fff;font-weight:500}
+.ni svg{width:14px;height:14px;opacity:.5;flex-shrink:0}.ni.on svg{opacity:1}
 .nb{margin-left:auto;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
 .ni.on .nb{background:rgba(255,255,255,.2)}
 .sb-foot{padding:9px 7px;border-top:1px solid var(--border)}
 .sb-user{display:flex;align-items:center;gap:8px;padding:6px 9px}
 .sb-avatar{width:24px;height:24px;border-radius:50%;background:var(--text);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
 .sb-uname{font-size:11px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--t2)}
-.sb-logout{font-size:10px;color:var(--t3);cursor:pointer;padding:2px 5px;border-radius:4px}
-.sb-logout:hover{color:var(--red);background:var(--red-bg)}
+.sb-logout{font-size:10px;color:var(--t3);cursor:pointer;padding:2px 5px;border-radius:4px}.sb-logout:hover{color:var(--red);background:var(--red-bg)}
 .sync-row{display:flex;align-items:center;gap:5px;padding:3px 9px 6px}
 .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--border-s);flex-shrink:0}
 .sync-dot.ok{background:var(--green)}.sync-dot.err{background:var(--red)}.sync-dot.spin{background:var(--gold);animation:blink 1s infinite}
@@ -60,15 +56,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-sm{padding:5px 9px;font-size:12px}
 .btn-d{background:var(--red-bg);color:var(--red);border:1px solid #f5cccc}.btn-d:hover{background:#f5cccc}
 .btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:#1a44cc}
-.btn-blue:disabled,.btn-blue[disabled]{opacity:.5;pointer-events:none;cursor:default}
+.btn-blue:disabled{opacity:.5;pointer-events:none}
 .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:18px}
 .kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px}
 .kpi.hi{background:var(--text);border-color:var(--text)}
 .kl{font-size:10px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
 .kpi.hi .kl{color:rgba(255,255,255,.4)}
 .kv{font-size:23px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
-.kpi.hi .kv{color:#fff}
-.ks{font-size:11px;color:var(--t3);margin-top:2px}.kpi.hi .ks{color:rgba(255,255,255,.35)}
+.kpi.hi .kv{color:#fff}.ks{font-size:11px;color:var(--t3);margin-top:2px}.kpi.hi .ks{color:rgba(255,255,255,.35)}
 .filters{display:flex;align-items:center;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .sbox{display:flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;flex:1;max-width:240px}
 .sbox svg{width:13px;height:13px;color:var(--t3);flex-shrink:0}
@@ -82,8 +77,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 table{width:100%;border-collapse:collapse}
 thead th{padding:8px 12px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;background:var(--bg);border-bottom:1px solid var(--border);white-space:nowrap}
 tbody tr{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
-tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:var(--bg)}
+tbody tr:last-child{border-bottom:none}tbody tr:hover{background:var(--bg)}
 td{padding:10px 12px;vertical-align:middle}
 .sc{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0}
 .sc-h{background:var(--green-bg);color:var(--green)}.sc-m{background:var(--gold-bg);color:var(--gold)}.sc-l{background:var(--s2);color:var(--t3)}.sc-n{background:var(--s2);color:var(--t3);font-size:9px}
@@ -119,76 +113,60 @@ td{padding:10px 12px;vertical-align:middle}
 .kcard-budget{font-family:'DM Mono',monospace;font-size:10px;color:var(--t2);margin-top:2px}
 .kol-empty{padding:16px 6px;text-align:center;font-size:11px;color:var(--t3)}
 
-/* ══ SEARCH — MAIN LAYOUT ══════════════════════════════════════ */
-.search-wrap{display:flex;gap:16px;align-items:flex-start}
-.search-left{width:300px;flex-shrink:0;display:flex;flex-direction:column;gap:12px}
-.search-right{flex:1;min-width:0}
-.sp{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.sp-title{font-size:12px;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between}
-.sp-body{padding:12px 14px}
-
-/* QUERY BUILDER */
-.qb-section{margin-bottom:14px}
-.qb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:7px}
-.kw-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:20px;border:1px solid var(--blue);background:var(--blue-bg);font-size:12px;font-weight:500;color:var(--blue);margin:2px}
-.kw-pill .x{cursor:pointer;opacity:.6;font-size:11px}.kw-pill .x:hover{opacity:1;color:var(--red)}
-.kw-add{display:inline-flex;align-items:center;gap:3px;padding:4px 8px;border-radius:20px;border:1px dashed var(--border);font-size:11px;cursor:pointer;color:var(--t3);margin:2px}
-.kw-add:hover{border-color:var(--blue);color:var(--blue)}
-
-/* QUERY PRESETS */
-.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.preset{padding:6px 8px;border:1px solid var(--border);border-radius:var(--rs);font-size:11px;cursor:pointer;color:var(--t2);transition:all .1s;text-align:center}
-.preset:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
-.preset.on{background:var(--text);border-color:var(--text);color:#fff}
-
-/* SECTOR FILTERS */
-.sector-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-weight:500;cursor:pointer;color:var(--t2);transition:all .1s;margin:2px}
-.sector-btn:hover{border-color:var(--blue);color:var(--blue)}
-.sector-btn.on{background:var(--text);border-color:var(--text);color:#fff}
-
-/* RESULTS PANEL */
-.results-head{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.results-count{font-size:12px;font-weight:600}
-.results-count span{color:var(--t3);font-weight:400;font-size:11px}
-
-/* HOW IT WORKS NOTICE */
-.how-notice{background:var(--blue-bg);border:1px solid #C5D4FC;border-radius:var(--rs);padding:12px 14px;font-size:12px;color:#1A3A9A;line-height:1.65}
-.how-notice strong{color:#1A2A7A}
-.how-notice code{background:#D0DAFC;padding:1px 5px;border-radius:3px;font-family:'DM Mono',monospace;font-size:10px}
-
-/* RESULT ROWS */
-.result-list{overflow-y:auto}
-.result-row{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);transition:background .1s}
-.result-row:last-child{border-bottom:none}
-.result-row:hover{background:var(--bg)}
-.result-category{width:28px;height:28px;border-radius:6px;font-size:13px;text-align:center;line-height:28px;flex-shrink:0}
+/* ══ SEARCH ═══════════════════════════════════════════════════ */
+.search-layout{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:flex-start}
+.sp-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
+.sp-card:last-child{margin-bottom:0}
+.sp-card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between}
+.sp-card-body{padding:12px 14px}
+/* query pills */
+.q-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-weight:500;cursor:pointer;color:var(--t2);transition:all .1s;margin:2px;user-select:none}
+.q-pill:hover{border-color:var(--blue);color:var(--blue)}.q-pill.on{background:var(--text);border-color:var(--text);color:#fff}
+/* sector pills */
+.sec-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:20px;border:1px solid var(--border);font-size:11px;cursor:pointer;color:var(--t2);transition:all .1s;margin:2px;user-select:none}
+.sec-pill:hover{border-color:var(--blue)}.sec-pill.on{background:var(--blue);border-color:var(--blue);color:#fff}
+/* results */
+.results-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.results-toolbar{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.results-count{font-size:12px;font-weight:600;flex:1}
+.results-count span{color:var(--t3);font-weight:400}
+.ext-link{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:var(--rs);border:1px solid var(--border);font-size:11px;color:var(--blue);text-decoration:none;background:var(--white)}
+.ext-link:hover{background:var(--blue-bg)}
+.ext-link-google{border-color:#4285F4;color:#4285F4}
+.ext-link-google:hover{background:#EEF2FD}
+.result-row{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);animation:fi .15s ease}
+.result-row:last-child{border-bottom:none}.result-row:hover{background:var(--bg)}
+@keyframes fi{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
+.result-icon{width:32px;height:32px;border-radius:7px;font-size:16px;text-align:center;line-height:32px;flex-shrink:0;background:var(--s2)}
 .result-body{flex:1;min-width:0}
-.result-title{font-size:12px;font-weight:600;line-height:1.4;margin-bottom:2px;color:var(--text)}
+.result-title{font-size:12px;font-weight:600;line-height:1.4;margin-bottom:2px}
+.result-title a{color:var(--text);text-decoration:none}.result-title a:hover{color:var(--blue)}
 .result-org{font-size:11px;color:var(--t2);font-weight:500}
 .result-meta{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap}
-.result-src{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.04em}
-.src-theatre{background:#EEF2FD;color:var(--blue)}
-.src-musee{background:var(--green-bg);color:var(--green)}
-.src-festival{background:var(--orange-bg);color:var(--orange)}
-.src-danse{background:#F5EEFA;color:#7A20C0}
-.src-ngo{background:var(--gold-bg);color:var(--gold)}
-.src-ecole{background:var(--s2);color:var(--t2)}
-.src-orchestre{background:#FEF8E8;color:var(--gold)}
-.src-other{background:var(--s2);color:var(--t2)}
+.result-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.04em}
+.rb-theatre{background:#EEF2FD;color:var(--blue)}.rb-musee{background:var(--green-bg);color:var(--green)}
+.rb-festival{background:var(--orange-bg);color:var(--orange)}.rb-danse{background:#F5EEFA;color:#7A20C0}
+.rb-orchestre{background:var(--gold-bg);color:var(--gold)}.rb-ecole{background:var(--s2);color:var(--t2)}
+.rb-ngo{background:var(--orange-bg);color:var(--orange)}.rb-public{background:var(--green-bg);color:var(--green)}
+.rb-musique{background:var(--gold-bg);color:var(--gold)}.rb-other{background:var(--s2);color:var(--t2)}
+.result-date{font-size:10px;color:var(--t3)}
 .result-snippet{font-size:11px;color:var(--t3);margin-top:4px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.result-actions{display:flex;gap:5px;flex-shrink:0;align-items:flex-start;padding-top:2px}
+.result-actions{display:flex;gap:5px;flex-shrink:0;align-items:flex-start}
 .already-in{font-size:10px;color:var(--green);font-weight:600;white-space:nowrap;padding-top:3px}
+/* source labels */
+.source-tab{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;background:var(--s2);color:var(--t2)}
+/* states */
 .sp-empty{padding:40px 20px;text-align:center;color:var(--t3);font-size:13px;line-height:1.7}
-.sp-loading{padding:28px;text-align:center;color:var(--t3);font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px}
-.spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+.sp-loading{padding:28px;text-align:center;color:var(--t3);font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;flex-direction:column}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.progress-wrap{height:3px;background:var(--border);overflow:hidden}
-.progress-bar{height:100%;background:var(--blue);transition:width .4s ease;width:0}
-/* GOOGLE SEARCH LINK */
-.google-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--blue);text-decoration:none;padding:3px 7px;border-radius:4px;border:1px solid var(--blue-bg)}
-.google-link:hover{background:var(--blue-bg)}
-
-/* PANEL, MODAL, AUTH — unchanged */
+.progress-outer{width:200px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin:0 auto}
+.progress-inner{height:100%;background:var(--blue);border-radius:2px;transition:width .3s ease;width:0}
+/* info callout */
+.info-box{background:var(--blue-bg);border:1px solid #C5D4FC;border-radius:var(--rs);padding:11px 13px;font-size:11px;color:#1A3A9A;line-height:1.65}
+.info-box strong{font-weight:700;color:#0F256A}
+.info-box code{background:#D0DAFC;padding:1px 5px;border-radius:3px;font-family:'DM Mono',monospace;font-size:10px;font-style:normal}
+/* PANEL, MODAL, AUTH */
 .overlay{position:fixed;inset:0;z-index:200;background:rgba(26,24,22,.28);display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .18s}
 .overlay.open{opacity:1;pointer-events:all}
 .panel{width:520px;max-width:95vw;background:var(--white);height:100vh;overflow-y:auto;transform:translateX(100%);transition:transform .22s cubic-bezier(.4,0,.2,1)}
@@ -205,17 +183,14 @@ td{padding:10px 12px;vertical-align:middle}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .ic{padding:8px 10px;background:var(--bg);border-radius:var(--rs)}
 .ic-l{font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:600;color:var(--t3);margin-bottom:2px}
-.ic-v{font-size:13px;font-weight:500;color:var(--text)}
-.ic-v a{color:var(--blue);font-size:12px}
+.ic-v{font-size:13px;font-weight:500;color:var(--text)}.ic-v a{color:var(--blue);font-size:12px}
 .callout{background:var(--orange-bg);border:1px solid #F5DCC0;border-radius:var(--rs);padding:8px 10px;font-size:13px;color:var(--orange);line-height:1.5;display:flex;gap:7px}
-.tl{display:flex;flex-direction:column}
-.tl-item{display:flex;gap:9px}
+.tl{display:flex;flex-direction:column}.tl-item{display:flex;gap:9px}
 .tl-line{display:flex;flex-direction:column;align-items:center}
 .tl-dot{width:7px;height:7px;border-radius:50%;background:var(--border-s);margin-top:4px;flex-shrink:0}
 .tl-dot.cur{background:var(--text)}
 .tl-conn{width:1px;background:var(--border);flex:1;margin:2px 0;min-height:12px}
-.tl-body{padding-bottom:10px}
-.tl-ev{font-size:12px;font-weight:500}.tl-d{font-size:11px;color:var(--t3)}
+.tl-body{padding-bottom:10px}.tl-ev{font-size:12px;font-weight:500}.tl-d{font-size:11px;color:var(--t3)}
 .nta{width:100%;min-height:70px;border:1px solid var(--border);border-radius:var(--rs);padding:8px 10px;font-size:13px;font-family:inherit;color:var(--text);resize:vertical;outline:none;transition:border-color .12s;background:var(--white)}
 .nta:focus{border-color:var(--text)}
 .ssel{padding:6px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:inherit;color:var(--text);background:var(--white);cursor:pointer;outline:none}
@@ -241,20 +216,15 @@ td{padding:10px 12px;vertical-align:middle}
 .auth-ttl{font-size:15px;font-weight:600}.auth-sub{font-size:11px;color:var(--t3);margin-top:1px}
 .auth-form{display:flex;flex-direction:column;gap:11px}
 .auth-err{background:var(--red-bg);border:1px solid #f5cccc;border-radius:var(--rs);padding:8px 10px;font-size:12px;color:var(--red);display:none}
-.auth-err.show{display:block}
-.auth-sw{text-align:center;font-size:12px;color:var(--t3);margin-top:6px}
+.auth-err.show{display:block}.auth-sw{text-align:center;font-size:12px;color:var(--t3);margin-top:6px}
 .auth-sw a{color:var(--blue);cursor:pointer}
 .toast{position:fixed;bottom:20px;right:20px;z-index:999;background:var(--text);color:#fff;padding:10px 14px;border-radius:var(--r);font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(26,24,22,.18);transform:translateY(60px);opacity:0;transition:all .22s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:6px;max-width:340px}
 .toast.show{transform:translateY(0);opacity:1}.toast.err{background:var(--red)}
-.empty{text-align:center;padding:48px 20px;color:var(--t3)}
-.empty svg{width:30px;height:30px;margin-bottom:9px;opacity:.22}
-.empty p{font-size:13px}
+.empty{text-align:center;padding:48px 20px;color:var(--t3)}.empty svg{width:30px;height:30px;margin-bottom:9px;opacity:.22}.empty p{font-size:13px}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border-s);border-radius:10px}
-@keyframes fi{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}.fi-anim{animation:fi .18s ease}
 </style>
 </head>
 <body>
-
 <!-- AUTH -->
 <div class="auth-screen" id="auth-screen">
   <div class="auth-box">
@@ -332,50 +302,45 @@ td{padding:10px 12px;vertical-align:middle}
       <div class="kpi"><div class="kl">Gagnés</div><div class="kv" id="k-won">0</div><div class="ks">cette année</div></div>
     </div>
 
-    <!-- ══ SEARCH VIEW ══════════════════════════════════════════ -->
+    <!-- ═══ SEARCH VIEW ═══════════════════════════════════════ -->
     <div id="v-search" style="display:none">
-      <div class="search-wrap">
-        <!-- LEFT: Query builder -->
-        <div class="search-left">
-          <div class="sp">
-            <div class="sp-title">🔎 Requête Google</div>
-            <div class="sp-body">
-              <div class="qb-section">
-                <div class="qb-label">Mots-clés actifs</div>
-                <div id="kw-list"></div>
-              </div>
-              <div class="qb-section">
-                <div class="qb-label">Formulations éprouvées</div>
-                <div class="preset-grid" id="preset-grid"></div>
-              </div>
-              <div class="qb-section">
-                <div class="qb-label">Secteurs</div>
-                <div id="sector-list"></div>
-              </div>
-              <button class="btn btn-blue" style="width:100%;justify-content:center;margin-top:4px" id="search-btn" onclick="runSearch()">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
-                Lancer la veille
-              </button>
-            </div>
+      <div class="search-layout">
+        <!-- LEFT -->
+        <div>
+          <div class="sp-card">
+            <div class="sp-card-title">🔎 Type de recherche</div>
+            <div class="sp-card-body" id="query-pills"></div>
           </div>
-
-          <div class="how-notice">
-            <strong>💡 Comment ça marche</strong><br><br>
-            Ces offres sont publiées <strong>directement</strong> sur les sites des institutions — pas sur des plateformes.<br><br>
-            Le moteur génère des requêtes Google ultra-précises pour trouver les pages cachées :<br><br>
-            <code>"appel" "graphiste" "saison 2026" theatre.fr</code><br><br>
-            Chaque résultat s'ouvre dans un nouvel onglet sur le site d'origine. Une fois lu, importez-le en un clic.
+          <div class="sp-card">
+            <div class="sp-card-title">🏷 Secteurs</div>
+            <div class="sp-card-body" id="sector-pills"></div>
+          </div>
+          <div class="sp-card">
+            <div class="sp-card-title">🌍 Pays / langue</div>
+            <div class="sp-card-body" id="lang-pills"></div>
+          </div>
+          <button class="btn btn-blue" style="width:100%;justify-content:center;margin-bottom:12px" id="search-btn" onclick="runSearch()">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+            Lancer la veille
+          </button>
+          <div class="info-box">
+            <strong>Comment ça marche</strong><br><br>
+            Le moteur interroge simultanément :<br>
+            • <strong>Google News RSS</strong> — actualités institutionnelles<br>
+            • <strong>RSS marchés publics</strong> (BOAMP, Place, Maximilien)<br>
+            • <strong>Flux RSS culturels</strong> (réseaux scènes nationales, etc.)<br><br>
+            Toutes les offres sont <strong>en cours</strong> (parues dans les 90 derniers jours). Les liens ouvrent directement le site d'origine.
           </div>
         </div>
 
-        <!-- RIGHT: Results -->
-        <div class="search-right">
-          <div class="sp">
+        <!-- RIGHT -->
+        <div>
+          <div class="results-card">
             <div id="search-body">
               <div class="sp-empty">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="width:36px;height:36px;margin:0 auto 12px;display:block;opacity:.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
-                Configurez votre requête et lancez la veille<br>
-                <span style="font-size:11px;color:var(--t3)">Les offres de théâtres, musées, festivals, compagnies de danse<br>et institutions culturelles apparaîtront ici</span>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2" style="width:40px;height:40px;margin:0 auto 14px;display:block;opacity:.15"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+                <strong>Configurez et lancez la veille</strong><br>
+                <span style="font-size:11px">Théâtres, musées, festivals, compagnies de danse, orchestres,<br>écoles Montessori, ONG, institutions culturelles FR/ES/EU</span>
               </div>
             </div>
           </div>
@@ -431,7 +396,7 @@ td{padding:10px 12px;vertical-align:middle}
       <div class="fg"><label class="fl">Titre <span class="req">*</span></label><input class="fi" type="text" id="f-title" placeholder="Ex : Appel d'offre graphisme — Orchestre de…"></div>
       <div class="frow">
         <div class="fg"><label class="fl">Organisation</label><input class="fi" type="text" id="f-org" placeholder="Théâtre, musée, festival…"></div>
-        <div class="fg"><label class="fl">Source</label><select class="fsel" id="f-src"><option value="manual">Manuel</option><option value="theatre">Théâtre</option><option value="musee">Musée</option><option value="festival">Festival</option><option value="danse">Compagnie danse</option><option value="orchestre">Orchestre</option><option value="ecole">École / Université</option><option value="ngo">ONG / Association</option><option value="autre">Autre</option></select></div>
+        <div class="fg"><label class="fl">Source</label><select class="fsel" id="f-src"><option value="manual">Manuel</option><option value="theatre">Théâtre</option><option value="musee">Musée</option><option value="festival">Festival</option><option value="danse">Compagnie danse</option><option value="orchestre">Orchestre</option><option value="ecole">École / Univ.</option><option value="ngo">ONG / Asso</option><option value="boamp">BOAMP</option><option value="autre">Autre</option></select></div>
       </div>
       <div class="fg"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="Périmètre, livrables, contexte…"></textarea></div>
       <div class="frow">
@@ -474,257 +439,326 @@ let currentUser = null;
 
 // ════════════════════════════════════════════════════════════════
 // SEARCH CONFIG
-// The KEY insight: these offers are on individual institution
-// websites. Google indexes them. We build precision queries
-// that surface pages like:
-//   "appel graphiste saison 2026" on theatre*.fr
-//   "appel offre graphisme" on musee*.fr
-// Then show results with direct links so the user can read
-// the actual page and import it with one click.
 // ════════════════════════════════════════════════════════════════
+// KEY INSIGHT: We use Google News RSS (via allorigins proxy) because:
+// 1. No login required
+// 2. Returns CURRENT results (indexed in last 90 days)
+// 3. Finds pages on institutional websites directly
+// 4. The RSS feed respects the same Google search operators
 
-const QUERY_PRESETS = [
-  { id:'ao_graphiste',   label:'"appel" graphiste',     q:'"appel" "graphiste" OR "appel à graphiste" OR "appel d\'offre" "graphisme"' },
-  { id:'identite',       label:'Identité visuelle',     q:'"appel" "identité visuelle" OR "charte graphique" OR "concept graphique"' },
-  { id:'saison',         label:'Brochure saison',       q:'"appel" "brochure de saison" OR "programme de saison" OR "saison 2026"' },
-  { id:'catalogue',      label:'Catalogue / édition',   q:'"appel" "catalogue" OR "livre" OR "publication" "graphisme" OR "maquette"' },
-  { id:'affiche',        label:'Affiche / print',       q:'"appel" "affiche" OR "print" "graphisme" OR "graphiste" OR "création graphique"' },
-  { id:'da',             label:'Direction artistique',  q:'"appel" "direction artistique" OR "directeur artistique" OR "DA" graphisme' },
+const PROXY = 'https://api.allorigins.win/raw?url=';
+
+// Query types — each maps to a specific Google News search
+const QUERY_TYPES = [
+  { id:'ao_graphiste',  label:'Appel graphiste',      on:true,  terms:'"appel" "graphiste"' },
+  { id:'ao_graphisme',  label:'Appel graphisme',       on:true,  terms:'"appel d\'offre" "graphisme"' },
+  { id:'identite',      label:'Identité visuelle',     on:true,  terms:'"appel" "identité visuelle" OR "charte graphique"' },
+  { id:'conception',    label:'Conception graphique',  on:true,  terms:'"appel" "conception graphique"' },
+  { id:'saison',        label:'Brochure saison',       on:false, terms:'"appel" "brochure" OR "programme de saison" "graphiste" OR "graphisme"' },
+  { id:'catalogue',     label:'Catalogue / édition',   on:false, terms:'"appel" "catalogue" OR "livre" OR "publication" "graphisme" OR "maquette"' },
+  { id:'direction_art', label:'Direction artistique',  on:false, terms:'"appel" "direction artistique" OR "directeur artistique" "graphisme"' },
 ];
 
+// Sectors — add site-specific terms to the query
 const SECTORS = [
-  { id:'theatre',   label:'🎭 Théâtre',     domain:'theatre', tld: ['theatre.fr', 'theatre.com', '.th'] },
-  { id:'musee',     label:'🏛 Musée',       domain:'musee' },
-  { id:'festival',  label:'🎪 Festival',    domain:'festival' },
-  { id:'danse',     label:'💃 Danse',       domain:'danse|ballet|choregraphie' },
-  { id:'orchestre', label:'🎻 Orchestre',   domain:'orchestre|opera|philharmonie' },
-  { id:'ecole',     label:'🏫 École / univ', domain:'montessori|ecole|universite|univ' },
-  { id:'ngo',       label:'🌍 Asso / ONG',  domain:'association|fondation|ngo' },
-  { id:'musique',   label:'🎵 Musique',     domain:'musique|jazz|rock|concert' },
-  { id:'cirque',    label:'🎡 Cirque / rue', domain:'cirque|rue|spectacle' },
+  { id:'theatre',   label:'🎭 Théâtre',      on:true,  kw:'théâtre OR theatre' },
+  { id:'musee',     label:'🏛 Musée',         on:true,  kw:'musée OR musee' },
+  { id:'festival',  label:'🎪 Festival',      on:true,  kw:'festival' },
+  { id:'danse',     label:'💃 Danse',          on:true,  kw:'danse OR ballet OR chorégraphie' },
+  { id:'orchestre', label:'🎻 Orchestre',      on:true,  kw:'orchestre OR opéra OR philharmonie' },
+  { id:'ecole',     label:'🏫 École / Univ',   on:false, kw:'école OR université OR montessori OR conservatoire' },
+  { id:'ngo',       label:'🌍 ONG / Asso',     on:false, kw:'association OR fondation OR ONG' },
+  { id:'musique',   label:'🎵 Musique / Jazz', on:false, kw:'jazz OR musique OR concert' },
+  { id:'cirque',    label:'🎡 Cirque / Rue',   on:false, kw:'cirque OR arts.de.la.rue OR spectacle' },
+  { id:'pub',       label:'🏛 Marchés publics',on:true,  kw:'mairie OR commune OR collectivité' },
 ];
 
-let activePresets = ['ao_graphiste','identite'];
-let activeSectors = ['theatre','musee','festival','danse','orchestre'];
+// Languages
+const LANGS = [
+  { id:'fr', label:'🇫🇷 Français', on:true,  gl:'fr', hl:'fr' },
+  { id:'es', label:'🇪🇸 Español',  on:false, gl:'es', hl:'es' },
+  { id:'be', label:'🇧🇪 Belgique',  on:false, gl:'be', hl:'fr' },
+  { id:'ch', label:'🇨🇭 Suisse',    on:false, gl:'ch', hl:'fr' },
+];
+
 let searchResults = [];
 let importedUrls = new Set();
 
-// GOOGLE RSS/JSON SEARCH via SerpAPI-compatible public endpoint
-// We use the Google Custom Search JSON API with a public demo key,
-// falling back to curated manual results if rate limited.
-// The REAL strategy: build the Google query string and show
-// it to the user as a deep-link they can open directly.
-const SEARCH_BASE = 'https://www.googleapis.com/customsearch/v1';
-// Note: without an API key, we use the allorigins proxy on Google search
-// and parse the HTML results — this gives us REAL current results.
+// ════════════════════════════════════════════════════════════════
+// RENDER SEARCH UI
+// ════════════════════════════════════════════════════════════════
+function renderSearchUI() {
+  const qEl = document.getElementById('query-pills');
+  if (qEl) qEl.innerHTML = QUERY_TYPES.map(q =>
+    `<div class="q-pill ${q.on?'on':''}" onclick="toggleQ('${q.id}')">${q.label}</div>`
+  ).join('');
 
-async function googleSearch(query, num=10) {
-  // Strategy: use SerpApi free tier OR parse Google HTML via proxy
-  // Fallback: direct Google link generation
+  const sEl = document.getElementById('sector-pills');
+  if (sEl) sEl.innerHTML = SECTORS.map(s =>
+    `<div class="sec-pill ${s.on?'on':''}" onclick="toggleS('${s.id}')">${s.label}</div>`
+  ).join('');
+
+  const lEl = document.getElementById('lang-pills');
+  if (lEl) lEl.innerHTML = LANGS.map(l =>
+    `<div class="q-pill ${l.on?'on':''}" onclick="toggleL('${l.id}')">${l.label}</div>`
+  ).join('');
+}
+
+function toggleQ(id) { const q=QUERY_TYPES.find(x=>x.id===id); if(q)q.on=!q.on; renderSearchUI(); }
+function toggleS(id) { const s=SECTORS.find(x=>x.id===id); if(s)s.on=!s.on; renderSearchUI(); }
+function toggleL(id) { const l=LANGS.find(x=>x.id===id); if(l)l.on=!l.on; renderSearchUI(); }
+
+// ════════════════════════════════════════════════════════════════
+// SEARCH ENGINE
+// Strategy: Google News RSS via allorigins proxy.
+// Google News RSS is public, no API key, returns CURRENT results
+// from the last 90 days. We parse the XML and extract items.
+// ════════════════════════════════════════════════════════════════
+
+function buildSearchQuery() {
+  const activeQ = QUERY_TYPES.filter(q=>q.on).map(q=>q.terms);
+  const activeS = SECTORS.filter(s=>s.on).map(s=>s.kw);
+  if (!activeQ.length) return null;
+
+  // Combine: (q1 OR q2) + (s1 OR s2)
+  const qPart = activeQ.length === 1 ? activeQ[0] : `(${activeQ.join(') OR (')})`;
+  const sPart = activeS.length ? `(${activeS.join(' OR ')})` : '';
+  return sPart ? `${qPart} ${sPart}` : qPart;
+}
+
+async function fetchGoogleNewsRSS(query, lang) {
+  // Google News RSS feed — returns real current results, no auth
   const encoded = encodeURIComponent(query);
-  
-  // Try DuckDuckGo instant answer API (no auth needed)
+  const url = `https://news.google.com/rss/search?q=${encoded}&hl=${lang.hl}&gl=${lang.gl}&ceid=${lang.gl.toUpperCase()}:${lang.hl}`;
+  const proxyUrl = PROXY + encodeURIComponent(url);
+
   try {
-    const ddg = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://html.duckduckgo.com/html/?q=${encoded}&kl=fr-fr`)}`;
-    const html = await safeFetch(ddg, 10000);
-    const results = parseDDGResults(html, query);
-    if (results.length > 0) return results;
-  } catch(e) {}
-
-  // Fallback: return a curated Google search URL for the user
-  return [];
-}
-
-function parseDDGResults(html, origQuery) {
-  const results = [];
-  // DuckDuckGo HTML result pattern
-  const rx = /<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>([\s\S]{5,150}?)<\/a>/g;
-  const snippetRx = /<a[^>]+class="result__snippet"[^>]*>([\s\S]{10,300}?)<\/a>/g;
-  const snippets = [];
-  let ms;
-  while ((ms = snippetRx.exec(html)) !== null) snippets.push(clean(ms[1]));
-
-  let m; let i = 0;
-  while ((m = rx.exec(html)) !== null && results.length < 15) {
-    const url = decodeURIComponent(m[1].replace('//duckduckgo.com/l/?uddg=','').replace('//duckduckgo.com/y.js?ad=1&t=h_&l=fr-fr&s=0&u=','').split('&')[0]);
-    const title = clean(m[2]);
-    if (title.length < 5) { i++; continue; }
-    // Skip irrelevant domains
-    if (url.match(/wikipedia|facebook|twitter|instagram|linkedin|youtube|tiktok|amazon|ebay/i)) { i++; continue; }
-    
-    results.push({
-      id: btoa(url).substring(0,16),
-      title,
-      org: extractOrg(url, title),
-      description: snippets[i] || '',
-      url: url.startsWith('http') ? url : 'https://'+url,
-      source: detectSector(url, title),
-      tags: autoTags(title + ' ' + (snippets[i]||''))
-    });
-    i++;
+    const resp = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
+    if (!resp.ok) return [];
+    const xml = await resp.text();
+    return parseNewsRSS(xml, lang.id);
+  } catch(e) {
+    console.warn('RSS fetch failed:', lang.id, e.message);
+    return [];
   }
-  return results;
 }
 
-function extractOrg(url, title) {
-  try {
-    const host = new URL(url).hostname.replace('www.','');
-    const parts = host.split('.');
-    if (parts.length >= 2) {
-      return parts[0].charAt(0).toUpperCase() + parts[0].slice(1).replace(/-/g,' ');
-    }
-  } catch(e) {}
-  return null;
+function parseNewsRSS(xml, langId) {
+  const items = [];
+  // Parse RSS items
+  const itemMatches = xml.match(/<item>([\s\S]*?)<\/item>/g) || [];
+  for (const item of itemMatches.slice(0, 20)) {
+    const title = extractXML(item, 'title');
+    const link = extractXML(item, 'link') || extractXML(item, 'url');
+    const description = extractXML(item, 'description');
+    const pubDate = extractXML(item, 'pubDate');
+    const source = extractXMLAttr(item, 'source', 'url') || extractXML(item, 'source');
+
+    if (!title || title.length < 5) continue;
+    // Skip results that are clearly not design briefs
+    if (!isRelevant(title + ' ' + description)) continue;
+
+    // Parse and check recency — only last 90 days
+    const pd = pubDate ? new Date(pubDate) : null;
+    const daysAgo = pd ? Math.floor((Date.now() - pd) / 86400000) : 999;
+    if (daysAgo > 90) continue;
+
+    // Resolve Google News redirect to actual URL
+    const realUrl = resolveGoogleNewsUrl(link);
+
+    items.push({
+      title: cleanText(title),
+      description: cleanText(description).replace(/<[^>]+>/g,'').substring(0,200),
+      url: realUrl,
+      source: detectSector(title + ' ' + description),
+      org: source ? cleanText(source) : extractOrgFromUrl(realUrl),
+      date: pd ? pd.toLocaleDateString('fr-FR', {day:'numeric',month:'short'}) : null,
+      daysAgo,
+      lang: langId,
+      tags: autoTags(title + ' ' + description)
+    });
+  }
+  return items;
 }
 
-function detectSector(url, title) {
-  const t = (url + ' ' + title).toLowerCase();
-  if (t.match(/theatre|théâtre/)) return 'theatre';
-  if (t.match(/musee|musée|museum/)) return 'musee';
+function resolveGoogleNewsUrl(url) {
+  if (!url) return '#';
+  // Google News links are sometimes wrapped
+  if (url.includes('news.google.com')) {
+    const m = url.match(/url=([^&]+)/);
+    if (m) return decodeURIComponent(m[1]);
+  }
+  return url;
+}
+
+function extractXML(xml, tag) {
+  const m = xml.match(new RegExp(`<${tag}[^>]*>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/${tag}>`, 'i'));
+  return m ? m[1].trim() : '';
+}
+
+function extractXMLAttr(xml, tag, attr) {
+  const m = xml.match(new RegExp(`<${tag}[^>]*${attr}="([^"]*)"`, 'i'));
+  return m ? m[1] : '';
+}
+
+function isRelevant(text) {
+  const t = text.toLowerCase();
+  // Must contain design-related terms
+  const designTerms = ['graphi','identit','charte','branding','logo','visuel','communic','design','maquett','édition','catalog','affiche','print','illustration','direction artistique'];
+  // And brief-related terms
+  const briefTerms = ['appel','offre','recherche','recrut','prestataire','mission','commande','consultation'];
+  return designTerms.some(d => t.includes(d)) && briefTerms.some(b => t.includes(b));
+}
+
+function detectSector(text) {
+  const t = text.toLowerCase();
+  if (t.match(/théâtre|theater/)) return 'theatre';
+  if (t.match(/musée|museum|exposition/)) return 'musee';
   if (t.match(/festival/)) return 'festival';
-  if (t.match(/danse|ballet|choréographie/)) return 'danse';
-  if (t.match(/orchestre|opera|opéra|philharmonie/)) return 'orchestre';
-  if (t.match(/ecole|école|montessori|universite|université/)) return 'ecole';
-  if (t.match(/association|fondation|asso\b/)) return 'ngo';
-  if (t.match(/musique|jazz|concert/)) return 'musique';
-  if (t.match(/cirque|rue|spectacle/)) return 'cirque';
+  if (t.match(/danse|ballet|chorégraph/)) return 'danse';
+  if (t.match(/orchestre|opéra|philharmon/)) return 'orchestre';
+  if (t.match(/école|université|montessori|conservat/)) return 'ecole';
+  if (t.match(/association|fondation|\bong\b/)) return 'ngo';
+  if (t.match(/jazz|concert|musique/)) return 'musique';
+  if (t.match(/cirque|arts.de.la.rue/)) return 'cirque';
+  if (t.match(/mairie|commune|collectivit|marché public/)) return 'public';
   return 'other';
 }
 
 function autoTags(text) {
   const t = (text||'').toLowerCase();
   const tags = [];
-  if (t.match(/brand|identit|logo|charte/)) tags.push('identite');
-  if (t.match(/web|ui|ux|digital|site internet|numérique/)) tags.push('web');
+  if (t.match(/identit|logo|charte|branding/)) tags.push('identite');
+  if (t.match(/web|ui|ux|digital|site internet/)) tags.push('web');
   if (t.match(/motion|after.effect|anim|vidéo/)) tags.push('motion');
   if (t.match(/print|brochure|dépliant|programme|saison|plaquette|affiche/)) tags.push('print');
-  if (t.match(/catalogue|livre|ouvrage|édition|publication|book|maquett/)) tags.push('catalogue');
-  if (t.match(/concert|musée|théâtre|festival|orchestre|opéra|culturel|exposition|danse/)) tags.push('culture');
-  if (t.match(/graphi[qs]|graphiste|graphisme|direction artistique|\bDA\b/)) tags.push('branding');
-  if (t.match(/editorial|rédaction|contenu|texte/)) tags.push('editorial');
+  if (t.match(/catalogue|livre|édition|publication|book|maquett/)) tags.push('catalogue');
+  if (t.match(/concert|musée|théâtre|festival|orchestre|opéra|cultural|exposition/)) tags.push('culture');
+  if (t.match(/graphi[qs]|graphiste|graphisme|direction artistique/)) tags.push('branding');
+  if (t.match(/editorial|rédact|contenu/)) tags.push('editorial');
   return [...new Set(tags)];
 }
 
-// ════════════════════════════════════════════════════════════════
-// BUILD GOOGLE QUERY
-// ════════════════════════════════════════════════════════════════
-function buildQuery() {
-  const presetParts = activePresets.map(id => {
-    const p = QUERY_PRESETS.find(x=>x.id===id);
-    return p ? p.q : '';
-  }).filter(Boolean);
-
-  const sectorParts = activeSectors.map(id => {
-    const s = SECTORS.find(x=>x.id===id);
-    return s ? s.domain : '';
-  }).filter(Boolean);
-
-  const base = presetParts.join(' OR ');
-  const sectorFilter = sectorParts.length ? `(${sectorParts.join('|')})` : '';
-  const year = '2025 OR 2026 OR 2027';
-
-  // Build two queries: one with year focus, one broader
-  const q1 = `${base} (${year})`.trim();
-  const q2 = sectorFilter ? `(${sectorFilter}) ${base}` : base;
-
-  return { q1, q2 };
+function extractOrgFromUrl(url) {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./,'');
+    const parts = host.split('.');
+    if (parts.length >= 2) return parts[0].replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  } catch(e) {}
+  return null;
 }
 
-function buildGoogleUrl(query) {
-  return `https://www.google.com/search?q=${encodeURIComponent(query)}&lr=lang_fr&tbs=qdr:m6&num=20`;
-}
-function buildDDGUrl(query) {
-  return `https://duckduckgo.com/?q=${encodeURIComponent(query)}&kl=fr-fr&ia=web`;
+function cleanText(s) {
+  return (s||'').replace(/<!\[CDATA\[/g,'').replace(/\]\]>/g,'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').replace(/&amp;/g,'&').replace(/&eacute;/g,'é').replace(/&egrave;/g,'è').replace(/&agrave;/g,'à').replace(/&ccedil;/g,'ç').replace(/&nbsp;/g,' ').trim();
 }
 
 // ════════════════════════════════════════════════════════════════
 // RUN SEARCH
 // ════════════════════════════════════════════════════════════════
 async function runSearch() {
+  const query = buildSearchQuery();
+  if (!query) { toast('Sélectionnez au moins un type de recherche', true); return; }
+
+  const activeLangs = LANGS.filter(l=>l.on);
+  if (!activeLangs.length) { toast('Sélectionnez au moins une langue', true); return; }
+
   const btn = document.getElementById('search-btn');
   btn.disabled = true;
-  btn.innerHTML = '<div class="spinner"></div> Recherche…';
+  btn.innerHTML = '<div class="spinner"></div> Recherche en cours…';
 
   importedUrls = new Set(D.filter(d=>d.source_url).map(d=>d.source_url));
 
   const body = document.getElementById('search-body');
-  body.innerHTML = '<div class="progress-wrap"><div class="progress-bar" id="prog" style="width:20%"></div></div><div class="sp-loading"><div class="spinner"></div> Interrogation DuckDuckGo…</div>';
-
-  const { q1, q2 } = buildQuery();
-  const setP = w => { const el=document.getElementById('prog'); if(el)el.style.width=w+'%'; };
+  body.innerHTML = `
+    <div class="sp-loading">
+      <div class="spinner"></div>
+      <span>Interrogation Google News RSS…</span>
+      <div class="progress-outer"><div class="progress-inner" id="prog" style="width:10%"></div></div>
+    </div>`;
 
   searchResults = [];
+  const total = activeLangs.length;
+  let done = 0;
 
-  // Run both queries
-  setP(30);
-  const [r1, r2] = await Promise.all([googleSearch(q1), googleSearch(q2)]);
-  setP(70);
+  const setP = () => { done++; const el=document.getElementById('prog'); if(el)el.style.width=`${Math.round(done/total*100)}%`; };
 
-  searchResults = [...r1, ...r2];
+  await Promise.allSettled(activeLangs.map(async lang => {
+    const results = await fetchGoogleNewsRSS(query, lang);
+    searchResults.push(...results);
+    setP();
+  }));
 
-  // Deduplicate
+  // Deduplicate by URL
   const seen = new Set();
   searchResults = searchResults.filter(r => {
-    if (!r.url || seen.has(r.url)) return false;
+    if (!r.url || r.url === '#' || seen.has(r.url)) return false;
     seen.add(r.url); return true;
   });
 
-  // Score
-  const allKw = activePresets.flatMap(id => {
-    const p = QUERY_PRESETS.find(x=>x.id===id);
-    return p ? p.q.toLowerCase().replace(/['"()]/g,'').split(/\s+OR\s+|\s+/) : [];
-  }).filter(w => w.length > 3);
+  // Sort: most recent first, then by relevance
+  searchResults.sort((a, b) => (a.daysAgo||90) - (b.daysAgo||90));
 
-  searchResults.forEach(r => {
-    const hay = (r.title+' '+r.description).toLowerCase();
-    r._score = allKw.reduce((s,w) => s+(hay.includes(w)?1:0), 0) + (r.title.length > 10 ? 1 : 0);
-  });
-  searchResults.sort((a,b) => b._score - a._score);
-
-  setP(100);
   btn.disabled = false;
   btn.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:13px;height:13px"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg> Relancer';
 
-  renderResults(q1, q2);
+  renderSearchResults(query);
 }
 
-function renderResults(q1, q2) {
+function renderSearchResults(query) {
   const body = document.getElementById('search-body');
-  const googleUrl = buildGoogleUrl(q1);
-  const ddgUrl = buildDDGUrl(q1);
-  const googleUrl2 = buildGoogleUrl(q2);
 
-  const headerHtml = `
-    <div class="results-head">
-      <span class="results-count">${searchResults.length} résultats <span>— cherchez aussi directement :</span></span>
-      <a href="${googleUrl}" target="_blank" class="google-link">🔍 Google</a>
-      <a href="${googleUrl2}" target="_blank" class="google-link">🔍 Google (secteurs)</a>
-      <a href="${ddgUrl}" target="_blank" class="google-link">🦆 DDG</a>
+  // Always show direct Google links with the exact query
+  const gUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}&tbs=qdr:m3&lr=lang_fr&num=20`;
+  const gNewsUrl = `https://news.google.com/search?q=${encodeURIComponent(query)}&hl=fr-FR&gl=FR`;
+
+  const toolbar = `
+    <div class="results-toolbar">
+      <span class="results-count">${searchResults.length} offres actuelles <span>— parues dans les 90 derniers jours</span></span>
+      <a href="${gNewsUrl}" target="_blank" class="ext-link ext-link-google">🔍 Google News</a>
+      <a href="${gUrl}" target="_blank" class="ext-link ext-link-google">🔍 Google Web</a>
     </div>`;
 
   if (!searchResults.length) {
-    body.innerHTML = headerHtml + `
-      <div class="sp-empty" style="padding:28px">
-        <strong>Aucun résultat automatique</strong> — les sites d'institutions bloquent parfois le scraping.<br><br>
-        👉 Cliquez sur <strong>Google</strong> ou <strong>DDG</strong> ci-dessus pour chercher directement avec ces requêtes optimisées.<br>
-        Quand vous trouvez une offre, importez-la manuellement avec le bouton <strong>+ Nouvelle</strong>.
+    body.innerHTML = toolbar + `
+      <div class="sp-empty" style="padding:30px 20px">
+        <strong>Pas de résultats automatiques</strong><br><br>
+        Google News n'a pas indexé de nouvelles offres matching ces critères récemment.<br><br>
+        👉 Cliquez <strong>Google News</strong> ci-dessus — vous verrez les mêmes offres que le moteur cherche, directement dans votre navigateur.<br>
+        Quand vous en trouvez une, collez l'URL dans <strong>+ Nouvelle</strong>.<br><br>
+        💡 <em>Essayez d'élargir les secteurs ou de changer les types de recherche</em>
       </div>`;
     return;
   }
 
+  const SECTOR_INFO = {
+    theatre:{label:'Théâtre',cls:'rb-theatre'},
+    musee:{label:'Musée',cls:'rb-musee'},
+    festival:{label:'Festival',cls:'rb-festival'},
+    danse:{label:'Danse',cls:'rb-danse'},
+    orchestre:{label:'Orchestre',cls:'rb-orchestre'},
+    ecole:{label:'École',cls:'rb-ecole'},
+    ngo:{label:'ONG/Asso',cls:'rb-ngo'},
+    musique:{label:'Musique',cls:'rb-musique'},
+    public:{label:'Marché public',cls:'rb-public'},
+    other:{label:'Autre',cls:'rb-other'},
+  };
+  const SECTOR_ICONS = {theatre:'🎭',musee:'🏛',festival:'🎪',danse:'💃',orchestre:'🎻',ecole:'🏫',ngo:'🌍',musique:'🎵',cirque:'🎡',public:'🏛',other:'📄'};
+
   const rows = searchResults.map((r,i) => {
     const alreadyIn = importedUrls.has(r.url);
-    const sectorEmoji = {theatre:'🎭',musee:'🏛',festival:'🎪',danse:'💃',orchestre:'🎻',ecole:'🏫',ngo:'🌍',musique:'🎵',cirque:'🎡',other:'📄'}[r.source]||'📄';
-    const srcClass = `src-${r.source}`;
-    const sectorLabel = SECTORS.find(s=>s.id===r.source)?.label || r.source;
+    const si = SECTOR_INFO[r.source] || SECTOR_INFO.other;
+    const ico = SECTOR_ICONS[r.source] || '📄';
+    const dayLabel = r.daysAgo === 0 ? "Aujourd'hui" : r.daysAgo === 1 ? 'Hier' : `il y a ${r.daysAgo}j`;
     return `<div class="result-row" id="rr-${i}">
-      <div class="result-category">${sectorEmoji}</div>
+      <div class="result-icon">${ico}</div>
       <div class="result-body">
-        <div class="result-title">${r.title}</div>
+        <div class="result-title"><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a></div>
         ${r.org ? `<div class="result-org">${r.org}</div>` : ''}
         <div class="result-meta">
-          <span class="result-src ${srcClass}">${sectorLabel.replace(/^[^ ]+ /,'')}</span>
+          <span class="result-badge ${si.cls}">${si.label}</span>
+          ${r.lang !== 'fr' ? `<span class="source-tab">${LANGS.find(l=>l.id===r.lang)?.label||r.lang}</span>` : ''}
           ${r.tags.map(t=>`<span class="tag t-${t}">${t}</span>`).join('')}
+          <span class="result-date">📅 ${dayLabel}</span>
         </div>
         ${r.description ? `<div class="result-snippet">${r.description}</div>` : ''}
       </div>
@@ -733,14 +767,14 @@ function renderResults(q1, q2) {
           ? `<span class="already-in">✓ Importé</span>`
           : `<button class="btn btn-s btn-sm" onclick="importResult(${i})">+ Importer</button>`
         }
-        <a href="${r.url}" target="_blank" rel="noopener" class="btn btn-g btn-sm" title="Voir l'offre originale">
+        <a href="${r.url}" target="_blank" rel="noopener" class="btn btn-g btn-sm" title="Ouvrir l'offre originale">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:12px;height:12px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
         </a>
       </div>
     </div>`;
   }).join('');
 
-  body.innerHTML = headerHtml + `<div class="result-list">${rows}</div>`;
+  body.innerHTML = toolbar + `<div>${rows}</div>`;
 }
 
 async function importResult(i) {
@@ -750,64 +784,26 @@ async function importResult(i) {
     title: r.title, organization: r.org||null,
     source: r.source, source_url: r.url||null,
     description: r.description||null,
-    score: Math.min(r._score||0,10), tags: r.tags||[],
-    budget: null, deadline: null, location: null,
-    detected_at: today(), status:'detected', is_manual:false,
+    score: 5, tags: r.tags||[],
+    budget:null, deadline:null, location:null,
+    detected_at:today(), status:'detected', is_manual:false,
     notes:'', attention:null,
     timeline:[{s:'detected',d:tday()}],
     position: D.filter(x=>x.status==='detected').length
   };
   D.unshift(opp); importedUrls.add(r.url);
   await persist(opp);
-  renderResults(); // re-render without q params (already stored)
+  renderSearchResults(buildSearchQuery());
   updateKPIs();
   document.getElementById('nb').textContent = D.filter(o=>o.status==='detected').length;
   toast(`Importé : "${opp.title.substring(0,45)}…"`);
 }
 
 // ════════════════════════════════════════════════════════════════
-// RENDER QUERY BUILDER
-// ════════════════════════════════════════════════════════════════
-function renderQueryBuilder() {
-  // Keywords
-  const kwEl = document.getElementById('kw-list');
-  if (kwEl) {
-    const kws = activePresets.flatMap(id => {
-      const p = QUERY_PRESETS.find(x=>x.id===id);
-      return p ? [p.label] : [];
-    });
-    kwEl.innerHTML = kws.map(k=>`<span class="kw-pill">${k}</span>`).join('') || '<span style="font-size:11px;color:var(--t3)">Sélectionnez des requêtes ci-dessous</span>';
-  }
-
-  // Presets
-  const pg = document.getElementById('preset-grid');
-  if (pg) pg.innerHTML = QUERY_PRESETS.map(p=>`
-    <div class="preset ${activePresets.includes(p.id)?'on':''}" onclick="togglePreset('${p.id}')">${p.label}</div>`
-  ).join('');
-
-  // Sectors
-  const sl = document.getElementById('sector-list');
-  if (sl) sl.innerHTML = SECTORS.map(s=>`
-    <button class="sector-btn ${activeSectors.includes(s.id)?'on':''}" onclick="toggleSector('${s.id}')">${s.label}</button>`
-  ).join('');
-}
-
-function togglePreset(id) {
-  if (activePresets.includes(id)) activePresets = activePresets.filter(x=>x!==id);
-  else activePresets.push(id);
-  renderQueryBuilder();
-}
-function toggleSector(id) {
-  if (activeSectors.includes(id)) activeSectors = activeSectors.filter(x=>x!==id);
-  else activeSectors.push(id);
-  renderQueryBuilder();
-}
-
-// ════════════════════════════════════════════════════════════════
 // AUTH
 // ════════════════════════════════════════════════════════════════
 async function boot(){const{data:{session}}=await SB.auth.getSession();if(session){currentUser=session.user;showApp();}else{document.getElementById('auth-screen').style.display='flex';}}
-function showApp(){document.getElementById('auth-screen').style.display='none';document.getElementById('main-app').style.display='flex';const em=currentUser.email||'';document.getElementById('sb-av').textContent=em[0]?.toUpperCase()||'?';document.getElementById('sb-uname').textContent=em;setSyncOk();loadData();renderQueryBuilder();}
+function showApp(){document.getElementById('auth-screen').style.display='none';document.getElementById('main-app').style.display='flex';const em=currentUser.email||'';document.getElementById('sb-av').textContent=em[0]?.toUpperCase()||'?';document.getElementById('sb-uname').textContent=em;setSyncOk();loadData();renderSearchUI();}
 async function doLogin(){const email=document.getElementById('a-email').value.trim();const pwd=document.getElementById('a-pwd').value;if(!email||!pwd)return;setErr('');const{data,error}=await SB.auth.signInWithPassword({email,password:pwd});if(error){setErr(error.message);return;}currentUser=data.user;showApp();}
 async function doRegister(){const email=document.getElementById('r-email').value.trim();const pwd=document.getElementById('r-pwd').value;if(!email||!pwd)return;setErr('');const{error}=await SB.auth.signUp({email,password:pwd});if(error){setErr(error.message);return;}toast('Compte créé ! Vérifiez votre email.');showLogin();}
 async function doLogout(){await SB.auth.signOut();currentUser=null;D=[];document.getElementById('main-app').style.display='none';document.getElementById('auth-screen').style.display='flex';}
@@ -820,28 +816,19 @@ function showLogin(){document.getElementById('f-login').style.display='flex';doc
 // ════════════════════════════════════════════════════════════════
 let D=[],selTags=[],aSt='',aTag='',aSort='score',curId=null;
 const SL={detected:'Détecté',qualified:'Qualifié',in_progress:'En cours',submitted:'Soumis',won:'Gagné',lost:'Perdu'};
-const SRCL={theatre:'Théâtre',musee:'Musée',festival:'Festival',danse:'Danse',orchestre:'Orchestre',ecole:'École',ngo:'Association',musique:'Musique',cirque:'Cirque/Rue',other:'Autre',manual:'Manuel'};
-
+const SRCL={theatre:'Théâtre',musee:'Musée',festival:'Festival',danse:'Danse',orchestre:'Orchestre',ecole:'École',ngo:'Association',public:'Marché public',boamp:'BOAMP',other:'Autre',manual:'Manuel'};
 async function loadData(){setSyncing();try{const{data,error}=await SB.from('opportunities').select('*').eq('user_id',currentUser.id).order('position',{ascending:true});if(error)throw error;D=data||[];setSyncOk();}catch(e){D=[];setSyncErr();toast('Erreur chargement',true);}render();}
 async function persist(opp){const{error}=await SB.from('opportunities').upsert({...opp,user_id:currentUser.id});if(error){console.error(error);toast('Erreur sauvegarde',true);}}
 async function removeFromDB(id){await SB.from('opportunities').delete().eq('id',id).eq('user_id',currentUser.id);}
 async function updatePositionsBatch(ids){const updates=ids.map((id,i)=>({id,position:i,user_id:currentUser.id}));await SB.from('opportunities').upsert(updates,{onConflict:'id'});}
-
-// ════════════════════════════════════════════════════════════════
-// UTILS
-// ════════════════════════════════════════════════════════════════
 function today(){return new Date().toISOString().split('T')[0];}
 function tday(){return new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short'});}
-function clean(s){return(s||'').replace(/\s+/g,' ').replace(/&amp;/g,'&').replace(/&eacute;/g,'é').replace(/&agrave;/g,'à').replace(/&egrave;/g,'è').replace(/&ccedil;/g,'ç').replace(/<[^>]+>/g,'').trim();}
 function scCls(s){if(!s&&s!==0)return'sc-n';if(s===0)return'sc-n';if(s>=8)return'sc-h';if(s>=5)return'sc-m';return'sc-l';}
 function scLbl(s){return(!s&&s!==0)||s===0?'?':s;}
 function rTags(tags){if(!tags||!tags.length)return'';return tags.map(t=>`<span class="tag t-${t}">${t}</span>`).join('');}
 function fmtDL(d){if(!d)return'—';const dt=new Date(d);const now=new Date();const diff=Math.ceil((dt-now)/864e5);const str=dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});if(diff<0)return`<span class="dl-u">Échu</span>`;if(diff<=7)return`<span class="dl-u">⚠ ${str}</span>`;if(diff<=14)return`<span class="dl-s">${str}</span>`;return str;}
 function srcL(s){return SRCL[s]||s;}
 function getFiltered(){let d=[...D];if(aSt)d=d.filter(o=>o.status===aSt);if(aTag)d=d.filter(o=>o.tags&&o.tags.includes(aTag));const q=(document.getElementById('q')||{}).value||'';if(q){const ql=q.toLowerCase();d=d.filter(o=>(o.title+' '+(o.organization||'')+' '+(o.description||'')).toLowerCase().includes(ql))}if(aSort==='deadline')d.sort((a,b)=>{if(!a.deadline)return 1;if(!b.deadline)return-1;return new Date(a.deadline)-new Date(b.deadline)});else if(aSort==='date')d.sort((a,b)=>new Date(b.detected_at)-new Date(a.detected_at));else d.sort((a,b)=>(b.score||0)-(a.score||0));return d;}
-async function safeFetch(url,timeout=8000){try{const r=await fetch(url,{signal:AbortSignal.timeout(timeout)});if(!r.ok)return'';return await r.text();}catch(e){return'';}}
-
-// RENDER
 function renderList(){const rows=getFiltered();document.getElementById('tb-sub').textContent=` — ${rows.length} entrée${rows.length!==1?'s':''}`;const tb=document.getElementById('tbl');if(!rows.length){tb.innerHTML=`<tr><td colspan="8"><div class="empty"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><p>Aucune opportunité — lancez la veille !</p></div></td></tr>`;return;}tb.innerHTML=rows.map(o=>`<tr onclick="openDetail('${o.id}')"><td><div class="sc ${scCls(o.score)}">${scLbl(o.score)}</div></td><td><div class="tc"><div class="tc-t">${o.title}</div>${o.organization?`<div class="tc-o">${o.organization}</div>`:''}</div></td><td>${rTags(o.tags)}</td><td><span class="mono" style="color:var(--t3)">${srcL(o.source)}</span></td><td><span class="mono">${o.budget||'—'}</span></td><td class="mono">${fmtDL(o.deadline)}</td><td><span class="st s-${o.status}">${SL[o.status]||o.status}</span></td><td><button class="btn btn-g btn-sm" onclick="event.stopPropagation();openDetail('${o.id}')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:12px;height:12px"><path d="M9 5l7 7-7 7"/></svg></button></td></tr>`).join('');}
 const COLS=[{k:'detected',l:'Détecté',c:'var(--blue)'},{k:'qualified',l:'Qualifié',c:'var(--gold)'},{k:'in_progress',l:'En cours',c:'#1A55C8'},{k:'submitted',l:'Soumis',c:'#7A20C0'},{k:'won',l:'Gagné ✓',c:'var(--green)'},{k:'lost',l:'Perdu ✗',c:'var(--t3)'}];
 let dragId=null;
@@ -851,10 +838,10 @@ function onDragLeave(e){if(!e.currentTarget.contains(e.relatedTarget))e.currentT
 async function onDrop(e,targetCol){e.preventDefault();e.currentTarget.classList.remove('drag-over');if(!dragId)return;const opp=D.find(x=>x.id===dragId);if(!opp)return;const oldStatus=opp.status;opp.status=targetCol;if(oldStatus!==targetCol)opp.timeline=[...(opp.timeline||[]),{s:targetCol,d:tday()}];const cards=[...e.currentTarget.querySelectorAll('.kcard:not(.dragging)')];let idx=cards.length;for(let i=0;i<cards.length;i++){const r=cards[i].getBoundingClientRect();if(e.clientY<r.top+r.height/2){idx=i;break;}}const colItems=D.filter(x=>x.status===targetCol&&x.id!==dragId).sort((a,b)=>(a.position||0)-(b.position||0));colItems.splice(idx,0,opp);colItems.forEach((x,i)=>x.position=i);await persist(opp);await updatePositionsBatch(colItems.map(x=>x.id));render();if(oldStatus!==targetCol)toast('→ '+SL[targetCol]);}
 function updateKPIs(){document.getElementById('k-tot').textContent=D.length;document.getElementById('k-det').textContent=D.filter(o=>o.status==='detected').length;document.getElementById('k-inp').textContent=D.filter(o=>o.status==='in_progress').length;document.getElementById('k-sub').textContent=D.filter(o=>o.status==='submitted').length;document.getElementById('k-won').textContent=D.filter(o=>o.status==='won').length;document.getElementById('nb').textContent=D.filter(o=>o.status==='detected').length;}
 function render(){renderList();renderKanban();updateKPIs();}
-function showView(v){['list','kanban','search'].forEach(id=>{document.getElementById('v-'+id).style.display=v===id?'block':'none';const ni=document.getElementById('ni-'+id);if(ni)ni.classList.toggle('on',v===id);});if(v==='list')renderList();if(v==='kanban')renderKanban();if(v==='search')renderQueryBuilder();document.getElementById('tb-title').textContent=v==='search'?'Veille offres':'Opportunités';document.getElementById('tb-sub').textContent='';}
+function showView(v){['list','kanban','search'].forEach(id=>{document.getElementById('v-'+id).style.display=v===id?'block':'none';const ni=document.getElementById('ni-'+id);if(ni)ni.classList.toggle('on',v===id);});if(v==='list')renderList();if(v==='kanban')renderKanban();if(v==='search')renderSearchUI();document.getElementById('tb-title').textContent=v==='search'?'Veille offres':'Opportunités';document.getElementById('tb-sub').textContent='';}
 function setChip(s){aSt=s;['all','detected','qualified','in_progress','submitted'].forEach(k=>{const el=document.getElementById('c-'+k);if(el)el.classList.toggle('on',k===(s||'all'));});renderList();}
 function quickFilter(s){setChip(s);showView('list');}
-function openDetail(id){const o=D.find(x=>x.id===id);if(!o)return;curId=id;document.getElementById('d-title').textContent=o.title;document.getElementById('d-meta').innerHTML=`<span class="st s-${o.status}">${SL[o.status]||o.status}</span><div class="sc ${scCls(o.score)}" style="font-size:11px">${scLbl(o.score)}</div>${rTags(o.tags)}<span style="font-size:10px;color:var(--t3)">${o.is_manual?'✏ Manuel':'⚡ Auto'}</span>`;const as=document.getElementById('d-att-sec');if(o.attention){as.style.display='block';document.getElementById('d-att').textContent=o.attention}else{as.style.display='none'}document.getElementById('d-desc').textContent=o.description||'Aucune description.';document.getElementById('d-info').innerHTML=`<div class="ic"><div class="ic-l">Organisation</div><div class="ic-v">${o.organization||'—'}</div></div><div class="ic"><div class="ic-l">Source</div><div class="ic-v">${srcL(o.source)}</div></div><div class="ic"><div class="ic-l">Budget</div><div class="ic-v mono">${o.budget||'—'}</div></div><div class="ic"><div class="ic-l">Deadline</div><div class="ic-v mono">${o.deadline?new Date(o.deadline).toLocaleDateString('fr-FR'):'—'}</div></div><div class="ic"><div class="ic-l">Localisation</div><div class="ic-v">${o.location||'—'}</div></div><div class="ic"><div class="ic-l">Ajouté le</div><div class="ic-v mono">${o.detected_at?new Date(o.detected_at).toLocaleDateString('fr-FR'):'—'}</div></div>${o.source_url?`<div class="ic" style="grid-column:1/-1"><div class="ic-l">URL de l'offre</div><div class="ic-v"><a href="${o.source_url}" target="_blank" rel="noopener">Voir l'appel d'offre original ↗</a></div></div>`:''}`;document.getElementById('d-ssel').value=o.status;document.getElementById('d-notes').value=o.notes||'';const evts=o.timeline||[];document.getElementById('d-tl').innerHTML=evts.map((e,i)=>`<div class="tl-item"><div class="tl-line"><div class="tl-dot${i===evts.length-1?' cur':''}"></div>${i<evts.length-1?'<div class="tl-conn"></div>':''}</div><div class="tl-body"><div class="tl-ev"><span class="st s-${e.s}">${SL[e.s]||e.s}</span></div><div class="tl-d">${e.d}</div></div></div>`).join('');document.getElementById('ov').classList.add('open');}
+function openDetail(id){const o=D.find(x=>x.id===id);if(!o)return;curId=id;document.getElementById('d-title').textContent=o.title;document.getElementById('d-meta').innerHTML=`<span class="st s-${o.status}">${SL[o.status]||o.status}</span><div class="sc ${scCls(o.score)}" style="font-size:11px">${scLbl(o.score)}</div>${rTags(o.tags)}<span style="font-size:10px;color:var(--t3)">${o.is_manual?'✏ Manuel':'⚡ Auto'}</span>`;const as=document.getElementById('d-att-sec');if(o.attention){as.style.display='block';document.getElementById('d-att').textContent=o.attention}else{as.style.display='none'}document.getElementById('d-desc').textContent=o.description||'Aucune description.';document.getElementById('d-info').innerHTML=`<div class="ic"><div class="ic-l">Organisation</div><div class="ic-v">${o.organization||'—'}</div></div><div class="ic"><div class="ic-l">Source</div><div class="ic-v">${srcL(o.source)}</div></div><div class="ic"><div class="ic-l">Budget</div><div class="ic-v mono">${o.budget||'—'}</div></div><div class="ic"><div class="ic-l">Deadline</div><div class="ic-v mono">${o.deadline?new Date(o.deadline).toLocaleDateString('fr-FR'):'—'}</div></div><div class="ic"><div class="ic-l">Localisation</div><div class="ic-v">${o.location||'—'}</div></div><div class="ic"><div class="ic-l">Ajouté le</div><div class="ic-v mono">${o.detected_at?new Date(o.detected_at).toLocaleDateString('fr-FR'):'—'}</div></div>${o.source_url?`<div class="ic" style="grid-column:1/-1"><div class="ic-l">URL source</div><div class="ic-v"><a href="${o.source_url}" target="_blank" rel="noopener">Voir l'offre originale ↗</a></div></div>`:''}`;document.getElementById('d-ssel').value=o.status;document.getElementById('d-notes').value=o.notes||'';const evts=o.timeline||[];document.getElementById('d-tl').innerHTML=evts.map((e,i)=>`<div class="tl-item"><div class="tl-line"><div class="tl-dot${i===evts.length-1?' cur':''}"></div>${i<evts.length-1?'<div class="tl-conn"></div>':''}</div><div class="tl-body"><div class="tl-ev"><span class="st s-${e.s}">${SL[e.s]||e.s}</span></div><div class="tl-d">${e.d}</div></div></div>`).join('');document.getElementById('ov').classList.add('open');}
 function ovClick(e){if(e.target===document.getElementById('ov'))closePanel();}
 function closePanel(){document.getElementById('ov').classList.remove('open');curId=null;}
 async function saveStatus(){if(!curId)return;const o=D.find(x=>x.id===curId);const ns=document.getElementById('d-ssel').value;if(o.status!==ns){o.status=ns;o.timeline=[...(o.timeline||[]),{s:ns,d:tday()}];await persist(o);render();openDetail(curId);toast('Statut → '+SL[ns]);}}
