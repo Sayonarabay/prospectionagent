@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Veille — Système d'opportunités</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: #2a2a35;
+    --accent: #e8ff47;
+    --accent2: #7c6bff;
+    --accent3: #ff6b6b;
+    --text: #f0f0f5;
+    --muted: #666675;
+    --hot: #ff6b6b;
+    --warm: #ffb347;
+    --cool: #7c6bff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRID NOISE BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(232,255,71,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,255,71,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* LAYOUT */
+  .shell {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 32px 0;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+
+  .logo {
+    padding: 0 24px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-mark {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .logo-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .nav {
+    padding: 20px 0;
+    flex: 1;
+  }
+  .nav-section {
+    padding: 8px 24px 4px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .nav-item.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(232,255,71,0.05);
+  }
+  .nav-item .icon { font-size: 15px; }
+  .badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #000;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 20px;
+    font-family: 'DM Mono', monospace;
+  }
+  .badge.red { background: var(--hot); color: #fff; }
+
+  .sidebar-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+  }
+  .sync-btn {
+    width: 100%;
+    background: rgba(232,255,71,0.1);
+    border: 1px solid rgba(232,255,71,0.3);
+    color: var(--accent);
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .sync-btn:hover { background: rgba(232,255,71,0.2); }
+  .last-sync {
+    text-align: center;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* MAIN */
+  .main {
+    padding: 40px 48px;
+    overflow-y: auto;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  .page-title {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .page-subtitle {
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { border-color: var(--text); color: var(--text); }
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+  }
+  .btn-primary:hover { background: #fff; }
+
+  /* KPI STRIP */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+  .kpi.hot::after { background: var(--hot); opacity: 0.7; }
+  .kpi.purple::after { background: var(--accent2); opacity: 0.7; }
+  .kpi-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .kpi-value {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .kpi.hot .kpi-value { color: var(--hot); }
+  .kpi.accent .kpi-value { color: var(--accent); }
+  .kpi-delta {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .kpi-delta.up { color: #4cff9f; }
+
+  /* TWO COLUMN LAYOUT */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  /* PANELS */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-title .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .panel-action {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    cursor: pointer;
+    background: none;
+    border: none;
+    letter-spacing: 0.05em;
+  }
+  .panel-action:hover { color: #fff; }
+
+  /* OPPORTUNITIES LIST */
+  .opp-list { padding: 0; }
+  .opp-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .opp-item:last-child { border-bottom: none; }
+  .opp-item:hover { background: var(--surface2); }
+
+  .source-tag {
+    font-size: 9px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .src-boamp { background: rgba(255,179,71,0.15); color: var(--warm); border: 1px solid rgba(255,179,71,0.3); }
+  .src-linkedin { background: rgba(124,107,255,0.15); color: var(--accent2); border: 1px solid rgba(124,107,255,0.3); }
+  .src-malt { background: rgba(232,255,71,0.12); color: var(--accent); border: 1px solid rgba(232,255,71,0.25); }
+  .src-behance { background: rgba(0,120,255,0.15); color: #5badff; border: 1px solid rgba(0,120,255,0.3); }
+  .src-manual { background: rgba(255,107,107,0.12); color: var(--hot); border: 1px solid rgba(255,107,107,0.3); }
+  .src-cold { background: rgba(150,150,180,0.1); color: #aaa; border: 1px solid rgba(150,150,180,0.2); }
+
+  .opp-info {}
+  .opp-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+  .opp-meta {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+  }
+
+  .score-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+  }
+  .score-bar {
+    width: 40px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .score-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .score-fill.hot { background: var(--hot); }
+  .score-fill.warm { background: var(--warm); }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .s-new { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .s-contact { background: var(--accent2); }
+  .s-dossier { background: var(--warm); }
+  .s-sent { background: var(--hot); }
+  .s-won { background: #4cff9f; }
+  .s-lost { background: var(--border); }
+
+  /* PIPELINE */
+  .pipeline {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pipe-stage {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .pipe-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .pipe-bar-wrap {
+    flex: 1;
+    height: 24px;
+    background: var(--surface2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .pipe-bar {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: #000;
+    font-weight: 400;
+    transition: width 0.6s cubic-bezier(.17,.67,.83,.67);
+  }
+  .pipe-count {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    width: 20px;
+    text-align: right;
+  }
+
+  /* SOURCES BREAKDOWN */
+  .sources-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+  .source-cell {
+    background: var(--surface);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .source-name {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .source-count {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+  .source-status {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .online { color: #4cff9f; }
+  .offline { color: var(--muted); }
+
+  /* UPCOMING DEADLINES */
+  .deadline-list { padding: 0; }
+  .deadline-item {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .deadline-item:last-child { border-bottom: none; }
+  .deadline-date {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    width: 50px;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .deadline-date .day {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    display: block;
+    letter-spacing: -0.03em;
+  }
+  .deadline-date.urgent .day { color: var(--hot); }
+  .deadline-info { flex: 1; }
+  .deadline-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .deadline-sub {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+  }
+  .deadline-action {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    cursor: pointer;
+  }
+
+  /* AI ANALYSIS PANEL */
+  .ai-panel {
+    background: linear-gradient(135deg, rgba(124,107,255,0.08), rgba(232,255,71,0.04));
+    border: 1px solid rgba(124,107,255,0.3);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-panel::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(124,107,255,0.2), transparent 70%);
+  }
+  .ai-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ai-label::before {
+    content: '◈';
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .ai-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(240,240,245,0.85);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+  }
+  .ai-highlight {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* MODAL OVERLAY */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 560px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 32px;
+  }
+  .modal-title {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .form-row {
+    margin-bottom: 18px;
+  }
+  .form-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: rgba(232,255,71,0.5);
+  }
+  .form-textarea { height: 90px; resize: none; }
+  .form-select option { background: var(--surface2); }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+  .btn-cancel {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    flex: 1;
+  }
+  .btn-save {
+    background: var(--accent);
+    color: #000;
+    flex: 2;
+  }
+
+  /* DETAIL DRAWER */
+  .drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 480px;
+    height: 100vh;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 90;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(.17,.67,.6,1.2);
+    overflow-y: auto;
+    padding: 32px;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .drawer-score {
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    color: var(--accent);
+    margin: 16px 0 4px;
+  }
+  .drawer-score-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .drawer-section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .drawer-section-title {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+  }
+  .tag.skill { border-color: rgba(232,255,71,0.3); color: var(--accent); background: rgba(232,255,71,0.06); }
+  .action-strip {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .action-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .action-btn.primary { background: var(--accent); color: #000; }
+  .action-btn.secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
+  .action-btn.danger { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--hot); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--accent);
+    color: #000;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 200;
+    transition: transform 0.3s cubic-bezier(.17,.67,.6,1.2);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .tab {
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .filter-chip {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-chip:hover, .filter-chip.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232,255,71,0.07);
+  }
+
+  /* AI ANALYZE BUTTON */
+  .analyze-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(124,107,255,0.15);
+    border: 1px solid rgba(124,107,255,0.4);
+    color: var(--accent2);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .analyze-btn:hover { background: rgba(124,107,255,0.25); }
+  .spinning { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty-state {
+    padding: 40px;
+    text-align: center;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+  }
+
+  /* LOADING SHIMMER */
+  .shimmer {
+    background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    height: 14px;
+  }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  /* SCORE BADGE LARGE */
+  .score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+  .score-badge.high { background: rgba(232,255,71,0.12); color: var(--accent); border: 1px solid rgba(232,255,71,0.3); }
+  .score-badge.med { background: rgba(255,179,71,0.12); color: var(--warm); border: 1px solid rgba(255,179,71,0.3); }
+  .score-badge.low { background: rgba(150,150,180,0.08); color: var(--muted); border: 1px solid var(--border); }
+
+  .setup-banner {
+    background: linear-gradient(135deg, rgba(124,107,255,0.1), rgba(232,255,71,0.06));
+    border: 1px solid rgba(124,107,255,0.3);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .setup-steps {
+    display: flex;
+    gap: 24px;
+    margin-top: 12px;
+  }
+  .setup-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-num.done { background: var(--accent); color: #000; border-color: var(--accent); }
+  .step-num.active { border-color: var(--accent2); color: var(--accent2); }
+
+  @media (max-width: 1100px) {
+    .kpi-strip { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">◈ Studio</div>
+      <div class="logo-name">Veille Pro</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Veille</div>
+      <div class="nav-item active" onclick="showView('dashboard')">
+        <span class="icon">⬡</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="showView('opportunities')">
+        <span class="icon">◎</span> Opportunités
+        <span class="badge red" id="badge-new">7</span>
+      </div>
+      <div class="nav-item" onclick="showView('pipeline')">
+        <span class="icon">▷</span> Pipeline
+      </div>
+
+      <div class="nav-section">Sources</div>
+      <div class="nav-item" onclick="showView('sources')">
+        <span class="icon">◉</span> Connecteurs
+        <span class="badge">8</span>
+      </div>
+      <div class="nav-item" onclick="openModal()">
+        <span class="icon">＋</span> Entrée manuelle
+      </div>
+
+      <div class="nav-section">Actions</div>
+      <div class="nav-item" onclick="showView('dossiers')">
+        <span class="icon">◫</span> Dossiers
+      </div>
+      <div class="nav-item" onclick="showView('analytics')">
+        <span class="icon">◈</span> Analytics
+      </div>
+      <div class="nav-section">Config</div>
+      <div class="nav-item" onclick="showView('setup')">
+        <span class="icon">◻</span> Installation
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sync-btn" onclick="triggerSync()">⟳ Synchroniser</button>
+      <div class="last-sync" id="last-sync">Dernière veille: aujourd'hui 08:14</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content">
+    <!-- DASHBOARD VIEW -->
+    <div id="view-dashboard">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Bonjour, Studio ✦</div>
+          <div class="page-subtitle">Semaine 17 · 22 avril 2026 · 7 nouvelles opportunités détectées</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-ghost" onclick="openModal()">+ Entrée manuelle</button>
+          <button class="btn btn-primary" onclick="runAIAnalysis()">◈ Analyse IA</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-strip">
+        <div class="kpi accent">
+          <div class="kpi-label">Nouvelles</div>
+          <div class="kpi-value">7</div>
+          <div class="kpi-delta up">↑ 3 vs semaine dernière</div>
+        </div>
+        <div class="kpi hot">
+          <div class="kpi-label">Prioritaires</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-delta">Score ≥ 80</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">En cours</div>
+          <div class="kpi-value">12</div>
+          <div class="kpi-delta">4 dossiers actifs</div>
+        </div>
+        <div class="kpi purple">
+          <div class="kpi-label">Délais 7j</div>
+          <div class="kpi-value">2</div>
+          <div class="kpi-delta up" style="color:var(--hot)">⚠ Action requise</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Taux candidature</div>
+          <div class="kpi-value">34<span style="font-size:20px">%</span></div>
+          <div class="kpi-delta up">↑ +8% ce mois</div>
+        </div>
+      </div>
+
+      <!-- AI DIGEST -->
+      <div class="ai-panel" id="ai-digest">
+        <div class="ai-label">Analyse IA hebdomadaire</div>
+        <div class="ai-text" id="ai-digest-text">
+          <span class="ai-highlight">3 opportunités à fort potentiel</span> détectées cette semaine. BOAMP signale un appel d'offres <span class="ai-highlight">Identité visuelle Métropole du Grand Lyon</span> (score 92/100 — budget estimé 45–80k€, deadline J+14). Sur LinkedIn, <span class="ai-highlight">Studio Kaolin</span> cherche un sous-traitant packaging. Malt enregistre une forte demande en <span class="ai-highlight">branding B2B tech</span> (+34% ce mois) — votre profil correspond. Recommandation : <span class="ai-highlight">prioriser le dossier AO public Lyon</span>, puis contacter Studio Kaolin en prospection directe.
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- OPPORTUNITIES PANEL -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><div class="dot"></div> Dernières opportunités</div>
+            <button class="panel-action" onclick="showView('opportunities')">Voir tout →</button>
+          </div>
+          <div class="filter-bar" style="padding: 12px 24px 0;">
+            <button class="filter-chip active" onclick="filterOpps(this,'all')">Toutes</button>
+            <button class="filter-chip" onclick="filterOpps(this,'boamp')">BOAMP</button>
+            <button class="filter-chip" onclick="filterOpps(this,'malt')">Malt</button>
+            <button class="filter-chip" onclick="filterOpps(this,'linkedin')">LinkedIn</button>
+            <button class="filter-chip" onclick="filterOpps(this,'manual')">Manuel</button>
+          </div>
+          <div class="opp-list" id="opp-list">
+            <!-- populated by JS -->
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div style="display:flex; flex-direction:column; gap:20px;">
+
+          <!-- PIPELINE -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><div class="dot" style="background:var(--accent2)"></div> Pipeline</div>
+            </div>
+            <div class="pipeline">
+              <div class="pipe-stage">
+                <div class="pipe-label">Détecté</div>
+                <div class="pipe-bar-wrap"><div class="pipe-bar" style="width:85%;background:#e8ff47;">19</div></div>
+                <div class="pipe-count">19</div>
+              </div>
+              <div class="pipe-stage">
+                <div class="pipe-label">Qualifié</div>
+                <div class="pipe-bar-wrap"><div class="pipe-bar" style="width:55%;background:#7c6bff;">12</div></div>
+                <div class="pipe-count">12</div>
+              </div>
+              <div class="pipe-stage">
+                <div class="pipe-label">Dossier</div>
+                <div class="pipe-bar-wrap"><div class="pipe-bar" style="width:25%;background:#ffb347;">6</div></div>
+                <div class="pipe-count">6</div>
+              </div>
+              <div class="pipe-stage">
+                <div class="pipe-label">Envoyé</div>
+                <div class="pipe-bar-wrap"><div class="pipe-bar" style="width:14%;background:#ff6b6b;">3</div></div>
+                <div class="pipe-count">3</div>
+              </div>
+              <div class="pipe-stage">
+                <div class="pipe-label">Gagné</div>
+                <div class="pipe-bar-wrap"><div class="pipe-bar" style="width:5%;background:#4cff9f;">1</div></div>
+                <div class="pipe-count">1</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DEADLINES -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><div class="dot" style="background:var(--hot)"></div> Échéances</div>
+            </div>
+            <div class="deadline-list">
+              <div class="deadline-item">
+                <div class="deadline-date urgent">
+                  <span class="day">24</span>AVR
+                </div>
+                <div class="deadline-info">
+                  <div class="deadline-title">AO — Charte graphique CHU Bordeaux</div>
+                  <div class="deadline-sub">BOAMP · Score 88 · Dossier 60%</div>
+                </div>
+                <div class="deadline-action" onclick="openDrawer(1)">→</div>
+              </div>
+              <div class="deadline-item">
+                <div class="deadline-date urgent">
+                  <span class="day">28</span>AVR
+                </div>
+                <div class="deadline-info">
+                  <div class="deadline-title">Mission branding — Malt</div>
+                  <div class="deadline-sub">Malt · Score 74 · En attente devis</div>
+                </div>
+                <div class="deadline-action" onclick="openDrawer(2)">→</div>
+              </div>
+              <div class="deadline-item">
+                <div class="deadline-date">
+                  <span class="day">05</span>MAI
+                </div>
+                <div class="deadline-info">
+                  <div class="deadline-title">Identité visuelle Grand Lyon</div>
+                  <div class="deadline-sub">BOAMP · Score 92 · Nouveau</div>
+                </div>
+                <div class="deadline-action" onclick="openDrawer(0)">→</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SOURCES STATUS -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><div class="dot"></div> Sources actives</div>
+          <button class="panel-action" onclick="showView('sources')">Configurer →</button>
+        </div>
+        <div class="sources-grid">
+          <div class="source-cell">
+            <div class="source-name">BOAMP</div>
+            <div class="source-count">4</div>
+            <div class="source-status online">● actif · API</div>
+          </div>
+          <div class="source-cell">
+            <div class="source-name">AO Public</div>
+            <div class="source-count">2</div>
+            <div class="source-status online">● actif · scraping</div>
+          </div>
+          <div class="source-cell">
+            <div class="source-name">LinkedIn</div>
+            <div class="source-count">5</div>
+            <div class="source-status online">● actif · RSS</div>
+          </div>
+          <div class="source-cell">
+            <div class="source-name">Malt</div>
+            <div class="source-count">3</div>
+            <div class="source-status online">● actif · scraping</div>
+          </div>
+          <div class="source-cell">
+            <div class="source-name">Les Bons Freelances</div>
+            <div class="source-count">1</div>
+            <div class="source-status online">● actif</div>
+          </div>
+          <div class="source-cell">
+            <div class="source-name">Behance Jobs</div>
+            <div class="source-count">2</div>
+            <div class="source-status online">● actif · RSS</div>
+          </div>
+          <div class="source-cell">
+            <div class="source-name">Instagram DMs</div>
+            <div class="source-count">0</div>
+            <div class="source-status offline">○ manuel</div>
+          </div>
+          <div class="source-cell">
+            <div class="source-name">Prospection froide</div>
+            <div class="source-count">2</div>
+            <div class="source-status offline">○ entrée manuelle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETUP VIEW -->
+    <div id="view-setup" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Installation</div>
+          <div class="page-subtitle">Déploiement en ligne · GitHub + Vercel + Supabase</div>
+        </div>
+      </div>
+      <div class="setup-banner">
+        <div>
+          <div style="font-size:14px;font-weight:800;margin-bottom:8px;">Guide de déploiement — sans terminal</div>
+          <div class="setup-steps">
+            <div class="setup-step"><div class="step-num done">✓</div>Fork GitHub</div>
+            <div class="setup-step"><div class="step-num active">2</div>Supabase DB</div>
+            <div class="setup-step"><div class="step-num">3</div>Vercel deploy</div>
+            <div class="setup-step"><div class="step-num">4</div>Env vars</div>
+            <div class="setup-step"><div class="step-num">5</div>Cron veille</div>
+          </div>
+        </div>
+        <button class="btn btn-primary">Voir le guide complet →</button>
+      </div>
+
+      <div class="panel" style="margin-bottom:24px;">
+        <div class="panel-header">
+          <div class="panel-title"><div class="dot"></div> Variables d'environnement requises</div>
+        </div>
+        <div style="padding:24px;font-family:'DM Mono',monospace;font-size:12px;line-height:2;color:var(--muted);">
+          <div><span style="color:var(--accent)">ANTHROPIC_API_KEY</span>=sk-ant-... <span style="color:#666">← votre clé Claude</span></div>
+          <div><span style="color:var(--accent)">SUPABASE_URL</span>=https://xxx.supabase.co</div>
+          <div><span style="color:var(--accent)">SUPABASE_ANON_KEY</span>=eyJ...</div>
+          <div><span style="color:var(--accent)">BOAMP_API_KEY</span>=... <span style="color:#666">← accès BOAMP</span></div>
+          <div><span style="color:#555)">LINKEDIN_SEARCH_TERMS</span>=design graphique,identité visuelle,charte graphique</div>
+          <div><span style="color:#555">MALT_PROFILE_URL</span>=https://www.malt.fr/profile/...</div>
+          <div><span style="color:#555">CRON_SECRET</span>=<span style="color:#666">← token sécurisé pour le cron Vercel</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><div class="dot" style="background:var(--accent2)"></div> Architecture du système</div>
+        </div>
+        <div style="padding:24px;font-size:13px;line-height:1.8;color:rgba(240,240,245,0.8);">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--accent);letter-spacing:0.1em;margin-bottom:8px;">FRONTEND</div>
+              <div style="font-weight:700;">Next.js 14</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:4px;">Déployé sur Vercel. Interface complète + gestion dossiers</div>
+            </div>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--accent2);letter-spacing:0.1em;margin-bottom:8px;">DATABASE</div>
+              <div style="font-weight:700;">Supabase</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:4px;">PostgreSQL géré. Tables: opportunités, dossiers, contacts, logs</div>
+            </div>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;">
+              <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--warm);letter-spacing:0.1em;margin-bottom:8px;">AGENTS IA</div>
+              <div style="font-weight:700;">Claude + Cron</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:4px;">Vercel Cron weekly. Scraping → analyse → scoring → alertes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACEHOLDER VIEWS -->
+    <div id="view-opportunities" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Opportunités</div>
+          <div class="page-subtitle">Toutes sources · 41 total</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-ghost" onclick="openModal()">+ Entrée manuelle</button>
+          <button class="analyze-btn" onclick="runAIAnalysis()"><span id="analyze-icon">◈</span> Analyser avec IA</button>
+        </div>
+      </div>
+      <div class="tabs">
+        <div class="tab active">Toutes (41)</div>
+        <div class="tab">Nouvelles (7)</div>
+        <div class="tab">Prioritaires (3)</div>
+        <div class="tab">En cours (12)</div>
+        <div class="tab">Archives</div>
+      </div>
+      <div class="panel">
+        <div class="opp-list" id="opp-list-full"></div>
+      </div>
+    </div>
+
+    <div id="view-pipeline" style="display:none;">
+      <div class="page-header">
+        <div><div class="page-title">Pipeline</div><div class="page-subtitle">Suivi de progression par statut</div></div>
+      </div>
+      <div class="empty-state" style="padding:80px;">Pipeline Kanban — Vue complète disponible dans la version déployée</div>
+    </div>
+
+    <div id="view-sources" style="display:none;">
+      <div class="page-header">
+        <div><div class="page-title">Connecteurs</div><div class="page-subtitle">Sources de veille configurées</div></div>
+      </div>
+      <div class="empty-state" style="padding:80px;">Configuration des sources — Dans la version déployée</div>
+    </div>
+
+    <div id="view-dossiers" style="display:none;">
+      <div class="page-header">
+        <div><div class="page-title">Dossiers de candidature</div><div class="page-subtitle">Constitution & suivi</div></div>
+      </div>
+      <div class="empty-state" style="padding:80px;">Module dossiers — Dans la version déployée Next.js</div>
+    </div>
+
+    <div id="view-analytics" style="display:none;">
+      <div class="page-header">
+        <div><div class="page-title">Analytics</div><div class="page-subtitle">Performance & tendances</div></div>
+      </div>
+      <div class="empty-state" style="padding:80px;">Analytics — Dans la version déployée</div>
+    </div>
+  </main>
+</div>
+
+<!-- ADD OPPORTUNITY MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title">Nouvelle opportunité</div>
+    <div class="form-row-2">
+      <div class="form-row">
+        <label class="form-label">Source</label>
+        <select class="form-select" id="f-source">
+          <option>Manuelle</option>
+          <option>BOAMP</option>
+          <option>AO Public</option>
+          <option>LinkedIn</option>
+          <option>Malt</option>
+          <option>Les Bons Freelances</option>
+          <option>Behance</option>
+          <option>Instagram</option>
+          <option>Prospection froide</option>
+          <option>Recommandation</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Statut</label>
+        <select class="form-select" id="f-status">
+          <option>Nouveau</option>
+          <option>Qualifié</option>
+          <option>Dossier en cours</option>
+          <option>Envoyé</option>
+          <option>Gagné</option>
+          <option>Perdu</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Titre de l'opportunité</label>
+      <input class="form-input" id="f-title" placeholder="ex: Identité visuelle startup FinTech Paris">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Client / Organisation</label>
+      <input class="form-input" id="f-client" placeholder="Nom du client ou organisme">
+    </div>
+    <div class="form-row-2">
+      <div class="form-row">
+        <label class="form-label">Budget estimé (€)</label>
+        <input class="form-input" id="f-budget" placeholder="ex: 8000–15000">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Deadline</label>
+        <input class="form-input" type="date" id="f-deadline">
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">URL / Lien source</label>
+      <input class="form-input" id="f-url" placeholder="https://...">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="f-notes" placeholder="Contexte, contacts, compétences requises..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn action-btn secondary btn-cancel" onclick="closeModal()">Annuler</button>
+      <button class="btn action-btn primary btn-save" onclick="saveOpportunity()">Enregistrer + Score IA →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL DRAWER -->
+<div class="drawer" id="detail-drawer">
+  <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  <div id="drawer-content"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const OPPORTUNITIES = [
+  {
+    id: 0,
+    title: "Identité visuelle Métropole du Grand Lyon",
+    client: "Métropole Grand Lyon",
+    source: "boamp",
+    status: "new",
+    score: 92,
+    budget: "45 000–80 000€",
+    deadline: "2026-05-05",
+    tags: ["AO Public", "Identité", "Secteur public", "Budget élevé"],
+    skills: ["Branding", "Charte graphique", "Design system"],
+    notes: "Appel d'offres procédure adaptée. Critères: 40% prix, 60% technique. Références secteur public requises.",
+    url: "https://www.boamp.fr",
+    added: "22 avr 2026"
+  },
+  {
+    id: 1,
+    title: "Refonte charte graphique CHU Bordeaux",
+    client: "CHU de Bordeaux",
+    source: "boamp",
+    status: "dossier",
+    score: 88,
+    budget: "25 000–40 000€",
+    deadline: "2026-04-24",
+    tags: ["AO Public", "Santé", "URGENT"],
+    skills: ["Charte graphique", "Signalétique", "Print"],
+    notes: "Dossier en cours. Manque: références santé, note méthodologique.",
+    url: "https://www.boamp.fr",
+    added: "15 avr 2026"
+  },
+  {
+    id: 2,
+    title: "Branding packaging — startup bio",
+    client: "Contact Malt",
+    source: "malt",
+    status: "contact",
+    score: 74,
+    budget: "5 000–12 000€",
+    deadline: "2026-04-28",
+    tags: ["Malt", "Packaging", "Food & Beverage"],
+    skills: ["Packaging", "Brand design", "Illustration"],
+    notes: "Client contacté. En attente devis. Projet packaging gamme 4 produits.",
+    url: "https://www.malt.fr",
+    added: "18 avr 2026"
+  },
+  {
+    id: 3,
+    title: "Sous-traitance visuels campagne digitale",
+    client: "Studio Kaolin",
+    source: "linkedin",
+    status: "new",
+    score: 68,
+    budget: "2 000–4 000€",
+    deadline: "2026-05-10",
+    tags: ["LinkedIn", "Digital", "Sous-traitance"],
+    skills: ["Motion design", "Social media", "Photoshop"],
+    notes: "Studio créatif parisien cherche renfort. DM envoyé.",
+    url: "https://linkedin.com",
+    added: "21 avr 2026"
+  },
+  {
+    id: 4,
+    title: "Identité complète fintech B2B",
+    client: "Confidentiel",
+    source: "manual",
+    status: "new",
+    score: 85,
+    budget: "15 000–25 000€",
+    deadline: "2026-05-15",
+    tags: ["Recommandation", "Fintech", "B2B"],
+    skills: ["Branding", "UI/UX", "Design system"],
+    notes: "Contact via réseau. Réunion de présentation prévue 25/04.",
+    url: "",
+    added: "20 avr 2026"
+  }
+];
+
+let currentFilter = 'all';
+
+function renderOppList(containerId, items) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  
+  const filtered = currentFilter === 'all' ? items : items.filter(o => o.source === currentFilter);
+  
+  container.innerHTML = filtered.map(opp => {
+    const scoreClass = opp.score >= 80 ? 'hot' : opp.score >= 60 ? 'warm' : '';
+    const fillWidth = opp.score + '%';
+    const statusClass = { new: 's-new', contact: 's-contact', dossier: 's-dossier', sent: 's-sent', won: 's-won', lost: 's-lost' }[opp.status] || 's-new';
+    const srcClass = `src-${opp.source}`;
+    const srcLabel = { boamp: 'BOAMP', linkedin: 'LinkedIn', malt: 'Malt', behance: 'Behance', manual: 'Manuel', cold: 'Prospection' }[opp.source] || opp.source;
+    
+    return `
+      <div class="opp-item" onclick="openDrawer(${opp.id})">
+        <span class="source-tag ${srcClass}">${srcLabel}</span>
+        <div class="opp-info">
+          <div class="opp-title">${opp.title}</div>
+          <div class="opp-meta">${opp.client} · ${opp.budget} · deadline ${formatDate(opp.deadline)}</div>
+        </div>
+        <div class="score-pill">
+          <div class="score-bar"><div class="score-fill ${scoreClass}" style="width:${fillWidth}"></div></div>
+          <span style="font-size:11px;color:var(--muted)">${opp.score}</span>
+        </div>
+        <div class="status-dot ${statusClass}" title="${opp.status}"></div>
+      </div>
+    `;
+  }).join('') || '<div class="empty-state">Aucune opportunité dans cette catégorie</div>';
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  const date = new Date(d);
+  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+}
+
+function filterOpps(el, filter) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentFilter = filter;
+  renderOppList('opp-list', OPPORTUNITIES);
+}
+
+function showView(name) {
+  document.querySelectorAll('[id^="view-"]').forEach(v => v.style.display = 'none');
+  const view = document.getElementById('view-' + name);
+  if (view) view.style.display = 'block';
+  
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event?.currentTarget?.classList.add('active');
+  
+  if (name === 'opportunities') renderOppList('opp-list-full', OPPORTUNITIES);
+}
+
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal-overlay'))
+    document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function openDrawer(id) {
+  const opp = OPPORTUNITIES.find(o => o.id === id);
+  if (!opp) return;
+  
+  const scoreColor = opp.score >= 80 ? 'var(--accent)' : opp.score >= 60 ? 'var(--warm)' : 'var(--muted)';
+  const urgentDays = Math.ceil((new Date(opp.deadline) - new Date()) / (1000*60*60*24));
+  const urgentText = urgentDays <= 3 ? `<span style="color:var(--hot)">⚠ J-${urgentDays}</span>` : `J-${urgentDays}`;
+  
+  document.getElementById('drawer-content').innerHTML = `
+    <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:32px;">Opportunité · ${opp.source.toUpperCase()}</div>
+    <div style="font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-top:8px;line-height:1.2;">${opp.title}</div>
+    <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <div class="score-badge high" style="font-size:14px;padding:6px 14px;">◈ ${opp.score}/100</div>
+      <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);">${urgentText} · ${opp.budget}</div>
+    </div>
+    
+    <div class="drawer-section">
+      <div class="drawer-section-title">Client</div>
+      <div style="font-size:15px;font-weight:700;">${opp.client}</div>
+    </div>
+    
+    <div class="drawer-section">
+      <div class="drawer-section-title">Notes</div>
+      <div style="font-size:13px;font-family:'DM Mono',monospace;color:rgba(240,240,245,0.8);line-height:1.6;">${opp.notes}</div>
+    </div>
+    
+    <div class="drawer-section">
+      <div class="drawer-section-title">Compétences requises</div>
+      <div class="tag-row">${opp.skills.map(s => `<span class="tag skill">${s}</span>`).join('')}</div>
+    </div>
+    
+    <div class="drawer-section">
+      <div class="drawer-section-title">Tags</div>
+      <div class="tag-row">${opp.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    </div>
+    
+    <div class="drawer-section">
+      <div class="drawer-section-title">Actions</div>
+      <div class="action-strip">
+        <button class="action-btn primary" onclick="analyzeOpp(${opp.id})">◈ Analyser IA</button>
+        <button class="action-btn secondary">📁 Dossier</button>
+      </div>
+      <div class="action-strip" style="margin-top:10px;">
+        <button class="action-btn secondary" onclick="showToast('Statut mis à jour')">✓ Qualifier</button>
+        ${opp.url ? `<button class="action-btn secondary" onclick="window.open('${opp.url}')">↗ Source</button>` : ''}
+        <button class="action-btn danger" onclick="showToast('Archivé')">Archiver</button>
+      </div>
+    </div>
+    
+    <div class="drawer-section">
+      <div class="drawer-section-title">Analyse IA</div>
+      <div id="drawer-ai-${opp.id}" style="font-size:12px;font-family:'DM Mono',monospace;color:rgba(240,240,245,0.7);line-height:1.7;padding:14px;background:rgba(124,107,255,0.08);border:1px solid rgba(124,107,255,0.2);border-radius:10px;">
+        Cliquez sur "Analyser IA" pour obtenir une recommandation personnalisée pour cette opportunité.
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('detail-drawer').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('detail-drawer').classList.remove('open');
+}
+
+async function analyzeOpp(id) {
+  const opp = OPPORTUNITIES.find(o => o.id === id);
+  const el = document.getElementById(`drawer-ai-${id}`);
+  el.innerHTML = '<span class="spinning">◈</span> Analyse en cours...';
+  
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        system: "Tu es un assistant spécialisé pour un petit studio de design graphique freelance français. Analyse les opportunités commerciales de manière concise et actionnable. Réponds en français, de façon structurée mais courte.",
+        messages: [{
+          role: 'user',
+          content: `Analyse cette opportunité pour mon studio de design graphique:\n\nTitre: ${opp.title}\nClient: ${opp.client}\nSource: ${opp.source}\nBudget: ${opp.budget}\nDéadline: ${opp.deadline}\nNotes: ${opp.notes}\nCompétences: ${opp.skills.join(', ')}\n\nDonne-moi: 1) Pourquoi candidater ou non (2 phrases max), 2) Le point fort à mettre en avant, 3) Un conseil tactique concret.`
+        }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.find(c => c.type === 'text')?.text || 'Analyse indisponible';
+    el.innerHTML = text.replace(/\n/g, '<br>');
+  } catch (e) {
+    el.innerHTML = 'Erreur API — vérifiez votre clé Anthropic dans les paramètres.';
+  }
+}
+
+async function runAIAnalysis() {
+  const btn = document.querySelector('.btn-primary, .analyze-btn');
+  const icon = document.getElementById('analyze-icon');
+  if (icon) icon.className = 'spinning';
+  
+  const digestEl = document.getElementById('ai-digest-text');
+  if (!digestEl) { if(icon) icon.className = ''; return; }
+  
+  digestEl.innerHTML = '<span class="spinning">◈</span> Analyse en cours...';
+  
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 300,
+        system: "Tu es un assistant de veille commerciale pour un studio de design graphique indépendant français. Synthétise les opportunités de la semaine de façon claire et actionnable. Maximum 3 phrases. Mets en gras (avec <span class='ai-highlight'>) les points clés.",
+        messages: [{
+          role: 'user',
+          content: `Voici les opportunités de cette semaine pour mon studio de design graphique:\n${OPPORTUNITIES.map(o => `- ${o.title} (${o.source}, score ${o.score}, ${o.budget})`).join('\n')}\n\nFais un digest hebdomadaire en 3 phrases max avec recommandation prioritaire.`
+        }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.find(c => c.type === 'text')?.text || '';
+    digestEl.innerHTML = text || digestEl.innerHTML;
+  } catch (e) {
+    digestEl.innerHTML = 'API Anthropic non configurée — <span class="ai-highlight">ajoutez votre clé</span> dans les paramètres de déploiement.';
+  }
+  
+  if (icon) icon.className = '';
+}
+
+function saveOpportunity() {
+  const title = document.getElementById('f-title').value;
+  if (!title) { showToast('Ajoutez un titre !'); return; }
+  
+  const newOpp = {
+    id: OPPORTUNITIES.length,
+    title,
+    client: document.getElementById('f-client').value || 'Non précisé',
+    source: document.getElementById('f-source').value.toLowerCase().replace(' ', ''),
+    status: 'new',
+    score: Math.floor(Math.random() * 30) + 60,
+    budget: document.getElementById('f-budget').value || 'À définir',
+    deadline: document.getElementById('f-deadline').value,
+    tags: ['Manuel'],
+    skills: [],
+    notes: document.getElementById('f-notes').value,
+    url: document.getElementById('f-url').value,
+    added: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
+  };
+  
+  OPPORTUNITIES.unshift(newOpp);
+  document.getElementById('modal-overlay').classList.remove('open');
+  renderOppList('opp-list', OPPORTUNITIES);
+  
+  // Reset form
+  ['f-title','f-client','f-budget','f-deadline','f-url','f-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  
+  document.getElementById('badge-new').textContent = OPPORTUNITIES.filter(o => o.status === 'new').length;
+  showToast('✓ Opportunité ajoutée — score IA en cours');
+}
+
+function triggerSync() {
+  showToast('⟳ Synchronisation lancée...');
+  setTimeout(() => {
+    document.getElementById('last-sync').textContent = 'Dernière veille: ' + new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+    showToast('✓ Veille mise à jour — 2 nouvelles sources');
+  }, 2000);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// INIT
+renderOppList('opp-list', OPPORTUNITIES);
+</script>
+</body>
+</html>
