@@ -982,6 +982,102 @@ body {
   font-family: 'DM Mono', monospace;
   color: var(--muted);
 }
+
+/* ── SCOUT / VEILLE LIVE ── */
+.scout-config {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; margin-bottom: 20px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.scout-row { display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
+.scout-field { display:flex; flex-direction:column; gap:5px; flex:1; min-width:160px; }
+.scout-field label {
+  font-size:9px; font-family:'DM Mono',monospace;
+  color:var(--muted); letter-spacing:.12em; text-transform:uppercase;
+}
+.scout-field input, .scout-field select {
+  padding:9px 12px; border:1px solid var(--border2); border-radius:7px;
+  font-family:'DM Mono',monospace; font-size:12px; background:var(--surface2);
+  color:var(--text); outline:none; transition:border-color .15s; width:100%;
+}
+.scout-field input:focus { border-color:var(--text); }
+.scout-status {
+  background:var(--text); color:rgba(255,255,255,.65); border-radius:8px;
+  padding:11px 16px; font-size:11px; font-family:'DM Mono',monospace;
+  margin-bottom:16px; display:none; align-items:center; gap:10px; line-height:1.5;
+}
+.scout-status.show { display:flex; }
+.scout-status strong { color:var(--lime); }
+.scout-alert {
+  padding:11px 16px; border-radius:8px; font-size:11px;
+  font-family:'DM Mono',monospace; line-height:1.6; display:none; margin-bottom:14px;
+}
+.scout-alert.show { display:block; }
+.alert-warn { background:#fff8e1; border:1px solid #ffe082; color:#5d4037; }
+.alert-err  { background:#ffebee; border:1px solid #ffcdd2; color:#b71c1c; }
+.scout-results-bar {
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+}
+.scout-count { font-size:11px; font-family:'DM Mono',monospace; color:var(--muted); }
+.scout-count strong { color:var(--text); }
+.rss-cards { display:flex; flex-direction:column; gap:10px; }
+.rss-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; overflow:hidden; transition:box-shadow .15s;
+}
+.rss-card:hover { box-shadow:0 3px 14px rgba(0,0,0,.07); }
+.rss-card-head { display:flex; gap:12px; align-items:flex-start; padding:14px 18px 12px; }
+.rss-card-meta { flex:1; min-width:0; }
+.rss-tag-row { display:flex; align-items:center; gap:7px; margin-bottom:4px; }
+.rss-date { font-size:10px; font-family:'DM Mono',monospace; color:var(--muted); }
+.rss-title { font-size:13px; font-weight:700; letter-spacing:-.01em; margin-bottom:4px; line-height:1.3; }
+.rss-title a { color:var(--text); text-decoration:none; }
+.rss-title a:hover { text-decoration:underline; }
+.rss-desc {
+  font-size:11px; font-family:'DM Mono',monospace; color:var(--muted); line-height:1.55;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.rss-desc.expanded { -webkit-line-clamp:unset; }
+.rss-score-col { display:flex; flex-direction:column; align-items:flex-end; gap:3px; flex-shrink:0; }
+.rss-score-num { font-size:17px; font-weight:800; font-family:'DM Mono',monospace; letter-spacing:-.02em; }
+.rss-score-bar { width:38px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+.rss-score-fill { height:100%; border-radius:2px; }
+.rss-card-actions { display:flex; gap:7px; align-items:center; padding:0 18px 12px; flex-wrap:wrap; }
+.btn-xs {
+  padding:5px 11px; border-radius:6px; font-family:'Syne',sans-serif;
+  font-size:11px; font-weight:700; cursor:pointer; border:none; transition:all .15s;
+  display:flex; align-items:center; gap:4px;
+}
+.btn-xs-dark { background:var(--text); color:#fff; }
+.btn-xs-dark:hover { background:#333; }
+.btn-xs-dark:disabled { opacity:.4; cursor:not-allowed; }
+.btn-xs-ghost { background:var(--surface2); border:1px solid var(--border2); color:var(--muted); }
+.btn-xs-ghost:hover { border-color:var(--text); color:var(--text); }
+.btn-xs-green { background:#ebfbee; border:1px solid #b2f2bb; color:var(--green); }
+.rss-ai-block { display:none; margin:0 18px 12px; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+.rss-ai-block.show { display:block; }
+.rss-ai-head {
+  background:var(--text); padding:7px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.rss-ai-label { font-size:9px; font-family:'DM Mono',monospace; color:var(--lime); letter-spacing:.15em; text-transform:uppercase; }
+.rss-ai-badge { font-size:10px; font-weight:800; font-family:'DM Mono',monospace; padding:2px 9px; border-radius:4px; }
+.badge-hi   { background:#d3f9d8; color:var(--green); }
+.badge-mid  { background:#fff3e0; color:var(--orange); }
+.badge-lo   { background:#f1f3f5; color:var(--muted); }
+.badge-none { background:rgba(255,255,255,.1); color:rgba(255,255,255,.3); }
+.rss-ai-body {
+  padding:12px 14px; font-size:11px; font-family:'DM Mono',monospace;
+  color:var(--text); line-height:1.7; font-weight:300; background:var(--surface2);
+}
+.v-oui   { color:var(--green);  font-weight:700; }
+.v-non   { color:var(--red);    font-weight:700; }
+.v-maybe { color:var(--orange); font-weight:700; }
+.proxy-note {
+  font-size:10px; font-family:'DM Mono',monospace; color:var(--muted);
+  padding:10px 14px; background:var(--surface2); border:1px solid var(--border);
+  border-radius:7px; line-height:1.6; margin-top:12px;
+}
 </style>
 </head>
 <body>
@@ -1006,6 +1102,11 @@ body {
     </div>
     <div class="nav-item" onclick="showView('pipeline', this)">
       <span class="nav-icon">⬡</span> Pipeline
+    </div>
+
+    <div class="nav-item" onclick="showView('scout', this)">
+      <span class="nav-icon">⊛</span> Veille Live
+      <span class="nav-badge" id="badge-scout" style="display:none">0</span>
     </div>
 
     <div class="nav-section-label" style="margin-top:8px;">Sources</div>
@@ -1378,6 +1479,65 @@ body {
         <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:12px;">Filtrage RSS Scout Agent</div>
         <textarea style="width:100%;height:70px;padding:9px 12px;border:1px solid var(--border2);border-radius:7px;font-family:'DM Mono',monospace;font-size:12px;background:var(--surface2);outline:none;resize:none;">design graphique, identité visuelle, charte graphique, branding, direction artistique, DA freelance, édition graphique, signalétique</textarea>
       </div>
+    </div>
+  </div>
+
+
+  <!-- ===== VEILLE LIVE VIEW ===== -->
+  <div id="view-scout">
+    <div class="page-header">
+      <div class="page-title-group">
+        <div class="page-label">Données réelles · RSS BOAMP en direct</div>
+        <div class="page-title">Veille Live</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-ghost" id="analyze-all-btn" style="display:none" onclick="scoutAnalyzeAll()">◈ Analyser tout</button>
+        <button class="btn btn-primary" id="scout-scan-btn" onclick="scoutRun()">
+          <span id="scout-scan-icon">▶</span> Scanner BOAMP
+        </button>
+      </div>
+    </div>
+
+    <div class="scout-config">
+      <div class="scout-row">
+        <div class="scout-field" style="flex:3">
+          <label>Mots-clés (séparés par virgule)</label>
+          <input type="text" id="scout-keywords" value="design graphique, identité visuelle, charte graphique, branding, direction artistique, communication visuelle, signalétique, édition graphique">
+        </div>
+        <div class="scout-field" style="max-width:150px;">
+          <label>Avis à lire</label>
+          <select id="scout-max">
+            <option value="20">20 derniers</option>
+            <option value="40" selected>40 derniers</option>
+            <option value="80">80 derniers</option>
+          </select>
+        </div>
+      </div>
+      <div class="proxy-note">
+        <strong>Fonctionnement :</strong> Lecture du vrai flux RSS BOAMP → filtrage par mots-clés sur titres réels → analyse Claude uniquement sur ce texte réel, sans invention.
+        Si le proxy est indisponible : <a href="https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=design+graphique" target="_blank" style="color:var(--blue)">ouvrir BOAMP directement</a>.
+      </div>
+    </div>
+
+    <div class="scout-status" id="scout-status">
+      <span id="scout-status-icon">◎</span>
+      <span id="scout-status-text">Prêt</span>
+    </div>
+
+    <div class="scout-alert alert-warn" id="scout-alert-cors">
+      ⚠ <strong>Erreur réseau / proxy CORS.</strong> Le proxy public est temporairement indisponible.
+      Utilisez <a href="https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=design+graphique" target="_blank">BOAMP directement</a> et saisissez les avis via le formulaire manuel.
+    </div>
+    <div class="scout-alert alert-err" id="scout-alert-api">
+      ⚠ Erreur API Anthropic. Vérifiez votre clé dans Paramètres.
+    </div>
+
+    <div id="scout-results-bar" class="scout-results-bar" style="display:none">
+      <div class="scout-count" id="scout-count"></div>
+    </div>
+
+    <div class="rss-cards" id="scout-cards">
+      <div class="empty-state">Cliquez sur "Scanner BOAMP" pour lire les vrais avis en temps réel.</div>
     </div>
   </div>
 
@@ -1900,6 +2060,273 @@ if (savedKey) {
   const inp = document.getElementById('api-key-input');
   if (inp) inp.value = savedKey;
 }
+
+// ─────────────────────────────────────────────
+// SCOUT BOAMP — REAL RSS, NO HALLUCINATION
+// ─────────────────────────────────────────────
+const BOAMP_PROXY = 'https://api.allorigins.win/get?url=';
+const BOAMP_RSS_URL = 'https://www.boamp.fr/flux/rss';
+let scoutItems = [];
+
+async function scoutRun() {
+  document.getElementById('scout-alert-cors').classList.remove('show');
+  document.getElementById('scout-alert-api').classList.remove('show');
+  scoutItems = [];
+
+  const keywords = document.getElementById('scout-keywords').value
+    .split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
+  const maxItems = parseInt(document.getElementById('scout-max').value);
+  if (!keywords.length) { scoutSetStatus('Ajoutez un mot-clé', false); return; }
+
+  scoutSetStatus('⟳ Lecture du flux RSS BOAMP réel…', true);
+  scoutSetScanBtn(true);
+  document.getElementById('scout-cards').innerHTML = '<div class="empty-state"><span class="spinning">⟳</span> Chargement…</div>';
+
+  let xmlText;
+  try {
+    const url = BOAMP_PROXY + encodeURIComponent(BOAMP_RSS_URL);
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+    xmlText = json.contents;
+    if (!xmlText || xmlText.length < 200) throw new Error('Flux vide');
+  } catch(e) {
+    scoutSetStatus('Erreur réseau: ' + e.message, false);
+    document.getElementById('scout-alert-cors').classList.add('show');
+    document.getElementById('scout-cards').innerHTML = '<div class="empty-state">Flux inaccessible. Voir l\'alerte ci-dessus.</div>';
+    scoutSetScanBtn(false);
+    return;
+  }
+
+  let items;
+  try {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, 'text/xml');
+    if (xml.querySelector('parsererror')) throw new Error('XML invalide');
+    items = Array.from(xml.querySelectorAll('item')).slice(0, maxItems);
+    if (!items.length) throw new Error('Aucun avis');
+  } catch(e) {
+    scoutSetStatus('Erreur parsing: ' + e.message, false);
+    scoutSetScanBtn(false);
+    return;
+  }
+
+  scoutSetStatus('⟳ ' + items.length + ' avis lus — filtrage mots-clés…', true);
+
+  const matched = items.filter(item => {
+    const t = (item.querySelector('title')?.textContent || '').toLowerCase();
+    const d = (item.querySelector('description')?.textContent || '').toLowerCase();
+    return keywords.some(kw => (t + ' ' + d).includes(kw));
+  });
+
+  scoutItems = matched.map((item, i) => {
+    const title   = item.querySelector('title')?.textContent?.trim() || '(sans titre)';
+    const link    = item.querySelector('link')?.textContent?.trim() || '';
+    const rawDesc = item.querySelector('description')?.textContent || '';
+    const desc    = rawDesc.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+    const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
+    return { id: i, title, link, desc, pubDate, score: null, analysis: null };
+  });
+
+  scoutSetStatus('✓ ' + scoutItems.length + ' avis correspondent · Données réelles BOAMP', false);
+  scoutRenderCards();
+
+  document.getElementById('scout-results-bar').style.display = 'flex';
+  document.getElementById('scout-count').innerHTML =
+    '<strong>' + scoutItems.length + '</strong> avis trouvés · <span style="color:var(--green)">Données réelles RSS</span>';
+
+  const key = ANTHROPIC_KEY || localStorage.getItem('anthropic_key') || '';
+  if (scoutItems.length > 0 && key) document.getElementById('analyze-all-btn').style.display = 'flex';
+
+  const badge = document.getElementById('badge-scout');
+  if (badge && scoutItems.length) { badge.textContent = scoutItems.length; badge.style.display = ''; }
+
+  scoutSetScanBtn(false);
+}
+
+function scoutRenderCards() {
+  const container = document.getElementById('scout-cards');
+  if (!scoutItems.length) {
+    container.innerHTML = '<div class="empty-state">Aucun avis ne correspond. Élargissez vos mots-clés.</div>';
+    return;
+  }
+  const key = ANTHROPIC_KEY || localStorage.getItem('anthropic_key') || '';
+  container.innerHTML = scoutItems.map(item => {
+    const dateStr = item.pubDate ? new Date(item.pubDate).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}) : '';
+    const scoreHtml = item.score !== null
+      ? '<div class="rss-score-col"><div class="rss-score-num" style="color:' + (item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--muted)') + '">' + item.score + '</div><div class="rss-score-bar"><div class="rss-score-fill" style="width:' + item.score + '%;background:' + (item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--border2)') + '"></div></div></div>'
+      : '';
+    return `<div class="rss-card" id="rss-card-${item.id}">
+      <div class="rss-card-head">
+        <div class="rss-card-meta">
+          <div class="rss-tag-row">
+            <span class="src-tag src-boamp">BOAMP</span>
+            <span style="font-size:8px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:4px;background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;">RSS réel</span>
+            <span class="rss-date">${dateStr}</span>
+          </div>
+          <div class="rss-title">${item.link ? '<a href="'+item.link+'" target="_blank" rel="noopener">'+item.title+'</a>' : item.title}</div>
+          <div class="rss-desc" id="rdesc-${item.id}">${item.desc || 'Aucune description dans le flux.'}</div>
+          ${item.desc && item.desc.length > 180 ? '<button onclick="scoutToggleDesc('+item.id+')" style="font-size:10px;font-family:'DM Mono',monospace;color:var(--blue);background:none;border:none;cursor:pointer;padding:2px 0;margin-top:3px;">Lire plus</button>' : ''}
+        </div>
+        ${scoreHtml}
+      </div>
+      <div class="rss-ai-block ${item.analysis?'show':''}" id="rai-${item.id}">${item.analysis ? scoutRenderAI(item) : ''}</div>
+      <div class="rss-card-actions">
+        ${item.link ? '<a href="'+item.link+'" target="_blank" rel="noopener" class="btn-xs btn-xs-ghost">↗ Voir sur BOAMP</a>' : ''}
+        <button class="btn-xs btn-xs-dark" id="rbtn-${item.id}" onclick="scoutAnalyzeOne(${item.id})" ${!key?'disabled title="Clé API requise — Paramètres"':''}>
+          <span id="ricon-${item.id}">◈</span> Analyser
+        </button>
+        ${item.analysis ? '<button class="btn-xs btn-xs-green" onclick="scoutAddToDashboard('+item.id+')">+ Ajouter</button>' : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function scoutRenderAI(item) {
+  const a = item.analysis;
+  const bc = item.score >= 70 ? 'badge-hi' : item.score >= 45 ? 'badge-mid' : 'badge-lo';
+  const vc = a.verdict === 'oui' ? 'v-oui' : a.verdict === 'non' ? 'v-non' : 'v-maybe';
+  const vl = a.verdict === 'oui' ? '✓ À candidater' : a.verdict === 'non' ? '✗ À ignorer' : '⚡ À surveiller';
+  return `<div class="rss-ai-head"><div class="rss-ai-label">◈ Analyse · données réelles uniquement</div><div class="rss-ai-badge ${bc}">${item.score}/100</div></div>
+    <div class="rss-ai-body">
+      <span class="${vc}">${vl}</span>${a.reason ? ' — ' + a.reason : ''}
+      ${a.fit    ? '<br><strong>Compétence :</strong> ' + a.fit    : ''}
+      ${a.action ? '<br><strong>Action :</strong> '     + a.action : ''}
+      ${a.redFlag? '<br><span style="color:var(--red)">⚠ ' + a.redFlag + '</span>' : ''}
+    </div>`;
+}
+
+async function scoutAnalyzeOne(id) {
+  const item = scoutItems.find(i => i.id === id);
+  if (!item) return;
+  const key = ANTHROPIC_KEY || localStorage.getItem('anthropic_key') || '';
+  if (!key) { showToast('Clé API requise — allez dans Paramètres'); return; }
+
+  const btn  = document.getElementById('rbtn-' + id);
+  const icon = document.getElementById('ricon-' + id);
+  if (btn)  btn.disabled = true;
+  if (icon) icon.className = 'spinning';
+
+  const aiBlock = document.getElementById('rai-' + id);
+  aiBlock.classList.add('show');
+  aiBlock.innerHTML = '<div class="rss-ai-head"><div class="rss-ai-label">◈ Analyse…</div><div class="rss-ai-badge badge-none">—</div></div><div class="rss-ai-body"><span class="spinning">◈</span> Lecture des données réelles…</div>';
+
+  // Send ONLY real RSS text — nothing invented
+  const realContent = 'Titre : ' + item.title + '\n\nDescription flux RSS : ' + (item.desc || 'Non disponible dans ce flux') + '\n\nDate : ' + (item.pubDate || 'Non précisée') + '\n\nURL : ' + (item.link || 'Non disponible');
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 300,
+        system: 'Tu analyses des avis BOAMP pour un studio de design graphique parisien (branding, identité visuelle, édition, signalétique, direction artistique).\nRÈGLE ABSOLUE : analyse UNIQUEMENT le texte fourni. N\'invente RIEN. Si une info manque, dis "non précisé dans le flux RSS".\nRéponds UNIQUEMENT en JSON valide sans markdown ni backticks :\n{"score":<0-100>,"verdict":"oui"|"non"|"maybe","reason":"<1 phrase sur le texte réel>","fit":"<compétence ou null>","action":"<action concrète ou null>","redFlag":"<risque ou null>"}',
+        messages: [{ role: 'user', content: 'Analyse cet avis BOAMP réel :\n\n' + realContent }]
+      })
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message);
+    const raw = data.content?.find(c => c.type === 'text')?.text || '';
+    let parsed;
+    try { parsed = JSON.parse(raw.replace(/```json|```/g,'').trim()); }
+    catch(e) { throw new Error('Réponse non JSON'); }
+    if (typeof parsed.score !== 'number') throw new Error('Score manquant dans la réponse');
+
+    item.score    = Math.max(0, Math.min(100, parsed.score));
+    item.analysis = parsed;
+
+    aiBlock.innerHTML = scoutRenderAI(item);
+
+    const head = document.querySelector('#rss-card-' + id + ' .rss-card-head');
+    const existSc = head ? head.querySelector('.rss-score-col') : null;
+    const newSc = '<div class="rss-score-col"><div class="rss-score-num" style="color:' + (item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--muted)') + '">' + item.score + '</div><div class="rss-score-bar"><div class="rss-score-fill" style="width:' + item.score + '%;background:' + (item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--border2)') + '"></div></div></div>';
+    if (existSc) existSc.outerHTML = newSc;
+    else if (head) head.insertAdjacentHTML('beforeend', newSc);
+
+    const acts = document.querySelector('#rss-card-' + id + ' .rss-card-actions');
+    if (acts && !acts.querySelector('[onclick="scoutAddToDashboard(' + id + ')"]'))
+      acts.insertAdjacentHTML('beforeend', '<button class="btn-xs btn-xs-green" onclick="scoutAddToDashboard(' + id + ')">+ Ajouter</button>');
+
+    document.getElementById('scout-alert-api').classList.remove('show');
+  } catch(e) {
+    aiBlock.innerHTML = '<div class="rss-ai-head"><div class="rss-ai-label">◈ Erreur</div><div class="rss-ai-badge badge-none">—</div></div><div class="rss-ai-body" style="color:var(--red)">⚠ ' + e.message + '</div>';
+    if (e.message.includes('401') || e.message.includes('403'))
+      document.getElementById('scout-alert-api').classList.add('show');
+  } finally {
+    if (btn)  btn.disabled = false;
+    if (icon) icon.className = '';
+  }
+}
+
+async function scoutAnalyzeAll() {
+  const btn = document.getElementById('analyze-all-btn');
+  btn.disabled = true; btn.textContent = '◈ En cours…';
+  for (const item of scoutItems) {
+    if (!item.analysis) {
+      await scoutAnalyzeOne(item.id);
+      await new Promise(r => setTimeout(r, 600));
+    }
+  }
+  btn.disabled = false; btn.textContent = '◈ Analyser tout';
+}
+
+function scoutAddToDashboard(id) {
+  const item = scoutItems.find(i => i.id === id);
+  if (!item) return;
+  const newOpp = {
+    id: Date.now(), title: item.title,
+    client: scoutExtractClient(item.title + ' ' + item.desc),
+    source: 'boamp', status: 'detected',
+    score: item.score || 0,
+    budget: scoutExtractBudget(item.desc),
+    deadline: null, tags: ['boamp','rss-réel'], skills: [],
+    notes: (item.desc || '').substring(0, 400),
+    url: item.link || '',
+    added: new Date().toLocaleDateString('fr-FR')
+  };
+  OPPORTUNITIES.unshift(newOpp);
+  renderOppList('opp-list', OPPORTUNITIES);
+  document.getElementById('badge-new').textContent = OPPORTUNITIES.filter(o => o.status === 'detected').length;
+  const b = document.querySelector('#rss-card-' + id + ' [onclick="scoutAddToDashboard(' + id + ')"]');
+  if (b) { b.textContent = '✓ Ajouté'; b.disabled = true; }
+  showToast('✓ Ajouté au dashboard');
+}
+
+function scoutExtractClient(text) {
+  const m = text.match(/(?:commune|ville|département|région|ministère|préfecture|mairie|établissement|CHU|CH |EPCI) (?:de |d')([^—\-.]{3,40})/i);
+  return m ? m[0].trim() : 'Acheteur public (voir fiche BOAMP)';
+}
+function scoutExtractBudget(desc) {
+  if (!desc) return 'Consulter le DCE';
+  const m = desc.match(/(\d[\d\s]{1,9}\d)\s*€/);
+  return m ? m[0] : 'Consulter le DCE sur BOAMP';
+}
+function scoutSetStatus(msg, loading) {
+  const bar = document.getElementById('scout-status');
+  const icon = document.getElementById('scout-status-icon');
+  const text = document.getElementById('scout-status-text');
+  bar.classList.add('show');
+  icon.className = loading ? 'spinning' : '';
+  icon.textContent = loading ? '⟳' : '✓';
+  text.innerHTML = msg;
+}
+function scoutSetScanBtn(loading) {
+  const btn  = document.getElementById('scout-scan-btn');
+  const icon = document.getElementById('scout-scan-icon');
+  btn.disabled = loading;
+  icon.className = loading ? 'spinning' : '';
+  icon.textContent = loading ? '⟳' : '▶';
+}
+function scoutToggleDesc(id) {
+  document.getElementById('rdesc-' + id)?.classList.toggle('expanded');
+}
+
 </script>
 </body>
 </html>
