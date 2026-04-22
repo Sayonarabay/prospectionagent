@@ -3,2330 +3,759 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Studio Veille — Opportunités</title>
+<title>Studio Veille</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #f5f4f0;
-  --surface: #ffffff;
-  --surface2: #f9f8f5;
-  --border: #e4e2dc;
-  --border2: #d0cec6;
-  --text: #1a1916;
-  --muted: #8a8780;
-  --accent: #1a1916;
-  --lime: #c8f03c;
-  --lime-dark: #9ab82b;
-  --blue: #3b5bdb;
-  --red: #e03131;
-  --orange: #e8590c;
-  --green: #2f9e44;
-  --purple: #7048e8;
-
-  --status-detected: #3b5bdb;
-  --status-qualified: #e8590c;
-  --status-inprogress: #7048e8;
-  --status-submitted: #e03131;
-  --status-won: #2f9e44;
-  --status-lost: #aaa;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Syne', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* LAYOUT */
-.shell {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  min-height: 100vh;
-}
-
+:root{--bg:#f5f4f0;--surface:#fff;--s2:#f9f8f5;--border:#e4e2dc;--b2:#d0cec6;--text:#1a1916;--muted:#8a8780;--lime:#c8f03c;--limed:#9ab82b;--blue:#3b5bdb;--red:#e03131;--orange:#e8590c;--green:#2f9e44;--purple:#7048e8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;}
+.shell{display:grid;grid-template-columns:196px 1fr;min-height:100vh;}
 /* SIDEBAR */
-.sidebar {
-  background: var(--text);
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-}
-
-.logo {
-  padding: 28px 20px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.logo-mark {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-}
-.logo-name {
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #fff;
-}
-.logo-name span {
-  color: var(--lime);
-}
-
-.nav {
-  padding: 16px 0;
-  flex: 1;
-}
-.nav-section-label {
-  padding: 12px 20px 6px;
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 20px;
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.45);
-  cursor: pointer;
-  transition: all 0.15s;
-  border-left: 2px solid transparent;
-  letter-spacing: 0.01em;
-}
-.nav-item:hover { color: rgba(255,255,255,0.75); }
-.nav-item.active {
-  color: #fff;
-  border-left-color: var(--lime);
-  background: rgba(255,255,255,0.04);
-}
-.nav-icon { font-size: 13px; width: 16px; text-align: center; }
-.nav-badge {
-  margin-left: auto;
-  background: var(--lime);
-  color: var(--text);
-  font-size: 9px;
-  font-weight: 700;
-  padding: 1px 5px;
-  border-radius: 10px;
-  font-family: 'DM Mono', monospace;
-}
-.nav-badge.red { background: var(--red); color: #fff; }
-
-.sidebar-footer {
-  padding: 16px 20px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-.sync-btn {
-  width: 100%;
-  background: rgba(200,240,60,0.12);
-  border: 1px solid rgba(200,240,60,0.25);
-  color: var(--lime);
-  padding: 9px 12px;
-  border-radius: 7px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-.sync-btn:hover { background: rgba(200,240,60,0.2); }
-.last-sync {
-  text-align: center;
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: rgba(255,255,255,0.2);
-  margin-top: 7px;
-}
-
+.sidebar{background:var(--text);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:hidden;}
+.logo{padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,.08);}
+.logo-sub{font-size:9px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.3);letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px;}
+.logo-name{font-size:15px;font-weight:800;color:#fff;}.logo-name span{color:var(--lime);}
+.nav{padding:12px 0;flex:1;}
+.nav-sec{padding:10px 20px 4px;font-size:9px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.2);letter-spacing:.14em;text-transform:uppercase;}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 20px;font-size:12px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;transition:all .15s;border-left:2px solid transparent;user-select:none;}
+.ni:hover{color:rgba(255,255,255,.7);}
+.ni.active{color:#fff;border-left-color:var(--lime);background:rgba(255,255,255,.04);}
+.nic{font-size:12px;width:14px;text-align:center;}
+.nb{margin-left:auto;background:var(--lime);color:var(--text);font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;font-family:'DM Mono',monospace;}
+.nb.red{background:var(--red);color:#fff;}
+.sfoot{padding:14px 20px;border-top:1px solid rgba(255,255,255,.08);}
+.syncbtn{width:100%;background:rgba(200,240,60,.1);border:1px solid rgba(200,240,60,.25);color:var(--lime);padding:8px;border-radius:7px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .2s;}
+.syncbtn:hover{background:rgba(200,240,60,.2);}
+.lsync{text-align:center;font-size:9px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.2);margin-top:6px;}
 /* MAIN */
-.main {
-  padding: 36px 44px;
-  overflow-y: auto;
-  min-height: 100vh;
-}
-
-/* PAGE HEADER */
-.page-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 32px;
-}
-.page-title-group {}
-.page-label {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-}
-.page-title {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-.header-actions { display: flex; gap: 10px; align-items: center; }
-
-.btn {
-  padding: 9px 18px;
-  border-radius: 7px;
-  font-family: 'Syne', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-  letter-spacing: 0.01em;
-}
-.btn-ghost {
-  background: transparent;
-  border: 1px solid var(--border2);
-  color: var(--muted);
-}
-.btn-ghost:hover { border-color: var(--text); color: var(--text); }
-.btn-primary {
-  background: var(--text);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.btn-primary:hover { background: #333; }
-.btn-lime {
-  background: var(--lime);
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.btn-lime:hover { background: var(--lime-dark); color: #fff; }
-
-/* KPI STRIP */
-.kpi-strip {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  margin-bottom: 32px;
-}
-.kpi {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px 20px;
-  position: relative;
-}
-.kpi-label {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.kpi-value {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: var(--text);
-}
-.kpi.accent .kpi-value { color: var(--blue); }
-.kpi.hot .kpi-value { color: var(--red); }
-.kpi-delta {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  margin-top: 5px;
-}
-.kpi-delta.up { color: var(--green); }
-.kpi-bar {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--border);
-  border-radius: 0 0 10px 10px;
-  overflow: hidden;
-}
-.kpi-bar-fill {
-  height: 100%;
-  background: var(--lime);
-  transition: width 1s cubic-bezier(.17,.67,.83,.67);
-}
-
-/* AI DIGEST */
-.ai-panel {
-  background: var(--text);
-  border-radius: 12px;
-  padding: 22px 26px;
-  margin-bottom: 28px;
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  position: relative;
-  overflow: hidden;
-}
-.ai-panel::after {
-  content: '';
-  position: absolute;
-  top: -30px; right: -30px;
-  width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(200,240,60,0.15), transparent 70%);
-  pointer-events: none;
-}
-.ai-icon {
-  width: 36px; height: 36px;
-  background: var(--lime);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-.ai-content { flex: 1; }
-.ai-label-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-.ai-label {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: var(--lime);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-.ai-text {
-  font-size: 12px;
-  font-family: 'DM Mono', monospace;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.7;
-  font-weight: 300;
-}
-.ai-text .hi { color: var(--lime); font-weight: 400; }
-.analyze-btn {
-  background: none;
-  border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.5);
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  padding: 5px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: 0.08em;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-.analyze-btn:hover { border-color: var(--lime); color: var(--lime); }
-
-/* TWO COLUMN */
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
+.main{padding:34px 42px;overflow-y:auto;}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:26px;}
+.pl{font-size:9px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px;}
+.pt{font-size:25px;font-weight:800;letter-spacing:-.03em;}
+.ha{display:flex;gap:9px;align-items:center;}
+/* BUTTONS */
+.btn{padding:8px 16px;border-radius:7px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.bdark{background:var(--text);color:#fff;}.bdark:hover:not(:disabled){background:#333;}
+.bghost{background:transparent;border:1px solid var(--b2);color:var(--muted);}.bghost:hover{border-color:var(--text);color:var(--text);}
+.blime{background:var(--lime);color:var(--text);}.blime:hover{background:var(--limed);}
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-bottom:26px;}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 19px;position:relative;}
+.kl{font-size:9px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;}
+.kv{font-size:29px;font-weight:800;letter-spacing:-.04em;line-height:1;}
+.kv.blue{color:var(--blue);}.kv.red{color:var(--red);}.kv.green{color:var(--green);}
+.kd{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);margin-top:4px;}
+.kd.up{color:var(--green);}
+.kbar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--border);border-radius:0 0 10px 10px;overflow:hidden;}
+.kbf{height:100%;background:var(--lime);}
+/* AI PANEL */
+.aipanel{background:var(--text);border-radius:11px;padding:19px 23px;margin-bottom:22px;display:flex;gap:17px;align-items:flex-start;position:relative;overflow:hidden;}
+.aipanel::after{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;background:radial-gradient(circle,rgba(200,240,60,.15),transparent 70%);pointer-events:none;}
+.aiic{width:33px;height:33px;background:var(--lime);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.aic{flex:1;}
+.ailr{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+.ail{font-size:9px;font-family:'DM Mono',monospace;color:var(--lime);letter-spacing:.18em;text-transform:uppercase;}
+.ait{font-size:12px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.72);line-height:1.7;font-weight:300;}
+.ait .hi{color:var(--lime);font-weight:400;}
+.digbtn{background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.45);font-family:'DM Mono',monospace;font-size:10px;padding:5px 10px;border-radius:5px;cursor:pointer;transition:all .2s;letter-spacing:.07em;display:flex;align-items:center;gap:5px;white-space:nowrap;}
+.digbtn:hover{border-color:var(--lime);color:var(--lime);}
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 318px;gap:17px;margin-bottom:18px;}
+.cr{display:flex;flex-direction:column;gap:17px;}
 /* PANELS */
-.panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-.panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
-}
-.panel-title {
-  font-size: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.panel-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--lime);
-  border: 1px solid var(--lime-dark);
-}
-.panel-action {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  cursor: pointer;
-  background: none;
-  border: none;
-  letter-spacing: 0.05em;
-  transition: color 0.15s;
-}
-.panel-action:hover { color: var(--text); }
-
-/* OPPORTUNITIES LIST */
-.opp-item {
-  display: grid;
-  grid-template-columns: 72px 1fr 60px 8px;
-  gap: 14px;
-  align-items: center;
-  padding: 13px 20px;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  transition: background 0.12s;
-}
-.opp-item:last-child { border-bottom: none; }
-.opp-item:hover { background: var(--surface2); }
-
-.src-tag {
-  font-size: 8px;
-  font-family: 'DM Mono', monospace;
-  letter-spacing: 0.1em;
-  padding: 3px 7px;
-  border-radius: 4px;
-  font-weight: 400;
-  text-align: center;
-  white-space: nowrap;
-}
-.src-boamp    { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
-.src-linkedin { background: #e8eaf6; color: #3949ab; border: 1px solid #c5cae9; }
-.src-malt     { background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
-.src-place    { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
-.src-manual   { background: #fafafa; color: #616161; border: 1px solid #e0e0e0; }
-.src-cold     { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
-.src-behance  { background: #e8edf8; color: #1a5fb4; border: 1px solid #c0cfee; }
-
-.opp-title {
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 2px;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.opp-meta {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-}
-
-.score-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-}
-.score-num {
-  font-size: 13px;
-  font-weight: 800;
-  font-family: 'DM Mono', monospace;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
-.score-num.hot { color: var(--red); }
-.score-num.warm { color: var(--orange); }
-.score-bar {
-  width: 36px;
-  height: 3px;
-  background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.score-fill { height: 100%; background: var(--lime-dark); border-radius: 2px; }
-.score-fill.hot { background: var(--red); }
-.score-fill.warm { background: var(--orange); }
-
-.status-pip {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  justify-self: center;
-}
-.s-detected   { background: var(--status-detected); }
-.s-qualified  { background: var(--status-qualified); }
-.s-inprogress { background: var(--status-inprogress); }
-.s-submitted  { background: var(--status-submitted); }
-.s-won        { background: var(--status-won); }
-.s-lost       { background: #ccc; }
-
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:11px;overflow:hidden;}
+.phead{display:flex;align-items:center;justify-content:space-between;padding:13px 19px;border-bottom:1px solid var(--border);}
+.ptitle{font-size:12px;font-weight:700;display:flex;align-items:center;gap:7px;}
+.pdot{width:6px;height:6px;border-radius:50%;background:var(--lime);}
+.pact{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);cursor:pointer;background:none;border:none;letter-spacing:.05em;transition:color .15s;}
+.pact:hover{color:var(--text);}
+/* OPP LIST */
+.oi{display:grid;grid-template-columns:68px 1fr 54px 8px;gap:12px;align-items:center;padding:11px 19px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;}
+.oi:last-child{border-bottom:none;}
+.oi:hover{background:var(--s2);}
+.stag{font-size:8px;font-family:'DM Mono',monospace;letter-spacing:.1em;padding:2px 6px;border-radius:4px;text-align:center;white-space:nowrap;}
+.src-boamp{background:#fff3e0;color:#e65100;border:1px solid #ffcc80;}
+.src-linkedin{background:#e8eaf6;color:#3949ab;border:1px solid #c5cae9;}
+.src-malt{background:#f3e5f5;color:#7b1fa2;border:1px solid #e1bee7;}
+.src-place{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;}
+.src-manual{background:#fafafa;color:#616161;border:1px solid #e0e0e0;}
+.src-cold{background:#e3f2fd;color:#1565c0;border:1px solid #bbdefb;}
+.ot{font-size:12px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.om{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);}
+.sc{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.sn{font-size:13px;font-weight:800;font-family:'DM Mono',monospace;}
+.sn.hi{color:var(--red);}.sn.mid{color:var(--orange);}
+.sb{width:35px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.sf{height:100%;background:var(--limed);border-radius:2px;}
+.sf.hi{background:var(--red);}.sf.mid{background:var(--orange);}
+.spip{width:8px;height:8px;border-radius:50%;flex-shrink:0;justify-self:center;}
+.s-detected{background:var(--blue);}.s-qualified{background:var(--orange);}
+.s-in_progress{background:var(--purple);}.s-submitted{background:var(--red);}
+.s-won{background:var(--green);}.s-lost{background:#ccc;}
 /* PIPELINE */
-.pipeline-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
-.pipe-row { display: flex; align-items: center; gap: 10px; }
-.pipe-label {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  width: 76px;
-  flex-shrink: 0;
-}
-.pipe-track {
-  flex: 1;
-  height: 20px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.pipe-fill {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  padding-left: 8px;
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: #fff;
-  font-weight: 400;
-  transition: width 0.8s cubic-bezier(.17,.67,.83,.67);
-  min-width: 24px;
-}
-.pipe-n {
-  font-size: 11px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  width: 18px;
-  text-align: right;
-}
-
-/* SOURCES */
-.sources-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-}
-.source-cell {
-  padding: 16px 18px;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  transition: background 0.12s;
-}
-.source-cell:nth-child(2n) { border-right: none; }
-.source-cell:nth-last-child(-n+2) { border-bottom: none; }
-.source-cell:hover { background: var(--surface2); }
-.sc-name {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.sc-count {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--text);
-}
-.sc-status {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 2px;
-}
-.dot-on { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-.dot-off { width: 5px; height: 5px; border-radius: 50%; background: var(--muted); }
-.sc-status.on { color: var(--green); }
-.sc-status.off { color: var(--muted); }
-
+.plist{padding:13px 19px;display:flex;flex-direction:column;gap:8px;}
+.pr{display:flex;align-items:center;gap:8px;}
+.plbl{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);width:72px;flex-shrink:0;}
+.pt2{flex:1;height:18px;background:var(--s2);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.pf{height:100%;display:flex;align-items:center;padding-left:7px;font-size:10px;font-family:'DM Mono',monospace;color:#fff;transition:width .8s;min-width:18px;}
+.pn{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);width:15px;text-align:right;}
+/* SRC GRID */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.scell{padding:13px 17px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+.scell:nth-child(2n){border-right:none;}
+.scell:nth-last-child(-n+2){border-bottom:none;}
+.scn{font-size:9px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;}
+.scc{font-size:19px;font-weight:800;letter-spacing:-.04em;}
+.scs{font-size:9px;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:4px;margin-top:2px;}
+.don{width:5px;height:5px;border-radius:50%;background:var(--green);}
+.doff{width:5px;height:5px;border-radius:50%;background:var(--muted);}
+.scs.on{color:var(--green);}.scs.off{color:var(--muted);}
 /* DEADLINES */
-.deadline-item {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  transition: background 0.12s;
-}
-.deadline-item:last-child { border-bottom: none; }
-.deadline-item:hover { background: var(--surface2); }
-.dl-date {
-  text-align: center;
-  width: 44px;
-  flex-shrink: 0;
-}
-.dl-day {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  color: var(--text);
-}
-.dl-month {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.dl-date.urgent .dl-day { color: var(--red); }
-.dl-info { flex: 1; }
-.dl-title {
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 2px;
-  color: var(--text);
-}
-.dl-sub {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-}
-.dl-badge {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  padding: 3px 7px;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-.dl-badge.urgent { background: #fff0f0; color: var(--red); border: 1px solid #ffd0d0; }
-.dl-badge.ok { background: #f0f7ff; color: var(--blue); border: 1px solid #d0e4ff; }
-
-/* FULL LIST VIEW */
-.filter-row {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.filter-chip {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid var(--border2);
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s;
-  background: var(--surface);
-  letter-spacing: 0.04em;
-}
-.filter-chip:hover { border-color: var(--text); color: var(--text); }
-.filter-chip.active { background: var(--text); color: #fff; border-color: var(--text); }
-
+.dli{display:flex;gap:12px;align-items:center;padding:11px 19px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;}
+.dli:last-child{border-bottom:none;}
+.dli:hover{background:var(--s2);}
+.ddate{text-align:center;width:40px;flex-shrink:0;}
+.dday{font-size:18px;font-weight:800;letter-spacing:-.03em;line-height:1;}
+.dmon{font-size:9px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+.ddate.urg .dday{color:var(--red);}
+.dinfo{flex:1;}
+.dtitle{font-size:12px;font-weight:700;margin-bottom:2px;}
+.dsub{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);}
+.dbadge{font-size:9px;font-family:'DM Mono',monospace;padding:3px 7px;border-radius:4px;white-space:nowrap;}
+.dbadge.urg{background:#fff0f0;color:var(--red);border:1px solid #ffd0d0;}
+.dbadge.ok{background:#f0f7ff;color:var(--blue);border:1px solid #d0e4ff;}
+/* FILTER CHIPS */
+.frow{display:flex;gap:5px;align-items:center;margin-bottom:13px;flex-wrap:wrap;}
+.chip{font-size:10px;font-family:'DM Mono',monospace;padding:5px 11px;border-radius:20px;border:1px solid var(--b2);color:var(--muted);cursor:pointer;transition:all .15s;background:var(--surface);}
+.chip:hover{border-color:var(--text);color:var(--text);}
+.chip.active{background:var(--text);color:#fff;border-color:var(--text);}
+/* KANBAN */
+.kanban{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;overflow-x:auto;padding-bottom:14px;}
+.kcol{min-width:155px;}
+.khead{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px 8px 0 0;background:var(--surface);border:1px solid var(--border);border-bottom:none;}
+.klbl{font-size:10px;font-weight:700;flex:1;}
+.kcnt{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);}
+.kbody{background:var(--s2);border:1px solid var(--border);border-radius:0 0 8px 8px;min-height:170px;padding:6px;display:flex;flex-direction:column;gap:5px;}
+.kcard{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 10px;cursor:pointer;transition:box-shadow .15s;}
+.kcard:hover{box-shadow:0 2px 10px rgba(0,0,0,.07);}
+.kct{font-size:11px;font-weight:700;line-height:1.3;margin-bottom:3px;}
+.kcm{font-size:9px;font-family:'DM Mono',monospace;color:var(--muted);display:flex;justify-content:space-between;}
 /* MODAL */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(20,20,18,0.6);
-  backdrop-filter: blur(3px);
-  z-index: 100;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-.modal-overlay.open { display: flex; }
-.modal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  width: 520px;
-  max-height: 85vh;
-  overflow-y: auto;
-  padding: 28px 32px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-}
-.modal-title {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 22px;
-}
-.form-row { margin-bottom: 16px; }
-.form-label {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-  display: block;
-}
-.form-input, .form-select, .form-textarea {
-  width: 100%;
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 7px;
-  padding: 9px 12px;
-  color: var(--text);
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  outline: none;
-  transition: border-color 0.15s;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--text);
-}
-.form-textarea { height: 80px; resize: none; }
-.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-.btn-cancel { flex: 1; }
-.btn-save { flex: 2; background: var(--text); color: #fff; }
-.btn-save:hover { background: #333; }
-
-/* DETAIL DRAWER */
-.drawer {
-  position: fixed;
-  top: 0; right: 0;
-  width: 460px;
-  height: 100vh;
-  background: var(--surface);
-  border-left: 1px solid var(--border);
-  z-index: 90;
-  transform: translateX(100%);
-  transition: transform 0.28s cubic-bezier(.17,.67,.6,1.1);
-  overflow-y: auto;
-  padding: 28px 32px 40px;
-  box-shadow: -8px 0 40px rgba(0,0,0,0.08);
-}
-.drawer.open { transform: translateX(0); }
-.drawer-close {
-  position: absolute;
-  top: 18px; right: 18px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  width: 30px; height: 30px;
-  border-radius: 7px;
-  cursor: pointer;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-}
-.drawer-close:hover { background: var(--border); color: var(--text); }
-
-.drawer-source-tag {
-  display: inline-flex;
-  margin-top: 8px;
-  margin-bottom: 10px;
-}
-.drawer-title {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  margin-bottom: 12px;
-  padding-right: 40px;
-}
-.drawer-meta-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-.score-badge {
-  font-size: 13px;
-  font-weight: 800;
-  font-family: 'DM Mono', monospace;
-  padding: 5px 12px;
-  border-radius: 6px;
-  letter-spacing: -0.01em;
-}
-.score-badge.hi { background: #ebfbee; color: var(--green); border: 1px solid #b2f2bb; }
-.score-badge.mid { background: #fff4e6; color: var(--orange); border: 1px solid #ffd8a8; }
-.score-badge.lo { background: #f8f9fa; color: var(--muted); border: 1px solid var(--border); }
-.drawer-budget {
-  font-size: 11px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-}
-.drawer-urgent {
-  font-size: 11px;
-  font-family: 'DM Mono', monospace;
-  color: var(--red);
-  font-weight: 400;
-}
-
-.drawer-section {
-  margin-top: 20px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-}
-.drawer-section-title {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.drawer-text {
-  font-size: 12px;
-  font-family: 'DM Mono', monospace;
-  color: var(--text);
-  line-height: 1.65;
-  font-weight: 300;
-}
-
-.tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  padding: 3px 9px;
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 4px;
-  color: var(--muted);
-}
-.tag.skill {
-  border-color: #c0cfee;
-  color: var(--blue);
-  background: #e8edf8;
-}
-
-.action-strip { display: flex; gap: 8px; margin-top: 14px; }
-.action-btn {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  transition: all 0.15s;
-  text-align: center;
-}
-.action-btn.primary { background: var(--text); color: #fff; }
-.action-btn.primary:hover { background: #333; }
-.action-btn.secondary { background: var(--surface2); border: 1px solid var(--border2); color: var(--muted); }
-.action-btn.secondary:hover { border-color: var(--text); color: var(--text); }
-.action-btn.success { background: #ebfbee; border: 1px solid #b2f2bb; color: var(--green); }
-.action-btn.danger { background: #fff0f0; border: 1px solid #ffd0d0; color: var(--red); }
-
-.ai-result-box {
-  font-size: 11px;
-  font-family: 'DM Mono', monospace;
-  color: var(--text);
-  line-height: 1.7;
-  padding: 14px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-weight: 300;
-  min-height: 60px;
-}
-
-/* PIPELINE VIEW (full) */
-.kanban {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
-  overflow-x: auto;
-  padding-bottom: 16px;
-}
-.kanban-col {
-  min-width: 180px;
-}
-.kanban-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  border-radius: 8px 8px 0 0;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-bottom: none;
-  margin-bottom: 0;
-}
-.kanban-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  flex: 1;
-}
-.kanban-count {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-}
-.kanban-body {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 0 0 8px 8px;
-  min-height: 200px;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.kanban-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 10px 12px;
-  cursor: pointer;
-  transition: box-shadow 0.15s;
-}
-.kanban-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-.k-title {
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 5px;
-}
-.k-meta {
-  font-size: 9px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-  display: flex;
-  justify-content: space-between;
-}
-.k-score {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  font-weight: 400;
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: var(--surface2);
-  color: var(--text);
-}
-
+.moverlay{position:fixed;inset:0;background:rgba(20,20,18,.6);backdrop-filter:blur(3px);z-index:100;display:none;align-items:center;justify-content:center;}
+.moverlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:13px;width:490px;max-height:85vh;overflow-y:auto;padding:24px 28px;box-shadow:0 20px 60px rgba(0,0,0,.13);}
+.mtitle{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:18px;}
+.fld{margin-bottom:13px;}
+.flbl{font-size:9px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;display:block;}
+.fi,.fsel,.fta{width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 11px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;outline:none;transition:border-color .15s;}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--text);}
+.fta{height:74px;resize:none;}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mactions{display:flex;gap:8px;margin-top:16px;}
+.bcancel{flex:1;background:transparent;border:1px solid var(--b2);color:var(--muted);padding:9px;border-radius:7px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+.bsave{flex:2;background:var(--text);color:#fff;padding:9px;border-radius:7px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+.bsave:hover{background:#333;}
+/* DRAWER */
+.drawer{position:fixed;top:0;right:0;width:440px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:90;transform:translateX(100%);transition:transform .28s cubic-bezier(.17,.67,.6,1.1);overflow-y:auto;padding:24px 28px 40px;box-shadow:-8px 0 36px rgba(0,0,0,.07);}
+.drawer.open{transform:translateX(0);}
+.dclose{position:absolute;top:15px;right:15px;background:var(--s2);border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.dclose:hover{background:var(--border);color:var(--text);}
+.dsrc{display:inline-flex;margin-top:8px;margin-bottom:8px;}
+.dtit{font-size:16px;font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px;padding-right:36px;}
+.dmeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+.dscore{font-size:12px;font-weight:800;font-family:'DM Mono',monospace;padding:4px 11px;border-radius:6px;}
+.dscore.hi{background:#ebfbee;color:var(--green);border:1px solid #b2f2bb;}
+.dscore.mid{background:#fff4e6;color:var(--orange);border:1px solid #ffd8a8;}
+.dscore.lo{background:#f8f9fa;color:var(--muted);border:1px solid var(--border);}
+.dbudget{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);}
+.durg{font-size:11px;font-family:'DM Mono',monospace;color:var(--red);}
+.dsec{margin-top:17px;padding-top:15px;border-top:1px solid var(--border);}
+.dsect{font-size:9px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;}
+.dtxt{font-size:12px;font-family:'DM Mono',monospace;color:var(--text);line-height:1.65;font-weight:300;}
+.tagrow{display:flex;flex-wrap:wrap;gap:5px;}
+.tag{font-size:10px;font-family:'DM Mono',monospace;padding:3px 8px;background:var(--s2);border:1px solid var(--b2);border-radius:4px;color:var(--muted);}
+.tag.sk{border-color:#c0cfee;color:var(--blue);background:#e8edf8;}
+.astrip{display:flex;gap:6px;margin-top:11px;}
+.abtn{flex:1;padding:9px;border-radius:8px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:all .15s;text-align:center;}
+.ab-dark{background:var(--text);color:#fff;}.ab-dark:hover{background:#333;}
+.ab-ghost{background:var(--s2);border:1px solid var(--b2);color:var(--muted);}.ab-ghost:hover{border-color:var(--text);color:var(--text);}
+.ab-success{background:#ebfbee;border:1px solid #b2f2bb;color:var(--green);}
+.ab-danger{background:#fff0f0;border:1px solid #ffd0d0;color:var(--red);}
+.aibox{font-size:11px;font-family:'DM Mono',monospace;color:var(--text);line-height:1.7;padding:11px 13px;background:var(--s2);border:1px solid var(--border);border-radius:8px;font-weight:300;min-height:52px;}
+.srcnote{margin-top:8px;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);padding:8px 11px;background:var(--s2);border:1px solid var(--border);border-radius:7px;line-height:1.6;}
+/* SCOUT */
+.scfg{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:18px 21px;margin-bottom:17px;display:flex;flex-direction:column;gap:12px;}
+.scrow{display:flex;gap:9px;align-items:flex-end;flex-wrap:wrap;}
+.scf{display:flex;flex-direction:column;gap:4px;flex:1;min-width:145px;}
+.scf label{font-size:9px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;}
+.scf input,.scf select{padding:8px 11px;border:1px solid var(--b2);border-radius:7px;font-family:'DM Mono',monospace;font-size:12px;background:var(--s2);color:var(--text);outline:none;transition:border-color .15s;width:100%;}
+.scf input:focus{border-color:var(--text);}
+.scst{background:var(--text);color:rgba(255,255,255,.65);border-radius:8px;padding:10px 15px;font-size:11px;font-family:'DM Mono',monospace;margin-bottom:13px;display:none;align-items:center;gap:8px;line-height:1.5;}
+.scst.show{display:flex;}
+.scst strong{color:var(--lime);}
+.scal{padding:10px 15px;border-radius:8px;font-size:11px;font-family:'DM Mono',monospace;line-height:1.6;display:none;margin-bottom:12px;}
+.scal.show{display:block;}
+.aw{background:#fff8e1;border:1px solid #ffe082;color:#5d4037;}
+.ae{background:#ffebee;border:1px solid #ffcdd2;color:#b71c1c;}
+.scbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sccnt{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);}
+.sccnt strong{color:var(--text);}
+.rcards{display:flex;flex-direction:column;gap:9px;}
+.rcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:box-shadow .15s;}
+.rcard:hover{box-shadow:0 3px 14px rgba(0,0,0,.06);}
+.rhead{display:flex;gap:10px;align-items:flex-start;padding:13px 17px 10px;}
+.rmeta{flex:1;min-width:0;}
+.rtags{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.rdate{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);}
+.rtitle{font-size:13px;font-weight:700;letter-spacing:-.01em;margin-bottom:3px;line-height:1.3;}
+.rtitle a{color:var(--text);text-decoration:none;}
+.rtitle a:hover{text-decoration:underline;}
+.rdesc{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.rdesc.exp{-webkit-line-clamp:unset;}
+.rmore{font-size:10px;font-family:'DM Mono',monospace;color:var(--blue);background:none;border:none;cursor:pointer;padding:2px 0;margin-top:2px;}
+.rscore{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
+.rsn{font-size:16px;font-weight:800;font-family:'DM Mono',monospace;letter-spacing:-.02em;}
+.rsbar{width:36px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.rsf{height:100%;border-radius:2px;}
+.racts{display:flex;gap:6px;align-items:center;padding:0 17px 11px;flex-wrap:wrap;}
+.bx{padding:5px 10px;border-radius:6px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:4px;text-decoration:none;}
+.bx:disabled{opacity:.4;cursor:not-allowed;}
+.bxd{background:var(--text);color:#fff;}.bxd:hover:not(:disabled){background:#333;}
+.bxg{background:var(--s2);border:1px solid var(--b2);color:var(--muted);}.bxg:hover{border-color:var(--text);color:var(--text);}
+.bxgreen{background:#ebfbee;border:1px solid #b2f2bb;color:var(--green);}
+.rai{display:none;margin:0 17px 11px;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.rai.show{display:block;}
+.raih{background:var(--text);padding:7px 13px;display:flex;align-items:center;justify-content:space-between;}
+.rail{font-size:9px;font-family:'DM Mono',monospace;color:var(--lime);letter-spacing:.15em;text-transform:uppercase;}
+.raibadge{font-size:10px;font-weight:800;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:4px;}
+.bhi{background:#d3f9d8;color:var(--green);}.bmid{background:#fff3e0;color:var(--orange);}.blo{background:#f1f3f5;color:var(--muted);}.bno{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3);}
+.raib{padding:11px 13px;font-size:11px;font-family:'DM Mono',monospace;color:var(--text);line-height:1.7;font-weight:300;background:var(--s2);}
+.voui{color:var(--green);font-weight:700;}.vnon{color:var(--red);font-weight:700;}.vmay{color:var(--orange);font-weight:700;}
+.pnote{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);padding:9px 12px;background:var(--s2);border:1px solid var(--border);border-radius:7px;line-height:1.6;margin-top:10px;}
+/* SETTINGS */
+.sblock{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:20px 24px;max-width:520px;margin-bottom:13px;}
+.sblock h3{font-size:13px;font-weight:700;margin-bottom:3px;}
+.sblock p{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:11px;line-height:1.5;}
 /* TOAST */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--text);
-  color: #fff;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  opacity: 0;
-  transition: all 0.25s;
-  z-index: 200;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* VIEW TOGGLE */
-[id^="view-"] { display: none; }
-#view-dashboard { display: block; }
-
-/* STATUS LEGEND */
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
-  margin-bottom: 16px;
-}
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-}
-.legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-
-/* SECTION TITLE */
-.section-header {
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.section-title {
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-}
-
-/* SPINNING */
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.spinning { display: inline-block; animation: spin 1s linear infinite; }
-
-.empty-state {
-  padding: 32px 20px;
-  text-align: center;
-  font-size: 11px;
-  font-family: 'DM Mono', monospace;
-  color: var(--muted);
-}
-
-/* ── SCOUT / VEILLE LIVE ── */
-.scout-config {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; padding: 20px 24px; margin-bottom: 20px;
-  display: flex; flex-direction: column; gap: 14px;
-}
-.scout-row { display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
-.scout-field { display:flex; flex-direction:column; gap:5px; flex:1; min-width:160px; }
-.scout-field label {
-  font-size:9px; font-family:'DM Mono',monospace;
-  color:var(--muted); letter-spacing:.12em; text-transform:uppercase;
-}
-.scout-field input, .scout-field select {
-  padding:9px 12px; border:1px solid var(--border2); border-radius:7px;
-  font-family:'DM Mono',monospace; font-size:12px; background:var(--surface2);
-  color:var(--text); outline:none; transition:border-color .15s; width:100%;
-}
-.scout-field input:focus { border-color:var(--text); }
-.scout-status {
-  background:var(--text); color:rgba(255,255,255,.65); border-radius:8px;
-  padding:11px 16px; font-size:11px; font-family:'DM Mono',monospace;
-  margin-bottom:16px; display:none; align-items:center; gap:10px; line-height:1.5;
-}
-.scout-status.show { display:flex; }
-.scout-status strong { color:var(--lime); }
-.scout-alert {
-  padding:11px 16px; border-radius:8px; font-size:11px;
-  font-family:'DM Mono',monospace; line-height:1.6; display:none; margin-bottom:14px;
-}
-.scout-alert.show { display:block; }
-.alert-warn { background:#fff8e1; border:1px solid #ffe082; color:#5d4037; }
-.alert-err  { background:#ffebee; border:1px solid #ffcdd2; color:#b71c1c; }
-.scout-results-bar {
-  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
-}
-.scout-count { font-size:11px; font-family:'DM Mono',monospace; color:var(--muted); }
-.scout-count strong { color:var(--text); }
-.rss-cards { display:flex; flex-direction:column; gap:10px; }
-.rss-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:10px; overflow:hidden; transition:box-shadow .15s;
-}
-.rss-card:hover { box-shadow:0 3px 14px rgba(0,0,0,.07); }
-.rss-card-head { display:flex; gap:12px; align-items:flex-start; padding:14px 18px 12px; }
-.rss-card-meta { flex:1; min-width:0; }
-.rss-tag-row { display:flex; align-items:center; gap:7px; margin-bottom:4px; }
-.rss-date { font-size:10px; font-family:'DM Mono',monospace; color:var(--muted); }
-.rss-title { font-size:13px; font-weight:700; letter-spacing:-.01em; margin-bottom:4px; line-height:1.3; }
-.rss-title a { color:var(--text); text-decoration:none; }
-.rss-title a:hover { text-decoration:underline; }
-.rss-desc {
-  font-size:11px; font-family:'DM Mono',monospace; color:var(--muted); line-height:1.55;
-  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
-}
-.rss-desc.expanded { -webkit-line-clamp:unset; }
-.rss-score-col { display:flex; flex-direction:column; align-items:flex-end; gap:3px; flex-shrink:0; }
-.rss-score-num { font-size:17px; font-weight:800; font-family:'DM Mono',monospace; letter-spacing:-.02em; }
-.rss-score-bar { width:38px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
-.rss-score-fill { height:100%; border-radius:2px; }
-.rss-card-actions { display:flex; gap:7px; align-items:center; padding:0 18px 12px; flex-wrap:wrap; }
-.btn-xs {
-  padding:5px 11px; border-radius:6px; font-family:'Syne',sans-serif;
-  font-size:11px; font-weight:700; cursor:pointer; border:none; transition:all .15s;
-  display:flex; align-items:center; gap:4px;
-}
-.btn-xs-dark { background:var(--text); color:#fff; }
-.btn-xs-dark:hover { background:#333; }
-.btn-xs-dark:disabled { opacity:.4; cursor:not-allowed; }
-.btn-xs-ghost { background:var(--surface2); border:1px solid var(--border2); color:var(--muted); }
-.btn-xs-ghost:hover { border-color:var(--text); color:var(--text); }
-.btn-xs-green { background:#ebfbee; border:1px solid #b2f2bb; color:var(--green); }
-.rss-ai-block { display:none; margin:0 18px 12px; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
-.rss-ai-block.show { display:block; }
-.rss-ai-head {
-  background:var(--text); padding:7px 14px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.rss-ai-label { font-size:9px; font-family:'DM Mono',monospace; color:var(--lime); letter-spacing:.15em; text-transform:uppercase; }
-.rss-ai-badge { font-size:10px; font-weight:800; font-family:'DM Mono',monospace; padding:2px 9px; border-radius:4px; }
-.badge-hi   { background:#d3f9d8; color:var(--green); }
-.badge-mid  { background:#fff3e0; color:var(--orange); }
-.badge-lo   { background:#f1f3f5; color:var(--muted); }
-.badge-none { background:rgba(255,255,255,.1); color:rgba(255,255,255,.3); }
-.rss-ai-body {
-  padding:12px 14px; font-size:11px; font-family:'DM Mono',monospace;
-  color:var(--text); line-height:1.7; font-weight:300; background:var(--surface2);
-}
-.v-oui   { color:var(--green);  font-weight:700; }
-.v-non   { color:var(--red);    font-weight:700; }
-.v-maybe { color:var(--orange); font-weight:700; }
-.proxy-note {
-  font-size:10px; font-family:'DM Mono',monospace; color:var(--muted);
-  padding:10px 14px; background:var(--surface2); border:1px solid var(--border);
-  border-radius:7px; line-height:1.6; margin-top:12px;
-}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--text);color:#fff;font-family:'DM Mono',monospace;font-size:11px;padding:8px 17px;border-radius:8px;opacity:0;transition:all .25s;z-index:200;letter-spacing:.04em;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* VIEWS */
+[id^="view-"]{display:none;}
+#view-dashboard{display:block;}
+/* UTILS */
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinning{display:inline-block;animation:spin 1s linear infinite;}
+.empty{padding:28px 20px;text-align:center;font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);}
 </style>
 </head>
 <body>
-
 <div class="shell">
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
-  <div class="logo">
-    <div class="logo-mark">Studio · Veille</div>
-    <div class="logo-name">Opport<span>.</span></div>
-  </div>
-
+  <div class="logo"><div class="logo-sub">Studio · Veille</div><div class="logo-name">Opport<span>.</span></div></div>
   <nav class="nav">
-    <div class="nav-section-label">Vue</div>
-    <div class="nav-item active" onclick="showView('dashboard', this)">
-      <span class="nav-icon">◎</span> Dashboard
-    </div>
-    <div class="nav-item" onclick="showView('opportunities', this)">
-      <span class="nav-icon">≡</span> Opportunités
-      <span class="nav-badge" id="badge-new">7</span>
-    </div>
-    <div class="nav-item" onclick="showView('pipeline', this)">
-      <span class="nav-icon">⬡</span> Pipeline
-    </div>
-
-    <div class="nav-item" onclick="showView('scout', this)">
-      <span class="nav-icon">⊛</span> Veille Live
-      <span class="nav-badge" id="badge-scout" style="display:none">0</span>
-    </div>
-
-    <div class="nav-section-label" style="margin-top:8px;">Sources</div>
-    <div class="nav-item" onclick="showView('sources', this)">
-      <span class="nav-icon">⊕</span> Sources RSS
-    </div>
-    <div class="nav-item" onclick="showView('contacts', this)">
-      <span class="nav-icon">◇</span> Contacts
-    </div>
-
-    <div class="nav-section-label" style="margin-top:8px;">Config</div>
-    <div class="nav-item" onclick="showView('settings', this)">
-      <span class="nav-icon">⚙</span> Paramètres
-    </div>
+    <div class="nav-sec">Vue</div>
+    <div class="ni active" onclick="showView('dashboard',this)"><span class="nic">◎</span>Dashboard</div>
+    <div class="ni" onclick="showView('opportunities',this)"><span class="nic">≡</span>Opportunités<span class="nb" id="badge-new">7</span></div>
+    <div class="ni" onclick="showView('pipeline',this)"><span class="nic">⬡</span>Pipeline</div>
+    <div class="ni" onclick="showView('scout',this)"><span class="nic">⊛</span>Veille Live<span class="nb" id="badge-scout" style="display:none">0</span></div>
+    <div class="nav-sec" style="margin-top:8px">Config</div>
+    <div class="ni" onclick="showView('settings',this)"><span class="nic">⚙</span>Paramètres</div>
   </nav>
-
-  <div class="sidebar-footer">
-    <button class="sync-btn" onclick="triggerSync()">
-      <span id="sync-icon">⟳</span> Lancer veille
-    </button>
-    <div class="last-sync" id="last-sync">Dernière veille: lun. 08:00</div>
+  <div class="sfoot">
+    <button class="syncbtn" onclick="triggerSync()"><span id="sync-ic">⟳</span>Lancer veille</button>
+    <div class="lsync" id="lsync">Dernière veille: lun. 08:00</div>
   </div>
 </aside>
 
-<!-- MAIN -->
 <main class="main">
 
-  <!-- ===== DASHBOARD VIEW ===== -->
-  <div id="view-dashboard">
-    <div class="page-header">
-      <div class="page-title-group">
-        <div class="page-label">Semaine 17 · Avril 2025</div>
-        <div class="page-title">Tableau de bord</div>
-      </div>
-      <div class="header-actions">
-        <button class="btn btn-ghost" onclick="openModal()">+ Saisie manuelle</button>
-        <button class="btn btn-lime" onclick="runAIAnalysis()">
-          <span id="analyze-icon">◈</span> Digest IA
-        </button>
-      </div>
+<!-- DASHBOARD -->
+<div id="view-dashboard">
+  <div class="ph">
+    <div><div class="pl">Semaine courante</div><div class="pt">Dashboard</div></div>
+    <div class="ha">
+      <button class="btn bghost" onclick="openModal()">+ Saisie manuelle</button>
+      <button class="btn blime" onclick="runDigest()"><span id="dig-ic">◈</span> Digest IA</button>
     </div>
-
-    <!-- KPI STRIP -->
-    <div class="kpi-strip">
-      <div class="kpi">
-        <div class="kpi-label">Détectées</div>
-        <div class="kpi-value">24</div>
-        <div class="kpi-delta up">↑ +8 vs S16</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:80%"></div></div>
-      </div>
-      <div class="kpi accent">
-        <div class="kpi-label">Qualifiées</div>
-        <div class="kpi-value">7</div>
-        <div class="kpi-delta">29% taux</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:30%"></div></div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">En cours</div>
-        <div class="kpi-value">3</div>
-        <div class="kpi-delta">Dossiers actifs</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:12%"></div></div>
-      </div>
-      <div class="kpi hot">
-        <div class="kpi-label">Deadline J-7</div>
-        <div class="kpi-value">2</div>
-        <div class="kpi-delta" style="color:var(--red)">⚠ Action requise</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:8%; background:var(--red)"></div></div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label">Gagnées (YTD)</div>
-        <div class="kpi-value">4</div>
-        <div class="kpi-delta up">↑ +1 ce mois</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:40%; background:var(--green)"></div></div>
-      </div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="kl">Détectées</div><div class="kv">24</div><div class="kd up">↑ +8 vs S16</div><div class="kbar"><div class="kbf" style="width:80%"></div></div></div>
+    <div class="kpi"><div class="kl">Qualifiées</div><div class="kv blue">7</div><div class="kd">29% taux</div><div class="kbar"><div class="kbf" style="width:30%"></div></div></div>
+    <div class="kpi"><div class="kl">En cours</div><div class="kv">3</div><div class="kd">Dossiers actifs</div><div class="kbar"><div class="kbf" style="width:12%"></div></div></div>
+    <div class="kpi"><div class="kl">Deadline J-7</div><div class="kv red">2</div><div class="kd" style="color:var(--red)">⚠ Urgent</div><div class="kbar"><div class="kbf" style="width:8%;background:var(--red)"></div></div></div>
+    <div class="kpi"><div class="kl">Gagnées YTD</div><div class="kv green">4</div><div class="kd up">↑ +1 ce mois</div><div class="kbar"><div class="kbf" style="width:40%;background:var(--green)"></div></div></div>
+  </div>
+  <div class="aipanel">
+    <div class="aiic">◈</div>
+    <div class="aic">
+      <div class="ailr"><div class="ail">◈ Digest IA Hebdo</div><button class="digbtn" onclick="runDigest()"><span id="dig-ic2">↻</span> Actualiser</button></div>
+      <div class="ait" id="ai-digest"><span class="hi">2 opportunités prioritaires</span> cette semaine : marché BOAMP Ville de Lyon (identité visuelle, 45k€) et mission Malt direction artistique B2B. <span class="hi">Urgent</span> : deadline BOAMP dans 3 jours — préparer le dossier aujourd'hui.</div>
     </div>
-
-    <!-- AI PANEL -->
-    <div class="ai-panel">
-      <div class="ai-icon">◈</div>
-      <div class="ai-content">
-        <div class="ai-label-row">
-          <div class="ai-label">◈ Digest IA · Semaine 17</div>
-          <button class="analyze-btn" onclick="runAIAnalysis()">
-            <span id="analyze-icon2">↻</span> Actualiser
-          </button>
-        </div>
-        <div class="ai-text" id="ai-digest-text">
-          <span class="hi">2 opportunités prioritaires</span> cette semaine : le marché BOAMP Ville de Lyon (identité visuelle, 45k€) et la mission Malt direction artistique (branding B2B). <span class="hi">Point d'attention</span> : deadline BOAMP dans 4 jours — préparer le dossier dès aujourd'hui. Les 5 autres entrées sont à qualifier avant jeudi.
-        </div>
-      </div>
-    </div>
-
-    <!-- MAIN GRID -->
-    <div class="grid-2">
-      <!-- OPPORTUNITIES PANEL -->
-      <div class="panel">
-        <div class="panel-header">
-          <div class="panel-title">
-            <div class="panel-dot"></div>
-            Nouvelles cette semaine
-          </div>
-          <button class="panel-action" onclick="showView('opportunities', document.querySelector('.nav-item:nth-child(3)'))">Voir tout →</button>
-        </div>
-        <div id="opp-list"></div>
-      </div>
-
-      <!-- RIGHT COLUMN -->
-      <div style="display:flex;flex-direction:column;gap:20px;">
-
-        <!-- PIPELINE -->
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title"><div class="panel-dot" style="background:var(--blue)"></div>Pipeline</div>
-          </div>
-          <div class="pipeline-list">
-            <div class="pipe-row">
-              <div class="pipe-label">Détectées</div>
-              <div class="pipe-track">
-                <div class="pipe-fill" style="width:60%;background:#3b5bdb;">17</div>
-              </div>
-              <div class="pipe-n">17</div>
-            </div>
-            <div class="pipe-row">
-              <div class="pipe-label">Qualifiées</div>
-              <div class="pipe-track">
-                <div class="pipe-fill" style="width:25%;background:#e8590c;">7</div>
-              </div>
-              <div class="pipe-n">7</div>
-            </div>
-            <div class="pipe-row">
-              <div class="pipe-label">En cours</div>
-              <div class="pipe-track">
-                <div class="pipe-fill" style="width:10%;background:#7048e8;">3</div>
-              </div>
-              <div class="pipe-n">3</div>
-            </div>
-            <div class="pipe-row">
-              <div class="pipe-label">Soumises</div>
-              <div class="pipe-track">
-                <div class="pipe-fill" style="width:8%;background:#e03131;">2</div>
-              </div>
-              <div class="pipe-n">2</div>
-            </div>
-            <div class="pipe-row">
-              <div class="pipe-label">Gagnées</div>
-              <div class="pipe-track">
-                <div class="pipe-fill" style="width:15%;background:#2f9e44;">4</div>
-              </div>
-              <div class="pipe-n">4</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- DEADLINES -->
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title"><div class="panel-dot" style="background:var(--red)"></div>Deadlines proches</div>
-          </div>
-          <div>
-            <div class="deadline-item" onclick="openDrawer(1)">
-              <div class="dl-date urgent">
-                <div class="dl-day">25</div>
-                <div class="dl-month">Avr</div>
-              </div>
-              <div class="dl-info">
-                <div class="dl-title">Identité visuelle Ville de Lyon</div>
-                <div class="dl-sub">BOAMP · 45 000€</div>
-              </div>
-              <div class="dl-badge urgent">J-3</div>
-            </div>
-            <div class="deadline-item" onclick="openDrawer(2)">
-              <div class="dl-date urgent">
-                <div class="dl-day">28</div>
-                <div class="dl-month">Avr</div>
-              </div>
-              <div class="dl-info">
-                <div class="dl-title">Direction artistique startup FinTech</div>
-                <div class="dl-sub">Malt · TJM 650€</div>
-              </div>
-              <div class="dl-badge urgent">J-6</div>
-            </div>
-            <div class="deadline-item" onclick="openDrawer(3)">
-              <div class="dl-date">
-                <div class="dl-day">05</div>
-                <div class="dl-month">Mai</div>
-              </div>
-              <div class="dl-info">
-                <div class="dl-title">Refonte charte graphique ONG</div>
-                <div class="dl-sub">PLACE · 12 000€</div>
-              </div>
-              <div class="dl-badge ok">J-13</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SOURCES BREAKDOWN -->
+  </div>
+  <div class="g2">
     <div class="panel">
-      <div class="panel-header">
-        <div class="panel-title"><div class="panel-dot" style="background:var(--purple)"></div>Sources actives</div>
-        <button class="panel-action" onclick="showView('sources', null)">Configurer →</button>
-      </div>
-      <div class="sources-grid">
-        <div class="source-cell">
-          <div class="sc-name">BOAMP</div>
-          <div class="sc-count">8</div>
-          <div class="sc-status on"><div class="dot-on"></div>RSS actif</div>
-        </div>
-        <div class="source-cell">
-          <div class="sc-name">Malt</div>
-          <div class="sc-count">6</div>
-          <div class="sc-status on"><div class="dot-on"></div>Email alertes</div>
-        </div>
-        <div class="source-cell">
-          <div class="sc-name">PLACE</div>
-          <div class="sc-count">5</div>
-          <div class="sc-status on"><div class="dot-on"></div>RSS actif</div>
-        </div>
-        <div class="source-cell">
-          <div class="sc-name">LinkedIn</div>
-          <div class="sc-count">3</div>
-          <div class="sc-status off"><div class="dot-off"></div>Manuel</div>
-        </div>
-        <div class="source-cell">
-          <div class="sc-name">Les Bons Fr.</div>
-          <div class="sc-count">1</div>
-          <div class="sc-status on"><div class="dot-on"></div>Newsletter</div>
-        </div>
-        <div class="source-cell">
-          <div class="sc-name">Manuel</div>
-          <div class="sc-count">1</div>
-          <div class="sc-status on"><div class="dot-on"></div>Formulaire</div>
-        </div>
-      </div>
+      <div class="phead"><div class="ptitle"><div class="pdot"></div>Nouvelles cette semaine</div><button class="pact" onclick="showView('opportunities',document.querySelectorAll('.ni')[1])">Voir tout →</button></div>
+      <div id="list-dash"></div>
     </div>
-  </div>
-
-  <!-- ===== OPPORTUNITIES VIEW ===== -->
-  <div id="view-opportunities">
-    <div class="page-header">
-      <div class="page-title-group">
-        <div class="page-label">Base de données</div>
-        <div class="page-title">Opportunités</div>
-      </div>
-      <div class="header-actions">
-        <button class="btn btn-ghost" onclick="openModal()">+ Ajouter</button>
-      </div>
-    </div>
-
-    <div class="filter-row">
-      <div class="filter-chip active" onclick="filterOpps(this,'all')">Toutes <span style="opacity:.5">(24)</span></div>
-      <div class="filter-chip" onclick="filterOpps(this,'detected')">Détectées</div>
-      <div class="filter-chip" onclick="filterOpps(this,'qualified')">Qualifiées</div>
-      <div class="filter-chip" onclick="filterOpps(this,'in_progress')">En cours</div>
-      <div class="filter-chip" onclick="filterOpps(this,'submitted')">Soumises</div>
-      <div class="filter-chip" onclick="filterOpps(this,'won')">Gagnées</div>
-      <div style="margin-left:auto">
-        <div class="legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--status-detected)"></div>Détecté</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--status-qualified)"></div>Qualifié</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--status-inprogress)"></div>En cours</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--status-submitted)"></div>Soumis</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--status-won)"></div>Gagné</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div id="opp-list-full"></div>
-    </div>
-  </div>
-
-  <!-- ===== PIPELINE VIEW ===== -->
-  <div id="view-pipeline">
-    <div class="page-header">
-      <div class="page-title-group">
-        <div class="page-label">Suivi commercial</div>
-        <div class="page-title">Pipeline</div>
-      </div>
-    </div>
-    <div class="kanban" id="kanban-board"></div>
-  </div>
-
-  <!-- ===== SOURCES VIEW ===== -->
-  <div id="view-sources">
-    <div class="page-header">
-      <div class="page-title-group">
-        <div class="page-label">Configuration</div>
-        <div class="page-title">Sources RSS &amp; Alertes</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;">
+    <div class="cr">
       <div class="panel">
-        <div class="panel-header">
-          <div class="panel-title"><div class="panel-dot"></div>Marchés publics</div>
-        </div>
-        <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
-          <div class="source-row-config" data-src="BOAMP" data-url="https://www.boamp.fr/flux/rss" data-status="on"></div>
-          <div class="source-row-config" data-src="PLACE" data-url="https://www.marches-publics.info/rss/avis.xml" data-status="on"></div>
-          <div class="source-row-config" data-src="Maximilien" data-url="https://www.maximilien.fr/rss" data-status="on"></div>
-          <div class="source-row-config" data-src="e-marchespublics" data-url="https://www.e-marchespublics.com/rss" data-status="off"></div>
+        <div class="phead"><div class="ptitle"><div class="pdot" style="background:var(--blue)"></div>Pipeline</div></div>
+        <div class="plist">
+          <div class="pr"><div class="plbl">Détectées</div><div class="pt2"><div class="pf" style="width:60%;background:#3b5bdb">17</div></div><div class="pn">17</div></div>
+          <div class="pr"><div class="plbl">Qualifiées</div><div class="pt2"><div class="pf" style="width:25%;background:#e8590c">7</div></div><div class="pn">7</div></div>
+          <div class="pr"><div class="plbl">En cours</div><div class="pt2"><div class="pf" style="width:10%;background:#7048e8">3</div></div><div class="pn">3</div></div>
+          <div class="pr"><div class="plbl">Soumises</div><div class="pt2"><div class="pf" style="width:8%;background:#e03131">2</div></div><div class="pn">2</div></div>
+          <div class="pr"><div class="plbl">Gagnées</div><div class="pt2"><div class="pf" style="width:15%;background:#2f9e44">4</div></div><div class="pn">4</div></div>
         </div>
       </div>
       <div class="panel">
-        <div class="panel-header">
-          <div class="panel-title"><div class="panel-dot" style="background:var(--blue)"></div>Plateformes freelance</div>
-        </div>
-        <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
-          <div class="source-row-config" data-src="Malt (email)" data-url="alert@malt.fr" data-status="on"></div>
-          <div class="source-row-config" data-src="Les Bons Freelances" data-url="newsletter@lesbonsfreelances.fr" data-status="on"></div>
-          <div class="source-row-config" data-src="Comet" data-url="alert@comet.co" data-status="off"></div>
-          <div class="source-row-config" data-src="Indeed DA Paris" data-url="https://fr.indeed.com/rss?q=directeur+artistique" data-status="on"></div>
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:20px;padding:18px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;max-width:900px;">
-      <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:8px;letter-spacing:0.08em;text-transform:uppercase;font-size:9px;">⚠ Sources manuelles uniquement</div>
-      <div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--text);line-height:1.6;font-weight:300;">
-        <strong>LinkedIn</strong> et <strong>Instagram</strong> ne peuvent pas être automatisés sans risque de violation des CGU.<br>
-        Méthode recommandée : 30 min/semaine de recherche manuelle → saisie via le formulaire "+ Ajouter".<br>
-        <strong>BOAMP PDF</strong> : certaines fiches sont en PDF uniquement — extraction manuelle requise.
+        <div class="phead"><div class="ptitle"><div class="pdot" style="background:var(--red)"></div>Deadlines proches</div></div>
+        <div class="dli" onclick="openDrawer(1)"><div class="ddate urg"><div class="dday">25</div><div class="dmon">Avr</div></div><div class="dinfo"><div class="dtitle">Identité visuelle Ville de Lyon</div><div class="dsub">BOAMP · 45 000€</div></div><div class="dbadge urg">J-3</div></div>
+        <div class="dli" onclick="openDrawer(2)"><div class="ddate urg"><div class="dday">28</div><div class="dmon">Avr</div></div><div class="dinfo"><div class="dtitle">DA startup FinTech B2B</div><div class="dsub">Malt · TJM 650€</div></div><div class="dbadge urg">J-6</div></div>
+        <div class="dli" onclick="openDrawer(3)"><div class="ddate"><div class="dday">05</div><div class="dmon">Mai</div></div><div class="dinfo"><div class="dtitle">Refonte charte ONG</div><div class="dsub">PLACE · 12 000€</div></div><div class="dbadge ok">J-13</div></div>
       </div>
     </div>
   </div>
-
-  <!-- ===== CONTACTS VIEW ===== -->
-  <div id="view-contacts">
-    <div class="page-header">
-      <div class="page-title-group">
-        <div class="page-label">CRM simplifié</div>
-        <div class="page-title">Contacts</div>
-      </div>
-      <button class="btn btn-primary">+ Contact</button>
-    </div>
-    <div class="panel" style="padding:40px;text-align:center;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:8px;">Carnet de contacts</div>
-      <div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--muted);max-width:320px;margin:0 auto;line-height:1.6;">
-        Ajoutez les contacts identifiés via LinkedIn ou lors de vos échanges commerciaux. Cette table est liée aux opportunités.
-      </div>
+  <div class="panel">
+    <div class="phead"><div class="ptitle"><div class="pdot" style="background:var(--purple)"></div>Sources actives</div><button class="pact" onclick="showView('scout',document.querySelectorAll('.ni')[3])">Veille Live →</button></div>
+    <div class="sgrid">
+      <div class="scell"><div class="scn">BOAMP</div><div class="scc">8</div><div class="scs on"><div class="don"></div>RSS actif</div></div>
+      <div class="scell"><div class="scn">Malt</div><div class="scc">6</div><div class="scs on"><div class="don"></div>Email alertes</div></div>
+      <div class="scell"><div class="scn">PLACE</div><div class="scc">5</div><div class="scs on"><div class="don"></div>RSS actif</div></div>
+      <div class="scell"><div class="scn">LinkedIn</div><div class="scc">3</div><div class="scs off"><div class="doff"></div>Manuel</div></div>
+      <div class="scell"><div class="scn">Les Bons Fr.</div><div class="scc">1</div><div class="scs on"><div class="don"></div>Newsletter</div></div>
+      <div class="scell"><div class="scn">Manuel</div><div class="scc">1</div><div class="scs on"><div class="don"></div>Formulaire</div></div>
     </div>
   </div>
+</div>
 
-  <!-- ===== SETTINGS VIEW ===== -->
-  <div id="view-settings">
-    <div class="page-header">
-      <div class="page-title-group">
-        <div class="page-label">Configuration</div>
-        <div class="page-title">Paramètres</div>
-      </div>
-    </div>
-    <div style="max-width:560px;display:flex;flex-direction:column;gap:16px;">
-      <div class="panel" style="padding:24px;">
-        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Clé API Anthropic</div>
-        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:12px;">Nécessaire pour l'analyse IA des opportunités</div>
-        <div style="display:flex;gap:10px;">
-          <input type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;padding:9px 12px;border:1px solid var(--border2);border-radius:7px;font-family:'DM Mono',monospace;font-size:12px;background:var(--surface2);outline:none;">
-          <button class="btn btn-primary" onclick="saveApiKey()">Sauvegarder</button>
-        </div>
-        <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);margin-top:8px;">⚠ En production : stocker via variable d'environnement Vercel, jamais en clair dans le code</div>
-      </div>
-      <div class="panel" style="padding:24px;">
-        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Supabase</div>
-        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:12px;">URL de votre projet Supabase</div>
-        <input type="text" placeholder="https://xxxx.supabase.co" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:7px;font-family:'DM Mono',monospace;font-size:12px;background:var(--surface2);outline:none;margin-bottom:10px;">
-        <input type="text" placeholder="Clé anon publique" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:7px;font-family:'DM Mono',monospace;font-size:12px;background:var(--surface2);outline:none;">
-      </div>
-      <div class="panel" style="padding:24px;">
-        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Mots-clés de veille</div>
-        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:12px;">Filtrage RSS Scout Agent</div>
-        <textarea style="width:100%;height:70px;padding:9px 12px;border:1px solid var(--border2);border-radius:7px;font-family:'DM Mono',monospace;font-size:12px;background:var(--surface2);outline:none;resize:none;">design graphique, identité visuelle, charte graphique, branding, direction artistique, DA freelance, édition graphique, signalétique</textarea>
-      </div>
+<!-- OPPORTUNITIES -->
+<div id="view-opportunities">
+  <div class="ph"><div><div class="pl">Base de données</div><div class="pt">Opportunités</div></div><div class="ha"><button class="btn bghost" onclick="openModal()">+ Ajouter</button></div></div>
+  <div class="frow">
+    <div class="chip active" onclick="filterOpps(this,'all')">Toutes</div>
+    <div class="chip" onclick="filterOpps(this,'detected')">Détectées</div>
+    <div class="chip" onclick="filterOpps(this,'qualified')">Qualifiées</div>
+    <div class="chip" onclick="filterOpps(this,'in_progress')">En cours</div>
+    <div class="chip" onclick="filterOpps(this,'submitted')">Soumises</div>
+    <div class="chip" onclick="filterOpps(this,'won')">Gagnées</div>
+  </div>
+  <div class="panel"><div id="list-full"></div></div>
+</div>
+
+<!-- PIPELINE -->
+<div id="view-pipeline">
+  <div class="ph"><div><div class="pl">Suivi commercial</div><div class="pt">Pipeline</div></div></div>
+  <div class="kanban" id="kanban"></div>
+</div>
+
+<!-- SCOUT -->
+<div id="view-scout">
+  <div class="ph">
+    <div><div class="pl">Données réelles · RSS BOAMP en direct</div><div class="pt">Veille Live</div></div>
+    <div class="ha">
+      <button class="btn bghost" id="btn-all" style="display:none" onclick="scAll()">◈ Analyser tout</button>
+      <button class="btn bdark" id="btn-scan" onclick="scRun()"><span id="ic-scan">▶</span> Scanner BOAMP</button>
     </div>
   </div>
-
-
-  <!-- ===== VEILLE LIVE VIEW ===== -->
-  <div id="view-scout">
-    <div class="page-header">
-      <div class="page-title-group">
-        <div class="page-label">Données réelles · RSS BOAMP en direct</div>
-        <div class="page-title">Veille Live</div>
-      </div>
-      <div class="header-actions">
-        <button class="btn btn-ghost" id="analyze-all-btn" style="display:none" onclick="scoutAnalyzeAll()">◈ Analyser tout</button>
-        <button class="btn btn-primary" id="scout-scan-btn" onclick="scoutRun()">
-          <span id="scout-scan-icon">▶</span> Scanner BOAMP
-        </button>
-      </div>
+  <div class="scfg">
+    <div class="scrow">
+      <div class="scf" style="flex:3"><label>Mots-clés (séparés par virgule)</label><input type="text" id="sc-kw" value="design graphique, identité visuelle, charte graphique, branding, direction artistique, communication visuelle, signalétique, édition graphique"></div>
+      <div class="scf" style="max-width:140px"><label>Avis à lire</label><select id="sc-max"><option value="20">20 derniers</option><option value="40" selected>40 derniers</option><option value="80">80 derniers</option></select></div>
     </div>
-
-    <div class="scout-config">
-      <div class="scout-row">
-        <div class="scout-field" style="flex:3">
-          <label>Mots-clés (séparés par virgule)</label>
-          <input type="text" id="scout-keywords" value="design graphique, identité visuelle, charte graphique, branding, direction artistique, communication visuelle, signalétique, édition graphique">
-        </div>
-        <div class="scout-field" style="max-width:150px;">
-          <label>Avis à lire</label>
-          <select id="scout-max">
-            <option value="20">20 derniers</option>
-            <option value="40" selected>40 derniers</option>
-            <option value="80">80 derniers</option>
-          </select>
-        </div>
-      </div>
-      <div class="proxy-note">
-        <strong>Fonctionnement :</strong> Lecture du vrai flux RSS BOAMP → filtrage par mots-clés sur titres réels → analyse Claude uniquement sur ce texte réel, sans invention.
-        Si le proxy est indisponible : <a href="https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=design+graphique" target="_blank" style="color:var(--blue)">ouvrir BOAMP directement</a>.
-      </div>
-    </div>
-
-    <div class="scout-status" id="scout-status">
-      <span id="scout-status-icon">◎</span>
-      <span id="scout-status-text">Prêt</span>
-    </div>
-
-    <div class="scout-alert alert-warn" id="scout-alert-cors">
-      ⚠ <strong>Erreur réseau / proxy CORS.</strong> Le proxy public est temporairement indisponible.
-      Utilisez <a href="https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=design+graphique" target="_blank">BOAMP directement</a> et saisissez les avis via le formulaire manuel.
-    </div>
-    <div class="scout-alert alert-err" id="scout-alert-api">
-      ⚠ Erreur API Anthropic. Vérifiez votre clé dans Paramètres.
-    </div>
-
-    <div id="scout-results-bar" class="scout-results-bar" style="display:none">
-      <div class="scout-count" id="scout-count"></div>
-    </div>
-
-    <div class="rss-cards" id="scout-cards">
-      <div class="empty-state">Cliquez sur "Scanner BOAMP" pour lire les vrais avis en temps réel.</div>
-    </div>
+    <div class="pnote"><strong>Fonctionnement :</strong> Lit le vrai flux RSS BOAMP → filtre sur mots-clés réels → Claude analyse uniquement ce texte, sans rien inventer. Si une info manque dans le flux, il l'indique clairement. Proxy CORS : api.allorigins.win — si indisponible : <a href="https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=design+graphique" target="_blank" style="color:var(--blue)">ouvrir BOAMP directement</a>.</div>
   </div>
+  <div class="scst" id="sc-status"><span id="sc-stic">◎</span><span id="sc-sttxt">Prêt</span></div>
+  <div class="scal aw" id="sc-al-cors">⚠ <strong>Erreur réseau.</strong> Proxy temporairement indisponible. <a href="https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=design+graphique" target="_blank">Ouvrir BOAMP directement →</a></div>
+  <div class="scal ae" id="sc-al-api">⚠ Erreur API Anthropic. Vérifiez votre clé dans <strong>Paramètres</strong>.</div>
+  <div class="scbar" id="sc-bar" style="display:none"><div class="sccnt" id="sc-cnt"></div></div>
+  <div class="rcards" id="sc-cards"><div class="empty">Cliquez sur "Scanner BOAMP" pour lire les vrais avis en temps réel.</div></div>
+</div>
+
+<!-- SETTINGS -->
+<div id="view-settings">
+  <div class="ph"><div><div class="pl">Configuration</div><div class="pt">Paramètres</div></div></div>
+  <div class="sblock">
+    <h3>Clé API Anthropic</h3>
+    <p>Nécessaire pour l'analyse IA. Obtenez votre clé sur console.anthropic.com</p>
+    <div style="display:flex;gap:8px"><input class="fi" type="password" id="set-key" placeholder="sk-ant-…" style="flex:1"><button class="btn bdark" onclick="saveKey()">Sauvegarder</button></div>
+    <p style="margin-top:7px;margin-bottom:0">⚠ En production : variable d'environnement Vercel, jamais en dur dans le code.</p>
+  </div>
+  <div class="sblock">
+    <h3>Mots-clés de veille</h3>
+    <p>Utilisés par le Scout BOAMP pour filtrer les avis RSS</p>
+    <textarea class="fta" id="set-kw">design graphique, identité visuelle, charte graphique, branding, direction artistique, communication visuelle, signalétique, édition graphique</textarea>
+    <button class="btn bghost" style="margin-top:8px" onclick="syncKW()">Synchroniser avec Scout</button>
+  </div>
+</div>
 
 </main>
 </div>
 
-<!-- MODAL: MANUAL ADD -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+<!-- MODAL -->
+<div class="moverlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-title">+ Nouvelle opportunité</div>
-    <div class="form-row">
-      <label class="form-label">Titre *</label>
-      <input class="form-input" id="f-title" placeholder="Identité visuelle startup / Appel d'offres DA…">
+    <div class="mtitle">+ Nouvelle opportunité</div>
+    <div class="fld"><label class="flbl">Titre *</label><input class="fi" id="f-title" placeholder="Identité visuelle / Mission DA…"></div>
+    <div class="frow2">
+      <div class="fld"><label class="flbl">Client</label><input class="fi" id="f-client" placeholder="Nom entreprise"></div>
+      <div class="fld"><label class="flbl">Source</label><select class="fsel" id="f-source"><option value="manual">Manuel</option><option value="linkedin">LinkedIn</option><option value="malt">Malt</option><option value="boamp">BOAMP</option><option value="place">PLACE</option><option value="cold">Prospection</option></select></div>
     </div>
-    <div class="form-row-2">
-      <div class="form-row">
-        <label class="form-label">Client</label>
-        <input class="form-input" id="f-client" placeholder="Nom entreprise">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Source</label>
-        <select class="form-select" id="f-source">
-          <option value="manual">Manuel</option>
-          <option value="linkedin">LinkedIn</option>
-          <option value="malt">Malt</option>
-          <option value="boamp">BOAMP</option>
-          <option value="place">PLACE</option>
-          <option value="cold">Prospection</option>
-        </select>
-      </div>
+    <div class="frow2">
+      <div class="fld"><label class="flbl">Budget</label><input class="fi" id="f-budget" placeholder="8 000€ / TJM 600€"></div>
+      <div class="fld"><label class="flbl">Deadline</label><input class="fi" type="date" id="f-deadline"></div>
     </div>
-    <div class="form-row-2">
-      <div class="form-row">
-        <label class="form-label">Budget</label>
-        <input class="form-input" id="f-budget" placeholder="Ex: 8 000€ / TJM 600€">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Deadline</label>
-        <input class="form-input" type="date" id="f-deadline">
-      </div>
-    </div>
-    <div class="form-row">
-      <label class="form-label">URL source</label>
-      <input class="form-input" id="f-url" placeholder="https://…">
-    </div>
-    <div class="form-row">
-      <label class="form-label">Notes</label>
-      <textarea class="form-textarea" id="f-notes" placeholder="Contexte, points clés, contacts…"></textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost btn-cancel" onclick="closeModal()">Annuler</button>
-      <button class="btn btn-save" onclick="saveOpportunity()">Enregistrer → analyse IA</button>
-    </div>
+    <div class="fld"><label class="flbl">URL source</label><input class="fi" id="f-url" placeholder="https://…"></div>
+    <div class="fld"><label class="flbl">Notes</label><textarea class="fta" id="f-notes" placeholder="Contexte, contacts, points clés…"></textarea></div>
+    <div class="mactions"><button class="bcancel" onclick="closeModal()">Annuler</button><button class="bsave" onclick="saveOpp()">Enregistrer + analyse IA</button></div>
   </div>
 </div>
 
-<!-- DETAIL DRAWER -->
-<div class="drawer" id="detail-drawer">
-  <button class="drawer-close" onclick="closeDrawer()">✕</button>
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <button class="dclose" onclick="closeDrawer()">✕</button>
   <div id="drawer-content"></div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// =============================================
-// DATA (remplacé par fetch Supabase en production)
-// =============================================
-const OPPORTUNITIES = [
-  { id:1, title:"Identité visuelle Ville de Lyon", client:"Mairie de Lyon", source:"boamp", status:"in_progress", score:88, budget:"45 000€", deadline:"2025-04-25", tags:["branding","secteur-public","identité"], skills:["Branding","Logotype","Charte"], notes:"Marché public — lot 1 identité visuelle. DCE disponible sur BOAMP. Fort potentiel portfolio.", url:"https://www.boamp.fr/avis/detail/avis-de-marche-services/2025" },
-  { id:2, title:"Direction artistique startup FinTech B2B", client:"PayFlow SAS", source:"malt", status:"qualified", score:76, budget:"TJM 650€", deadline:"2025-04-28", tags:["DA","fintech","B2B"], skills:["Direction artistique","UI Design"], notes:"Mission 3 mois, possible renouvellement. Cherchent profil sénior avec expérience finance.", url:"https://www.malt.fr/s?q=direction+artistique" },
-  { id:3, title:"Refonte charte graphique ONG environnement", client:"Fondation Terre Vivante", source:"place", status:"qualified", score:72, budget:"12 000€", deadline:"2025-05-05", tags:["branding","ONG","édition"], skills:["Identité visuelle","Édition"], notes:"Appel d'offres marché public. Dossier de candidature attendu.", url:"" },
-  { id:4, title:"Conception éditoriale rapport annuel", client:"Groupe Schneider", source:"linkedin", status:"detected", score:64, budget:"8 500€", deadline:"2025-05-12", tags:["édition","corporate"], skills:["InDesign","Mise en page"], notes:"Signal LinkedIn — offre d'emploi DA = besoin freelance probable. Contact DirCom identifié.", url:"" },
-  { id:5, title:"Packaging premium ligne cosmétique", client:"Maison Lumière", source:"cold", status:"detected", score:58, budget:"À définir", deadline:"2025-05-20", tags:["packaging","luxe"], skills:["Packaging","Illustration"], notes:"Prospection sortante — site web vieillissant, nouvelle gamme annoncée sur Instagram.", url:"" },
-  { id:6, title:"Signalétique musée Art Moderne", client:"Musée d'Art Moderne Paris", source:"boamp", status:"submitted", score:82, budget:"28 000€", deadline:"2025-04-22", tags:["signalétique","culture","secteur-public"], skills:["Signalétique","Typography"], notes:"Dossier soumis le 18 avril. Résultat attendu fin mai.", url:"https://www.boamp.fr/avis/detail/avis-de-marche-services/2025" },
-  { id:7, title:"Identité visuelle cabinet architecture", client:"Studio Blanc", source:"malt", status:"won", score:90, budget:"6 500€", deadline:"2025-03-15", tags:["branding","architecture"], skills:["Logotype","Identité"], notes:"Mission remportée ! Démarrage le 1er avril.", url:"" },
+// DATA
+const OPPS = [
+  {id:1,title:"Identité visuelle Ville de Lyon",client:"Mairie de Lyon",source:"boamp",status:"in_progress",score:88,budget:"45 000€",deadline:"2025-04-25",tags:["branding","secteur-public"],skills:["Branding","Logotype","Charte"],notes:"Marché public lot 1 identité visuelle. DCE disponible sur BOAMP. Fort potentiel portfolio.",url:"https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=identit%C3%A9+visuelle"},
+  {id:2,title:"Direction artistique startup FinTech B2B",client:"PayFlow SAS",source:"malt",status:"qualified",score:76,budget:"TJM 650€",deadline:"2025-04-28",tags:["DA","fintech"],skills:["Direction artistique","UI Design"],notes:"Mission 3 mois, possible renouvellement. Profil sénior avec expérience finance.",url:"https://www.malt.fr/s?q=direction+artistique&l=Paris"},
+  {id:3,title:"Refonte charte graphique ONG",client:"Fondation Terre Vivante",source:"place",status:"qualified",score:72,budget:"12 000€",deadline:"2025-05-05",tags:["branding","ONG"],skills:["Identité visuelle","Édition"],notes:"Appel d'offres marché public. Dossier de candidature attendu.",url:""},
+  {id:4,title:"Conception éditoriale rapport annuel",client:"Groupe Schneider",source:"linkedin",status:"detected",score:64,budget:"8 500€",deadline:"2025-05-12",tags:["édition","corporate"],skills:["InDesign","Mise en page"],notes:"Signal LinkedIn — offre CDI DA détectée. URL à renseigner après recherche manuelle sur LinkedIn (chercher 'Groupe Schneider directeur artistique').",url:""},
+  {id:5,title:"Packaging premium cosmétique",client:"Maison Lumière",source:"cold",status:"detected",score:58,budget:"À définir",deadline:"2025-05-20",tags:["packaging","luxe"],skills:["Packaging","Illustration"],notes:"Prospection sortante — site vieillissant, nouvelle gamme annoncée.",url:""},
+  {id:6,title:"Signalétique musée Art Moderne",client:"Musée d'Art Moderne Paris",source:"boamp",status:"submitted",score:82,budget:"28 000€",deadline:"2025-04-22",tags:["signalétique","culture"],skills:["Signalétique","Typography"],notes:"Dossier soumis le 18 avril. Résultat attendu fin mai.",url:"https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=signal%C3%A9tique"},
+  {id:7,title:"Identité visuelle cabinet architecture",client:"Studio Blanc",source:"malt",status:"won",score:90,budget:"6 500€",deadline:"2025-03-15",tags:["branding","architecture"],skills:["Logotype","Identité"],notes:"Mission remportée. Démarrage le 1er avril.",url:""},
 ];
+let filter = 'all';
+let APIKEY = localStorage.getItem('anthropic_key') || '';
 
-let currentFilter = 'all';
-
-// =============================================
-// RENDER FUNCTIONS
-// =============================================
-function renderOppList(containerId, data) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  
-  const filtered = currentFilter === 'all' ? data : data.filter(o => o.status === currentFilter);
-
-  container.innerHTML = filtered.map(opp => {
-    const sc = opp.score >= 80 ? 'hot' : opp.score >= 60 ? 'warm' : '';
-    const statusClass = {detected:'s-detected',qualified:'s-qualified',in_progress:'s-inprogress',submitted:'s-submitted',won:'s-won',lost:'s-lost'}[opp.status] || 's-detected';
-    const srcClass = `src-${opp.source}`;
-    const srcLabel = {boamp:'BOAMP',linkedin:'LinkedIn',malt:'Malt',place:'PLACE',manual:'Manuel',cold:'Prosp.',behance:'Behance'}[opp.source] || opp.source;
-    return `
-      <div class="opp-item" onclick="openDrawer(${opp.id})">
-        <span class="src-tag ${srcClass}">${srcLabel}</span>
-        <div class="opp-info" style="min-width:0">
-          <div class="opp-title">${opp.title}</div>
-          <div class="opp-meta">${opp.client} · ${opp.budget} · deadline ${formatDate(opp.deadline)}</div>
-        </div>
-        <div class="score-block">
-          <div class="score-num ${sc}">${opp.score}</div>
-          <div class="score-bar"><div class="score-fill ${sc}" style="width:${opp.score}%"></div></div>
-        </div>
-        <div class="status-pip ${statusClass}" title="${opp.status}"></div>
-      </div>
-    `;
-  }).join('') || '<div class="empty-state">Aucune opportunité dans cette catégorie.</div>';
-}
-
-function renderKanban() {
-  const stages = [
-    { key:'detected', label:'Détectées', color:'#3b5bdb' },
-    { key:'qualified', label:'Qualifiées', color:'#e8590c' },
-    { key:'in_progress', label:'En cours', color:'#7048e8' },
-    { key:'submitted', label:'Soumises', color:'#e03131' },
-    { key:'won', label:'Gagnées', color:'#2f9e44' },
-    { key:'lost', label:'Perdues', color:'#aaa' },
-  ];
-  const board = document.getElementById('kanban-board');
-  board.innerHTML = stages.map(s => {
-    const cards = OPPORTUNITIES.filter(o => o.status === s.key);
-    return `
-      <div class="kanban-col">
-        <div class="kanban-header">
-          <div style="width:8px;height:8px;border-radius:50%;background:${s.color};flex-shrink:0"></div>
-          <div class="kanban-label">${s.label}</div>
-          <div class="kanban-count">${cards.length}</div>
-        </div>
-        <div class="kanban-body">
-          ${cards.map(o => `
-            <div class="kanban-card" onclick="openDrawer(${o.id})">
-              <div class="k-title">${o.title}</div>
-              <div class="k-meta">
-                <span>${o.client}</span>
-                <span class="k-score">${o.score}</span>
-              </div>
-            </div>
-          `).join('') || '<div style="font-size:10px;font-family:\'DM Mono\',monospace;color:#ccc;padding:10px 0;text-align:center;">—</div>'}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function renderSourceConfigs() {
-  document.querySelectorAll('.source-row-config').forEach(el => {
-    const src = el.dataset.src;
-    const url = el.dataset.url;
-    const on = el.dataset.status === 'on';
-    el.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="flex:1;">
-          <div style="font-size:12px;font-weight:700;margin-bottom:2px;">${src}</div>
-          <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${url}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <div style="width:7px;height:7px;border-radius:50%;background:${on?'var(--green)':'var(--muted)'}"></div>
-          <span style="font-size:10px;font-family:'DM Mono',monospace;color:${on?'var(--green)':'var(--muted)'};">${on?'Actif':'Inactif'}</span>
-        </div>
-      </div>
-    `;
-  });
-}
-
-// =============================================
-// NAVIGATION
-// =============================================
-function showView(name, navEl) {
+// NAV
+function showView(name, el) {
   document.querySelectorAll('[id^="view-"]').forEach(v => v.style.display = 'none');
-  const view = document.getElementById('view-' + name);
-  if (view) view.style.display = 'block';
-
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if (navEl) navEl.classList.add('active');
-  else {
-    document.querySelectorAll('.nav-item').forEach(n => {
-      if (n.textContent.toLowerCase().includes(name.substring(0,4))) n.classList.add('active');
-    });
-  }
-
-  if (name === 'opportunities') renderOppList('opp-list-full', OPPORTUNITIES);
+  const v = document.getElementById('view-' + name);
+  if (v) v.style.display = 'block';
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (name === 'opportunities') renderList('list-full', OPPS);
   if (name === 'pipeline') renderKanban();
-  if (name === 'sources') renderSourceConfigs();
 }
 
-// =============================================
-// MODAL
-// =============================================
-function openModal() { document.getElementById('modal-overlay').classList.add('open'); }
-function closeModal(e) {
-  if (!e || e.target === document.getElementById('modal-overlay'))
-    document.getElementById('modal-overlay').classList.remove('open');
-}
+// OPP LIST
+function srcLbl(s){return{boamp:'BOAMP',linkedin:'LinkedIn',malt:'Malt',place:'PLACE',manual:'Manuel',cold:'Prosp.'}[s]||s;}
+function fmtD(d){if(!d)return'—';return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});}
 
-// =============================================
-// DRAWER
-// =============================================
-function openDrawer(id) {
-  const opp = OPPORTUNITIES.find(o => o.id === id);
-  if (!opp) return;
-
-  const sc = opp.score >= 80 ? 'hi' : opp.score >= 60 ? 'mid' : 'lo';
-  const daysLeft = Math.ceil((new Date(opp.deadline) - new Date()) / (86400000));
-  const urgentHtml = daysLeft <= 3 && daysLeft >= 0 ? `<span class="drawer-urgent">⚠ J-${daysLeft}</span>` :
-                     daysLeft < 0 ? `<span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;">Deadline passée</span>` :
-                     `<span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)">J-${daysLeft}</span>`;
-  const srcLabel = {boamp:'BOAMP',linkedin:'LinkedIn',malt:'Malt',place:'PLACE',manual:'Manuel',cold:'Prospection',behance:'Behance'}[opp.source] || opp.source;
-
-  document.getElementById('drawer-content').innerHTML = `
-    <span class="src-tag src-${opp.source} drawer-source-tag">${srcLabel}</span>
-    <div class="drawer-title">${opp.title}</div>
-    <div class="drawer-meta-row">
-      <div class="score-badge ${sc}">◈ ${opp.score}/100</div>
-      <div class="drawer-budget">${opp.budget}</div>
-      ${urgentHtml}
-    </div>
-
-    <div class="drawer-section">
-      <div class="drawer-section-title">Client</div>
-      <div style="font-size:14px;font-weight:700;">${opp.client}</div>
-    </div>
-
-    <div class="drawer-section">
-      <div class="drawer-section-title">Notes</div>
-      <div class="drawer-text">${opp.notes}</div>
-    </div>
-
-    <div class="drawer-section">
-      <div class="drawer-section-title">Compétences requises</div>
-      <div class="tag-row">${opp.skills.map(s=>`<span class="tag skill">${s}</span>`).join('')}</div>
-    </div>
-
-    <div class="drawer-section">
-      <div class="drawer-section-title">Tags</div>
-      <div class="tag-row">${opp.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-    </div>
-
-    <div class="drawer-section">
-      <div class="drawer-section-title">Actions</div>
-      <div class="action-strip">
-        <button class="action-btn primary" onclick="analyzeOpp(${opp.id})">◈ Analyser IA</button>
-        <button class="action-btn success" onclick="qualify(${opp.id})">✓ Qualifier</button>
-      </div>
-      <div class="action-strip" style="margin-top:8px;">
-        ${buildSourceBtn(opp)}
-        <button class="action-btn secondary" onclick="showToast('Dossier — fonctionnalité v2')">📁 Dossier</button>
-        <button class="action-btn danger" onclick="archiveOpp(${opp.id})">Archiver</button>
-      </div>
-      <div style="margin-top:10px;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;line-height:1.7;">${getSourceNote(opp)}</div>
-    </div>
-
-    <div class="drawer-section">
-      <div class="drawer-section-title">Analyse IA</div>
-      <div class="ai-result-box" id="drawer-ai-${opp.id}">
-        Cliquez sur "Analyser IA" pour une recommandation personnalisée.
-      </div>
-    </div>
-  `;
-
-  document.getElementById('detail-drawer').classList.add('open');
-}
-
-function closeDrawer() {
-  document.getElementById('detail-drawer').classList.remove('open');
-}
-
-// Builds the source button depending on source type and URL availability
-function buildSourceBtn(opp) {
-  if (opp.url) {
-    return `<button class="action-btn secondary" onclick="openSource('${opp.url}','${opp.source}','')">↗ Voir la source</button>`;
-  }
-  const clientEnc = encodeURIComponent(opp.client || '');
-  const titleEnc  = encodeURIComponent(opp.title  || '');
-  const fallbacks = {
-    linkedin: `<button class="action-btn secondary" onclick="openSource('__linkedin__','linkedin','${clientEnc}')">↗ Chercher sur LinkedIn</button>`,
-    boamp:    `<button class="action-btn secondary" onclick="openSource('__boamp__','boamp','${titleEnc}')">↗ Chercher sur BOAMP</button>`,
-    malt:     `<button class="action-btn secondary" onclick="openSource('__malt__','malt','')">↗ Chercher sur Malt</button>`,
-    place:    `<button class="action-btn secondary" onclick="openSource('__place__','place','')">↗ Chercher sur PLACE</button>`,
-  };
-  return fallbacks[opp.source] || `<button class="action-btn secondary" style="opacity:.35;cursor:not-allowed;">↗ Source (—)</button>`;
-}
-
-// Returns a contextual explanation note per source
-function getSourceNote(opp) {
-  const notes = {
-    linkedin: opp.url
-      ? '↗ Lien LinkedIn direct — connectez-vous si nécessaire avant de cliquer.'
-      : `⚠ <strong>URL non renseignée.</strong> LinkedIn ne peut pas être automatisé. Méthode : recherchez manuellement <strong>"${opp.client}"</strong> sur LinkedIn → trouvez le post ou l'offre → copiez l'URL → éditez cette opportunité pour l'ajouter.`,
-    boamp: opp.url
-      ? 'Fiche marché BOAMP. Le DCE (dossier de consultation des entreprises) est téléchargeable depuis cette page.'
-      : '⚠ URL BOAMP manquante. Cherchez le marché sur BOAMP avec les mots-clés du titre, puis collez l\'URL exacte de l\'avis ici.',
-    malt: opp.url
-      ? 'Mission Malt — connectez-vous pour voir les détails complets et postuler.'
-      : '⚠ URL Malt manquante. Les alertes Malt arrivent par email — retrouvez l\'email d\'origine pour récupérer le lien de la mission.',
-    place: opp.url
-      ? 'Avis PLACE (profil acheteur public). Le DCE est téléchargeable après inscription gratuite.'
-      : '⚠ URL PLACE manquante. Cherchez sur marches-publics.info avec le nom du client acheteur.',
-    cold:   '📤 Opportunité issue de prospection sortante — pas de source externe. Le contact est à initier directement.',
-    manual: '✏ Saisie manuelle — ajoutez l\'URL source si disponible pour faciliter le suivi.',
-  };
-  return notes[opp.source] || 'Aucune information source disponible.';
-}
-
-// Source URL handler — gère URLs réelles, démo, et fallbacks par source
-function openSource(url, source, queryEnc) {
-  // Fallback search URLs quand l'URL spécifique est absente
-  const fallbackUrls = {
-    '__linkedin__': `https://www.linkedin.com/search/results/all/?keywords=${queryEnc}`,
-    '__boamp__':    `https://www.boamp.fr/avis/recherche?motsMatieres=${queryEnc}&nature[]=MARCHE`,
-    '__malt__':     'https://www.malt.fr/s?q=direction+artistique&l=Paris',
-    '__place__':    'https://www.marches-publics.info/?page=entreprise.EntrepriseAdvancedSearch&AllCons',
-  };
-
-  if (fallbackUrls[url]) {
-    const msg = {
-      '__linkedin__': '↗ Ouverture LinkedIn — recherche par nom de client',
-      '__boamp__':    '↗ Ouverture BOAMP — recherche par mots-clés',
-      '__malt__':     '↗ Ouverture Malt — page de recherche',
-      '__place__':    '↗ Ouverture PLACE — moteur de recherche',
-    }[url] || '↗ Ouverture de la plateforme source';
-    showToast(msg);
-    window.open(fallbackUrls[url], '_blank');
-    return;
-  }
-
-  // URL réelle — ouvrir directement
-  window.open(url, '_blank');
-}
-
-function qualify(id) {
-  const opp = OPPORTUNITIES.find(o => o.id === id);
-  if (opp) { opp.status = 'qualified'; showToast('✓ Statut mis à jour : Qualifié'); }
-}
-function archiveOpp(id) {
-  const opp = OPPORTUNITIES.find(o => o.id === id);
-  if (opp) { opp.status = 'lost'; closeDrawer(); showToast('Archivé'); }
-}
-
-// =============================================
-// CLAUDE API — ANALYST AGENT
-// =============================================
-let ANTHROPIC_KEY = '';
-
-async function analyzeOpp(id) {
-  const opp = OPPORTUNITIES.find(o => o.id === id);
-  const el = document.getElementById(`drawer-ai-${id}`);
+function renderList(cid, data) {
+  const el = document.getElementById(cid);
   if (!el) return;
-
-  el.innerHTML = '<span class="spinning">◈</span> Analyse en cours…';
-
-  const key = ANTHROPIC_KEY || localStorage.getItem('anthropic_key') || '';
-
-  if (!key) {
-    el.innerHTML = '⚠ Clé API manquante — rendez-vous dans <strong>Paramètres</strong> pour configurer votre clé Anthropic.';
-    return;
-  }
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 400,
-        system: "Tu es un assistant de veille commerciale pour un studio de design graphique indépendant parisien spécialisé en branding, identité visuelle et édition. Tes analyses sont concises, directes et actionnables. Tu réponds en français.",
-        messages: [{
-          role: 'user',
-          content: `Analyse cette opportunité:\n\nTitre: ${opp.title}\nClient: ${opp.client}\nSource: ${opp.source}\nBudget: ${opp.budget}\nDéadline: ${opp.deadline}\nNotes: ${opp.notes}\nCompétences: ${opp.skills.join(', ')}\n\nDonne en 3 points numérotés:\n1) Candidater ou non (1-2 phrases, sois direct)\n2) Argument fort à mettre en avant\n3) Action concrète à faire maintenant`
-        }]
-      })
-    });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    const text = data.content?.find(c => c.type === 'text')?.text || 'Analyse indisponible';
-    el.innerHTML = text.replace(/\n/g, '<br>');
-  } catch (e) {
-    el.innerHTML = `⚠ Erreur API : ${e.message}`;
-  }
+  const list = filter === 'all' ? data : data.filter(o => o.status === filter);
+  if (!list.length) { el.innerHTML = '<div class="empty">Aucune opportunité.</div>'; return; }
+  el.innerHTML = list.map(o => {
+    const sc = o.score>=80?'hi':o.score>=60?'mid':'';
+    return `<div class="oi" onclick="openDrawer(${o.id})">
+      <span class="stag src-${o.source}">${srcLbl(o.source)}</span>
+      <div style="min-width:0"><div class="ot">${o.title}</div><div class="om">${o.client} · ${o.budget} · ${fmtD(o.deadline)}</div></div>
+      <div class="sc"><div class="sn ${sc}">${o.score}</div><div class="sb"><div class="sf ${sc}" style="width:${o.score}%"></div></div></div>
+      <div class="spip s-${o.status}"></div>
+    </div>`;
+  }).join('');
 }
 
-async function runAIAnalysis() {
-  const el = document.getElementById('ai-digest-text');
-  if (!el) return;
-
-  const key = ANTHROPIC_KEY || localStorage.getItem('anthropic_key') || '';
-  if (!key) {
-    showToast('Configurez votre clé API dans Paramètres');
-    return;
-  }
-
-  el.innerHTML = '<span class="spinning">◈</span> Analyse en cours…';
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 300,
-        system: "Tu es un assistant de veille pour un studio de design graphique indépendant parisien. Tes synthèses hebdomadaires sont brèves (3 phrases max), précises et actionnables. Tu identifies les priorités. Tu réponds en français.",
-        messages: [{
-          role: 'user',
-          content: `Voici les opportunités de cette semaine:\n${OPPORTUNITIES.map(o=>`- ${o.title} (source: ${o.source}, score: ${o.score}, budget: ${o.budget}, deadline: ${o.deadline})`).join('\n')}\n\nFais un digest en 3 phrases: priorité #1, point d'attention, recommandation pour la semaine.`
-        }]
-      })
-    });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    const text = data.content?.find(c => c.type === 'text')?.text || '';
-    if (text) el.innerHTML = text.replace(/\n/g, '<br>');
-  } catch(e) {
-    el.innerHTML = `⚠ Erreur API : ${e.message}`;
-  }
-}
-
-// =============================================
-// SAVE OPPORTUNITY
-// =============================================
-function saveOpportunity() {
-  const title = document.getElementById('f-title').value.trim();
-  if (!title) { showToast('⚠ Ajoutez un titre'); return; }
-
-  const newOpp = {
-    id: Date.now(),
-    title,
-    client: document.getElementById('f-client').value || 'Non précisé',
-    source: document.getElementById('f-source').value,
-    status: 'detected',
-    score: Math.floor(Math.random() * 25) + 60,
-    budget: document.getElementById('f-budget').value || 'À définir',
-    deadline: document.getElementById('f-deadline').value || null,
-    tags: ['manuel'],
-    skills: [],
-    notes: document.getElementById('f-notes').value || '',
-    url: document.getElementById('f-url').value || '',
-  };
-
-  OPPORTUNITIES.unshift(newOpp);
-  closeModal();
-  renderOppList('opp-list', OPPORTUNITIES);
-  document.getElementById('badge-new').textContent = OPPORTUNITIES.filter(o=>o.status==='detected').length;
-  ['f-title','f-client','f-budget','f-deadline','f-url','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  showToast('✓ Opportunité ajoutée · Score IA en attente');
-}
-
-// =============================================
-// FILTER
-// =============================================
-function filterOpps(el, filter) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+function filterOpps(el, f) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  currentFilter = filter;
-  renderOppList('opp-list-full', OPPORTUNITIES);
+  filter = f;
+  renderList('list-full', OPPS);
 }
 
-// =============================================
-// SYNC SIMULATION
-// =============================================
-function triggerSync() {
-  const icon = document.getElementById('sync-icon');
-  icon.className = 'spinning';
-  showToast('⟳ Synchronisation RSS en cours…');
-  setTimeout(() => {
-    icon.className = '';
-    const now = new Date();
-    document.getElementById('last-sync').textContent = `Dernière veille: ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
-    showToast('✓ Veille mise à jour — 3 nouvelles sources analysées');
-  }, 2200);
+// KANBAN
+function renderKanban() {
+  const stages=[{key:'detected',label:'Détectées',color:'#3b5bdb'},{key:'qualified',label:'Qualifiées',color:'#e8590c'},{key:'in_progress',label:'En cours',color:'#7048e8'},{key:'submitted',label:'Soumises',color:'#e03131'},{key:'won',label:'Gagnées',color:'#2f9e44'},{key:'lost',label:'Perdues',color:'#aaa'}];
+  document.getElementById('kanban').innerHTML = stages.map(s => {
+    const cards = OPPS.filter(o => o.status === s.key);
+    return `<div class="kcol"><div class="khead"><div style="width:6px;height:6px;border-radius:50%;background:${s.color}"></div><div class="klbl">${s.label}</div><div class="kcnt">${cards.length}</div></div><div class="kbody">${cards.map(o=>`<div class="kcard" onclick="openDrawer(${o.id})"><div class="kct">${o.title}</div><div class="kcm"><span>${o.client}</span><span>${o.score}</span></div></div>`).join('')||'<div style="font-size:10px;font-family:\'DM Mono\',monospace;color:#ccc;text-align:center;padding:8px">—</div>'}</div></div>`;
+  }).join('');
 }
 
-// =============================================
-// API KEY SETTINGS
-// =============================================
-function saveApiKey() {
-  const key = document.getElementById('api-key-input').value.trim();
-  if (key) {
-    ANTHROPIC_KEY = key;
-    localStorage.setItem('anthropic_key', key);
-    showToast('✓ Clé API sauvegardée');
+// DRAWER
+function openDrawer(id) {
+  const o = OPPS.find(x => x.id === id);
+  if (!o) return;
+  const sc = o.score>=80?'hi':o.score>=60?'mid':'lo';
+  const days = Math.ceil((new Date(o.deadline)-new Date())/86400000);
+  const urgH = days<=3&&days>=0?`<span class="durg">⚠ J-${days}</span>`:days<0?`<span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)">Deadline passée</span>`:`<span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)">J-${days}</span>`;
+  // Source button
+  let srcBtn='', srcNote='';
+  if (o.url) {
+    srcBtn=`<button class="abtn ab-ghost" onclick="window.open('${o.url}','_blank')">↗ Source</button>`;
+    const notes={boamp:'Fiche BOAMP — DCE téléchargeable depuis cette page.',malt:'Mission Malt — connectez-vous pour voir les détails.',place:'Avis PLACE — DCE accessible après inscription gratuite.'};
+    srcNote=notes[o.source]||'Lien source direct.';
+  } else {
+    const fb={linkedin:[`https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(o.client)}`,'Chercher sur LinkedIn'],boamp:[`https://www.boamp.fr/avis/recherche?nature[]=MARCHE&motsMatieres=${encodeURIComponent(o.title.split(' ').slice(0,3).join(' '))}`,'Chercher sur BOAMP'],malt:['https://www.malt.fr/s?q=direction+artistique&l=Paris','Chercher sur Malt'],place:['https://www.marches-publics.info/','Chercher sur PLACE']};
+    const f=fb[o.source];
+    if(f){srcBtn=`<button class="abtn ab-ghost" onclick="window.open('${f[0]}','_blank')">${f[1]}</button>`;}
+    const snotes={linkedin:`⚠ URL non renseignée. LinkedIn ne peut pas être automatisé. Recherchez manuellement "${o.client}" sur LinkedIn → copiez l'URL du post → ajoutez-la ici.`,boamp:'⚠ URL BOAMP manquante. Ce bouton ouvre la recherche filtrée.',malt:'⚠ URL Malt manquante. Retrouvez l\'email d\'alerte Malt pour récupérer le lien.',place:'⚠ URL PLACE manquante.',cold:'Opportunité de prospection sortante — pas de lien source externe.',manual:'Saisie manuelle — ajoutez l\'URL source si disponible.'};
+    srcNote=snotes[o.source]||'';
   }
+  document.getElementById('drawer-content').innerHTML=`
+    <span class="stag src-${o.source} dsrc">${srcLbl(o.source)}</span>
+    <div class="dtit">${o.title}</div>
+    <div class="dmeta"><div class="dscore ${sc}">◈ ${o.score}/100</div><div class="dbudget">${o.budget}</div>${urgH}</div>
+    <div class="dsec"><div class="dsect">Client</div><div style="font-size:14px;font-weight:700">${o.client}</div></div>
+    <div class="dsec"><div class="dsect">Notes</div><div class="dtxt">${o.notes}</div></div>
+    <div class="dsec"><div class="dsect">Compétences</div><div class="tagrow">${o.skills.map(s=>`<span class="tag sk">${s}</span>`).join('')}</div></div>
+    <div class="dsec"><div class="dsect">Tags</div><div class="tagrow">${o.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>
+    <div class="dsec">
+      <div class="dsect">Actions</div>
+      <div class="astrip"><button class="abtn ab-dark" onclick="analyzeOpp(${o.id})"><span id="aic-${o.id}">◈</span> Analyser IA</button><button class="abtn ab-success" onclick="qualifyOpp(${o.id})">✓ Qualifier</button></div>
+      <div class="astrip" style="margin-top:6px">${srcBtn}<button class="abtn ab-ghost" onclick="toast('Dossier — v2')">📁 Dossier</button><button class="abtn ab-danger" onclick="archiveOpp(${o.id})">Archiver</button></div>
+      ${srcNote?`<div class="srcnote">${srcNote}</div>`:''}
+    </div>
+    <div class="dsec"><div class="dsect">Analyse IA</div><div class="aibox" id="aibox-${o.id}">Cliquez "Analyser IA" pour une recommandation basée sur les données réelles de cette opportunité.</div></div>`;
+  document.getElementById('drawer').classList.add('open');
+}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');}
+function qualifyOpp(id){const o=OPPS.find(x=>x.id===id);if(o){o.status='qualified';toast('✓ Qualifié');}}
+function archiveOpp(id){const o=OPPS.find(x=>x.id===id);if(o){o.status='lost';closeDrawer();toast('Archivé');}}
+
+// ANALYZE OPP
+async function analyzeOpp(id) {
+  const o=OPPS.find(x=>x.id===id);
+  const el=document.getElementById('aibox-'+id);
+  const ic=document.getElementById('aic-'+id);
+  if(!el)return;
+  if(!APIKEY){el.textContent='⚠ Clé API manquante — configurez-la dans Paramètres.';return;}
+  el.innerHTML='<span class="spinning">◈</span> Analyse en cours…';
+  if(ic)ic.className='spinning';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':APIKEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:320,system:'Tu analyses des opportunités pour un studio de design graphique parisien (branding, identité visuelle, édition, signalétique). Réponds en français, 3 points numérotés, concis et actionnables. Bases-toi uniquement sur les données fournies, sans rien inventer.',messages:[{role:'user',content:`Titre: ${o.title}\nClient: ${o.client}\nSource: ${o.source}\nBudget: ${o.budget}\nDéadline: ${o.deadline}\nNotes: ${o.notes}\nCompétences: ${o.skills.join(', ')}\n\n1) Candidater ou non (direct, basé sur ces données)\n2) Argument fort à mettre en avant\n3) Action concrète maintenant`}]})});
+    const d=await r.json();
+    if(d.error)throw new Error(d.error.message);
+    el.innerHTML=(d.content?.find(c=>c.type==='text')?.text||'').replace(/\n/g,'<br>');
+  }catch(e){el.textContent='⚠ Erreur: '+e.message;}
+  finally{if(ic)ic.className='';}
 }
 
-// =============================================
-// UTILS
-// =============================================
-function formatDate(d) {
-  if (!d) return '—';
-  return new Date(d).toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+// DIGEST
+async function runDigest() {
+  const el=document.getElementById('ai-digest');
+  const i1=document.getElementById('dig-ic');
+  const i2=document.getElementById('dig-ic2');
+  if(!APIKEY){toast('Clé API requise — Paramètres');return;}
+  if(el)el.innerHTML='<span class="spinning">◈</span> Analyse…';
+  if(i1)i1.className='spinning';if(i2)i2.className='spinning';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':APIKEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:250,system:'Digest hebdomadaire pour studio de design graphique parisien. 3 phrases max, priorité claire, actionnable. Français.',messages:[{role:'user',content:'Opportunités:\n'+OPPS.map(o=>`- ${o.title} (${o.source}, score:${o.score}, ${o.budget}, deadline:${o.deadline})`).join('\n')+'\n\nDigest: priorité #1, point d\'attention, recommandation.'}]})});
+    const d=await r.json();
+    if(d.error)throw new Error(d.error.message);
+    const t=d.content?.find(c=>c.type==='text')?.text||'';
+    if(el&&t)el.innerHTML=t.replace(/\n/g,'<br>');
+  }catch(e){if(el)el.textContent='⚠ Erreur: '+e.message;}
+  finally{if(i1)i1.className='';if(i2)i2.className='';}
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+// MODAL
+function openModal(){document.getElementById('modal-overlay').classList.add('open');}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function saveOpp(){
+  const t=document.getElementById('f-title').value.trim();
+  if(!t){toast('⚠ Titre requis');return;}
+  OPPS.unshift({id:Date.now(),title:t,client:document.getElementById('f-client').value||'Non précisé',source:document.getElementById('f-source').value,status:'detected',score:0,budget:document.getElementById('f-budget').value||'À définir',deadline:document.getElementById('f-deadline').value||null,tags:['manuel'],skills:[],notes:document.getElementById('f-notes').value||'',url:document.getElementById('f-url').value||''});
+  renderList('list-dash',OPPS);
+  document.getElementById('badge-new').textContent=OPPS.filter(o=>o.status==='detected').length;
+  closeModal();
+  ['f-title','f-client','f-budget','f-deadline','f-url','f-notes'].forEach(i=>{const e=document.getElementById(i);if(e)e.value='';});
+  toast('✓ Opportunité ajoutée');
 }
 
-// =============================================
-// INIT
-// =============================================
-renderOppList('opp-list', OPPORTUNITIES);
+// SCOUT — REAL RSS
+const PROXY='https://api.allorigins.win/get?url=';
+const RSSURL='https://www.boamp.fr/flux/rss';
+let scItems=[];
 
-// Load API key from localStorage
-const savedKey = localStorage.getItem('anthropic_key');
-if (savedKey) {
-  ANTHROPIC_KEY = savedKey;
-  const inp = document.getElementById('api-key-input');
-  if (inp) inp.value = savedKey;
-}
-
-// ─────────────────────────────────────────────
-// SCOUT BOAMP — REAL RSS, NO HALLUCINATION
-// ─────────────────────────────────────────────
-const BOAMP_PROXY = 'https://api.allorigins.win/get?url=';
-const BOAMP_RSS_URL = 'https://www.boamp.fr/flux/rss';
-let scoutItems = [];
-
-async function scoutRun() {
-  document.getElementById('scout-alert-cors').classList.remove('show');
-  document.getElementById('scout-alert-api').classList.remove('show');
-  scoutItems = [];
-
-  const keywords = document.getElementById('scout-keywords').value
-    .split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
-  const maxItems = parseInt(document.getElementById('scout-max').value);
-  if (!keywords.length) { scoutSetStatus('Ajoutez un mot-clé', false); return; }
-
-  scoutSetStatus('⟳ Lecture du flux RSS BOAMP réel…', true);
-  scoutSetScanBtn(true);
-  document.getElementById('scout-cards').innerHTML = '<div class="empty-state"><span class="spinning">⟳</span> Chargement…</div>';
-
-  let xmlText;
-  try {
-    const url = BOAMP_PROXY + encodeURIComponent(BOAMP_RSS_URL);
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const json = await resp.json();
-    xmlText = json.contents;
-    if (!xmlText || xmlText.length < 200) throw new Error('Flux vide');
-  } catch(e) {
-    scoutSetStatus('Erreur réseau: ' + e.message, false);
-    document.getElementById('scout-alert-cors').classList.add('show');
-    document.getElementById('scout-cards').innerHTML = '<div class="empty-state">Flux inaccessible. Voir l\'alerte ci-dessus.</div>';
-    scoutSetScanBtn(false);
-    return;
+async function scRun(){
+  document.getElementById('sc-al-cors').classList.remove('show');
+  document.getElementById('sc-al-api').classList.remove('show');
+  scItems=[];
+  const kw=document.getElementById('sc-kw').value.split(',').map(k=>k.trim().toLowerCase()).filter(Boolean);
+  const max=parseInt(document.getElementById('sc-max').value);
+  if(!kw.length){scSt('⚠ Ajoutez un mot-clé',false);return;}
+  scSt('⟳ Lecture flux RSS BOAMP réel…',true);
+  scBtn(true);
+  document.getElementById('sc-cards').innerHTML='<div class="empty"><span class="spinning">⟳</span> Connexion à BOAMP…</div>';
+  try{
+    const r=await fetch(PROXY+encodeURIComponent(RSSURL));
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    if(!j.contents||j.contents.length<100)throw new Error('Flux vide');
+    const p=new DOMParser();
+    const doc=p.parseFromString(j.contents,'text/xml');
+    if(doc.querySelector('parsererror'))throw new Error('XML invalide');
+    const all=Array.from(doc.querySelectorAll('item')).slice(0,max);
+    const matched=all.filter(item=>{
+      const t=(item.querySelector('title')?.textContent||'').toLowerCase();
+      const d=(item.querySelector('description')?.textContent||'').toLowerCase();
+      return kw.some(k=>(t+' '+d).includes(k));
+    });
+    scItems=matched.map((item,i)=>({
+      id:i,
+      title:item.querySelector('title')?.textContent?.trim()||'(sans titre)',
+      link:item.querySelector('link')?.textContent?.trim()||'',
+      desc:(item.querySelector('description')?.textContent||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim(),
+      pubDate:item.querySelector('pubDate')?.textContent?.trim()||'',
+      score:null,analysis:null
+    }));
+    scSt('✓ '+scItems.length+' avis correspondent sur '+all.length+' lus · Données réelles BOAMP',false);
+    scRender();
+    document.getElementById('sc-bar').style.display='flex';
+    document.getElementById('sc-cnt').innerHTML='<strong>'+scItems.length+'</strong> avis · <span style="color:var(--green)">Données réelles RSS</span>';
+    if(scItems.length&&APIKEY)document.getElementById('btn-all').style.display='flex';
+    const b=document.getElementById('badge-scout');
+    if(b&&scItems.length){b.textContent=scItems.length;b.style.display='';}
+  }catch(e){
+    scSt('✗ Erreur: '+e.message,false);
+    document.getElementById('sc-al-cors').classList.add('show');
+    document.getElementById('sc-cards').innerHTML='<div class="empty">Flux inaccessible. Voir l\'alerte ci-dessus.</div>';
   }
-
-  let items;
-  try {
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlText, 'text/xml');
-    if (xml.querySelector('parsererror')) throw new Error('XML invalide');
-    items = Array.from(xml.querySelectorAll('item')).slice(0, maxItems);
-    if (!items.length) throw new Error('Aucun avis');
-  } catch(e) {
-    scoutSetStatus('Erreur parsing: ' + e.message, false);
-    scoutSetScanBtn(false);
-    return;
-  }
-
-  scoutSetStatus('⟳ ' + items.length + ' avis lus — filtrage mots-clés…', true);
-
-  const matched = items.filter(item => {
-    const t = (item.querySelector('title')?.textContent || '').toLowerCase();
-    const d = (item.querySelector('description')?.textContent || '').toLowerCase();
-    return keywords.some(kw => (t + ' ' + d).includes(kw));
-  });
-
-  scoutItems = matched.map((item, i) => {
-    const title   = item.querySelector('title')?.textContent?.trim() || '(sans titre)';
-    const link    = item.querySelector('link')?.textContent?.trim() || '';
-    const rawDesc = item.querySelector('description')?.textContent || '';
-    const desc    = rawDesc.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
-    const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-    return { id: i, title, link, desc, pubDate, score: null, analysis: null };
-  });
-
-  scoutSetStatus('✓ ' + scoutItems.length + ' avis correspondent · Données réelles BOAMP', false);
-  scoutRenderCards();
-
-  document.getElementById('scout-results-bar').style.display = 'flex';
-  document.getElementById('scout-count').innerHTML =
-    '<strong>' + scoutItems.length + '</strong> avis trouvés · <span style="color:var(--green)">Données réelles RSS</span>';
-
-  const key = ANTHROPIC_KEY || localStorage.getItem('anthropic_key') || '';
-  if (scoutItems.length > 0 && key) document.getElementById('analyze-all-btn').style.display = 'flex';
-
-  const badge = document.getElementById('badge-scout');
-  if (badge && scoutItems.length) { badge.textContent = scoutItems.length; badge.style.display = ''; }
-
-  scoutSetScanBtn(false);
+  scBtn(false);
 }
 
-function scoutRenderCards() {
-  const container = document.getElementById('scout-cards');
-  if (!scoutItems.length) {
-    container.innerHTML = '<div class="empty-state">Aucun avis ne correspond. Élargissez vos mots-clés.</div>';
-    return;
-  }
-  const key = ANTHROPIC_KEY || localStorage.getItem('anthropic_key') || '';
-  container.innerHTML = scoutItems.map(item => {
-    const dateStr = item.pubDate ? new Date(item.pubDate).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}) : '';
-    const scoreHtml = item.score !== null
-      ? '<div class="rss-score-col"><div class="rss-score-num" style="color:' + (item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--muted)') + '">' + item.score + '</div><div class="rss-score-bar"><div class="rss-score-fill" style="width:' + item.score + '%;background:' + (item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--border2)') + '"></div></div></div>'
-      : '';
-    return `<div class="rss-card" id="rss-card-${item.id}">
-      <div class="rss-card-head">
-        <div class="rss-card-meta">
-          <div class="rss-tag-row">
-            <span class="src-tag src-boamp">BOAMP</span>
-            <span style="font-size:8px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:4px;background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;">RSS réel</span>
-            <span class="rss-date">${dateStr}</span>
-          </div>
-          <div class="rss-title">${item.link ? '<a href="'+item.link+'" target="_blank" rel="noopener">'+item.title+'</a>' : item.title}</div>
-          <div class="rss-desc" id="rdesc-${item.id}">${item.desc || 'Aucune description dans le flux.'}</div>
-          ${item.desc && item.desc.length > 180 ? '<button onclick="scoutToggleDesc('+item.id+')" style="font-size:10px;font-family:'DM Mono',monospace;color:var(--blue);background:none;border:none;cursor:pointer;padding:2px 0;margin-top:3px;">Lire plus</button>' : ''}
+function scRender(){
+  const c=document.getElementById('sc-cards');
+  if(!scItems.length){c.innerHTML='<div class="empty">Aucun avis ne correspond. Élargissez vos mots-clés.</div>';return;}
+  c.innerHTML=scItems.map(item=>{
+    const d=item.pubDate?new Date(item.pubDate).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'}):'';
+    const sH=item.score!==null?`<div class="rscore"><div class="rsn" style="color:${item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--muted)'}">${item.score}</div><div class="rsbar"><div class="rsf" style="width:${item.score}%;background:${item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--border)'}"></div></div></div>`:'';
+    return`<div class="rcard" id="rc-${item.id}">
+      <div class="rhead">
+        <div class="rmeta">
+          <div class="rtags"><span class="stag src-boamp">BOAMP</span><span style="font-size:8px;font-family:'DM Mono',monospace;padding:2px 6px;border-radius:4px;background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;">RSS réel</span><span class="rdate">${d}</span></div>
+          <div class="rtitle">${item.link?`<a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>`:item.title}</div>
+          <div class="rdesc" id="rd-${item.id}">${item.desc||'Aucune description dans le flux.'}</div>
+          ${item.desc&&item.desc.length>180?`<button class="rmore" onclick="document.getElementById('rd-${item.id}').classList.toggle('exp')">Lire plus</button>`:''}
         </div>
-        ${scoreHtml}
+        ${sH}
       </div>
-      <div class="rss-ai-block ${item.analysis?'show':''}" id="rai-${item.id}">${item.analysis ? scoutRenderAI(item) : ''}</div>
-      <div class="rss-card-actions">
-        ${item.link ? '<a href="'+item.link+'" target="_blank" rel="noopener" class="btn-xs btn-xs-ghost">↗ Voir sur BOAMP</a>' : ''}
-        <button class="btn-xs btn-xs-dark" id="rbtn-${item.id}" onclick="scoutAnalyzeOne(${item.id})" ${!key?'disabled title="Clé API requise — Paramètres"':''}>
-          <span id="ricon-${item.id}">◈</span> Analyser
-        </button>
-        ${item.analysis ? '<button class="btn-xs btn-xs-green" onclick="scoutAddToDashboard('+item.id+')">+ Ajouter</button>' : ''}
+      <div class="rai ${item.analysis?'show':''}" id="rai-${item.id}">${item.analysis?scAIH(item):''}</div>
+      <div class="racts">
+        ${item.link?`<a href="${item.link}" target="_blank" rel="noopener" class="bx bxg">↗ Voir sur BOAMP</a>`:''}
+        <button class="bx bxd" id="rb-${item.id}" onclick="scAnalyze(${item.id})" ${!APIKEY?'disabled title="Clé API requise — Paramètres"':''}><span id="ri-${item.id}">◈</span> Analyser</button>
+        ${item.analysis?`<button class="bx bxgreen" onclick="scAdd(${item.id})">+ Ajouter</button>`:''}
       </div>
     </div>`;
   }).join('');
 }
 
-function scoutRenderAI(item) {
-  const a = item.analysis;
-  const bc = item.score >= 70 ? 'badge-hi' : item.score >= 45 ? 'badge-mid' : 'badge-lo';
-  const vc = a.verdict === 'oui' ? 'v-oui' : a.verdict === 'non' ? 'v-non' : 'v-maybe';
-  const vl = a.verdict === 'oui' ? '✓ À candidater' : a.verdict === 'non' ? '✗ À ignorer' : '⚡ À surveiller';
-  return `<div class="rss-ai-head"><div class="rss-ai-label">◈ Analyse · données réelles uniquement</div><div class="rss-ai-badge ${bc}">${item.score}/100</div></div>
-    <div class="rss-ai-body">
-      <span class="${vc}">${vl}</span>${a.reason ? ' — ' + a.reason : ''}
-      ${a.fit    ? '<br><strong>Compétence :</strong> ' + a.fit    : ''}
-      ${a.action ? '<br><strong>Action :</strong> '     + a.action : ''}
-      ${a.redFlag? '<br><span style="color:var(--red)">⚠ ' + a.redFlag + '</span>' : ''}
-    </div>`;
+function scAIH(item){
+  const a=item.analysis;
+  const bc=item.score>=70?'bhi':item.score>=45?'bmid':'blo';
+  const vc=a.verdict==='oui'?'voui':a.verdict==='non'?'vnon':'vmay';
+  const vl=a.verdict==='oui'?'✓ À candidater':a.verdict==='non'?'✗ À ignorer':'⚡ À surveiller';
+  return`<div class="raih"><div class="rail">◈ Analyse · données réelles</div><div class="raibadge ${bc}">${item.score}/100</div></div>
+    <div class="raib"><span class="${vc}">${vl}</span>${a.reason?' — '+a.reason:''}${a.fit?'<br><strong>Compétence :</strong> '+a.fit:''}${a.action?'<br><strong>Action :</strong> '+a.action:''}${a.redFlag?'<br><span style="color:var(--red)">⚠ '+a.redFlag+'</span>':''}</div>`;
 }
 
-async function scoutAnalyzeOne(id) {
-  const item = scoutItems.find(i => i.id === id);
-  if (!item) return;
-  const key = ANTHROPIC_KEY || localStorage.getItem('anthropic_key') || '';
-  if (!key) { showToast('Clé API requise — allez dans Paramètres'); return; }
-
-  const btn  = document.getElementById('rbtn-' + id);
-  const icon = document.getElementById('ricon-' + id);
-  if (btn)  btn.disabled = true;
-  if (icon) icon.className = 'spinning';
-
-  const aiBlock = document.getElementById('rai-' + id);
-  aiBlock.classList.add('show');
-  aiBlock.innerHTML = '<div class="rss-ai-head"><div class="rss-ai-label">◈ Analyse…</div><div class="rss-ai-badge badge-none">—</div></div><div class="rss-ai-body"><span class="spinning">◈</span> Lecture des données réelles…</div>';
-
-  // Send ONLY real RSS text — nothing invented
-  const realContent = 'Titre : ' + item.title + '\n\nDescription flux RSS : ' + (item.desc || 'Non disponible dans ce flux') + '\n\nDate : ' + (item.pubDate || 'Non précisée') + '\n\nURL : ' + (item.link || 'Non disponible');
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 300,
-        system: 'Tu analyses des avis BOAMP pour un studio de design graphique parisien (branding, identité visuelle, édition, signalétique, direction artistique).\nRÈGLE ABSOLUE : analyse UNIQUEMENT le texte fourni. N\'invente RIEN. Si une info manque, dis "non précisé dans le flux RSS".\nRéponds UNIQUEMENT en JSON valide sans markdown ni backticks :\n{"score":<0-100>,"verdict":"oui"|"non"|"maybe","reason":"<1 phrase sur le texte réel>","fit":"<compétence ou null>","action":"<action concrète ou null>","redFlag":"<risque ou null>"}',
-        messages: [{ role: 'user', content: 'Analyse cet avis BOAMP réel :\n\n' + realContent }]
-      })
-    });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    const raw = data.content?.find(c => c.type === 'text')?.text || '';
-    let parsed;
-    try { parsed = JSON.parse(raw.replace(/```json|```/g,'').trim()); }
-    catch(e) { throw new Error('Réponse non JSON'); }
-    if (typeof parsed.score !== 'number') throw new Error('Score manquant dans la réponse');
-
-    item.score    = Math.max(0, Math.min(100, parsed.score));
-    item.analysis = parsed;
-
-    aiBlock.innerHTML = scoutRenderAI(item);
-
-    const head = document.querySelector('#rss-card-' + id + ' .rss-card-head');
-    const existSc = head ? head.querySelector('.rss-score-col') : null;
-    const newSc = '<div class="rss-score-col"><div class="rss-score-num" style="color:' + (item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--muted)') + '">' + item.score + '</div><div class="rss-score-bar"><div class="rss-score-fill" style="width:' + item.score + '%;background:' + (item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--border2)') + '"></div></div></div>';
-    if (existSc) existSc.outerHTML = newSc;
-    else if (head) head.insertAdjacentHTML('beforeend', newSc);
-
-    const acts = document.querySelector('#rss-card-' + id + ' .rss-card-actions');
-    if (acts && !acts.querySelector('[onclick="scoutAddToDashboard(' + id + ')"]'))
-      acts.insertAdjacentHTML('beforeend', '<button class="btn-xs btn-xs-green" onclick="scoutAddToDashboard(' + id + ')">+ Ajouter</button>');
-
-    document.getElementById('scout-alert-api').classList.remove('show');
-  } catch(e) {
-    aiBlock.innerHTML = '<div class="rss-ai-head"><div class="rss-ai-label">◈ Erreur</div><div class="rss-ai-badge badge-none">—</div></div><div class="rss-ai-body" style="color:var(--red)">⚠ ' + e.message + '</div>';
-    if (e.message.includes('401') || e.message.includes('403'))
-      document.getElementById('scout-alert-api').classList.add('show');
-  } finally {
-    if (btn)  btn.disabled = false;
-    if (icon) icon.className = '';
+async function scAnalyze(id){
+  const item=scItems.find(i=>i.id===id);
+  if(!item)return;
+  if(!APIKEY){toast('Clé API requise — Paramètres');return;}
+  const btn=document.getElementById('rb-'+id);
+  const ic=document.getElementById('ri-'+id);
+  const ai=document.getElementById('rai-'+id);
+  if(btn)btn.disabled=true;
+  if(ic)ic.className='spinning';
+  ai.classList.add('show');
+  ai.innerHTML='<div class="raih"><div class="rail">◈ Analyse…</div><div class="raibadge bno">—</div></div><div class="raib"><span class="spinning">◈</span> Lecture des données réelles…</div>';
+  const txt='Titre BOAMP : '+item.title+'\n\nDescription flux RSS : '+(item.desc||'Non disponible dans ce flux')+'\n\nDate : '+(item.pubDate||'Non précisée')+'\n\nURL : '+(item.link||'Non disponible');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':APIKEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:280,system:'Tu analyses des avis BOAMP pour un studio de design graphique parisien (branding, identité visuelle, édition, signalétique, DA).\nRÈGLE ABSOLUE : analyse UNIQUEMENT le texte fourni. N\'invente RIEN. Si une info manque, dis "non précisé dans le flux".\nRéponds UNIQUEMENT en JSON valide, sans markdown, sans backticks :\n{"score":<0-100>,"verdict":"oui"|"non"|"maybe","reason":"<1 phrase>","fit":"<compétence ou null>","action":"<action ou null>","redFlag":"<risque ou null>"}',messages:[{role:'user',content:'Analyse cet avis BOAMP réel :\n\n'+txt}]})});
+    const data=await r.json();
+    if(data.error)throw new Error(data.error.message);
+    const raw=data.content?.find(c=>c.type==='text')?.text||'';
+    const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    if(typeof parsed.score!=='number')throw new Error('Score manquant');
+    item.score=Math.max(0,Math.min(100,parsed.score));
+    item.analysis=parsed;
+    ai.innerHTML=scAIH(item);
+    const head=document.querySelector('#rc-'+id+' .rhead');
+    const es=head?.querySelector('.rscore');
+    const ns=`<div class="rscore"><div class="rsn" style="color:${item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--muted)'}">${item.score}</div><div class="rsbar"><div class="rsf" style="width:${item.score}%;background:${item.score>=70?'var(--green)':item.score>=45?'var(--orange)':'var(--border)'}"></div></div></div>`;
+    if(es)es.outerHTML=ns;else head?.insertAdjacentHTML('beforeend',ns);
+    const acts=document.querySelector('#rc-'+id+' .racts');
+    if(acts&&!acts.querySelector('[onclick="scAdd('+id+')"]'))acts.insertAdjacentHTML('beforeend',`<button class="bx bxgreen" onclick="scAdd(${id})">+ Ajouter</button>`);
+    document.getElementById('sc-al-api').classList.remove('show');
+  }catch(e){
+    ai.innerHTML=`<div class="raih"><div class="rail">◈ Erreur</div><div class="raibadge bno">—</div></div><div class="raib" style="color:var(--red)">⚠ ${e.message}</div>`;
+    if(e.message.includes('401')||e.message.includes('403'))document.getElementById('sc-al-api').classList.add('show');
+  }finally{
+    if(btn)btn.disabled=false;
+    if(ic)ic.className='';
   }
 }
 
-async function scoutAnalyzeAll() {
-  const btn = document.getElementById('analyze-all-btn');
-  btn.disabled = true; btn.textContent = '◈ En cours…';
-  for (const item of scoutItems) {
-    if (!item.analysis) {
-      await scoutAnalyzeOne(item.id);
-      await new Promise(r => setTimeout(r, 600));
-    }
+async function scAll(){
+  const btn=document.getElementById('btn-all');
+  btn.disabled=true;btn.textContent='◈ En cours…';
+  for(const item of scItems){
+    if(!item.analysis){await scAnalyze(item.id);await new Promise(r=>setTimeout(r,600));}
   }
-  btn.disabled = false; btn.textContent = '◈ Analyser tout';
+  btn.disabled=false;btn.textContent='◈ Analyser tout';
 }
 
-function scoutAddToDashboard(id) {
-  const item = scoutItems.find(i => i.id === id);
-  if (!item) return;
-  const newOpp = {
-    id: Date.now(), title: item.title,
-    client: scoutExtractClient(item.title + ' ' + item.desc),
-    source: 'boamp', status: 'detected',
-    score: item.score || 0,
-    budget: scoutExtractBudget(item.desc),
-    deadline: null, tags: ['boamp','rss-réel'], skills: [],
-    notes: (item.desc || '').substring(0, 400),
-    url: item.link || '',
-    added: new Date().toLocaleDateString('fr-FR')
-  };
-  OPPORTUNITIES.unshift(newOpp);
-  renderOppList('opp-list', OPPORTUNITIES);
-  document.getElementById('badge-new').textContent = OPPORTUNITIES.filter(o => o.status === 'detected').length;
-  const b = document.querySelector('#rss-card-' + id + ' [onclick="scoutAddToDashboard(' + id + ')"]');
-  if (b) { b.textContent = '✓ Ajouté'; b.disabled = true; }
-  showToast('✓ Ajouté au dashboard');
+function scAdd(id){
+  const item=scItems.find(i=>i.id===id);
+  if(!item)return;
+  const m=(item.title+' '+item.desc).match(/(?:commune|ville|mairie|département|région|ministère|préfecture|CHU|EPCI) (?:de |d')([^—\-.]{3,40})/i);
+  const bm=(item.desc||'').match(/(\d[\d\s]{1,8}\d)\s*€/);
+  OPPS.unshift({id:Date.now(),title:item.title,client:m?m[0].trim():'Acheteur public (voir BOAMP)',source:'boamp',status:'detected',score:item.score||0,budget:bm?bm[0]:'Consulter le DCE',deadline:null,tags:['boamp','rss-réel'],skills:[],notes:(item.desc||'').substring(0,400),url:item.link||''});
+  renderList('list-dash',OPPS);
+  document.getElementById('badge-new').textContent=OPPS.filter(o=>o.status==='detected').length;
+  const b=document.querySelector(`#rc-${id} [onclick="scAdd(${id})"]`);
+  if(b){b.textContent='✓ Ajouté';b.disabled=true;}
+  toast('✓ Ajouté au dashboard');
 }
 
-function scoutExtractClient(text) {
-  const m = text.match(/(?:commune|ville|département|région|ministère|préfecture|mairie|établissement|CHU|CH |EPCI) (?:de |d')([^—\-.]{3,40})/i);
-  return m ? m[0].trim() : 'Acheteur public (voir fiche BOAMP)';
-}
-function scoutExtractBudget(desc) {
-  if (!desc) return 'Consulter le DCE';
-  const m = desc.match(/(\d[\d\s]{1,9}\d)\s*€/);
-  return m ? m[0] : 'Consulter le DCE sur BOAMP';
-}
-function scoutSetStatus(msg, loading) {
-  const bar = document.getElementById('scout-status');
-  const icon = document.getElementById('scout-status-icon');
-  const text = document.getElementById('scout-status-text');
+function scSt(msg,loading){
+  const bar=document.getElementById('sc-status');
   bar.classList.add('show');
-  icon.className = loading ? 'spinning' : '';
-  icon.textContent = loading ? '⟳' : '✓';
-  text.innerHTML = msg;
+  const ic=document.getElementById('sc-stic');
+  ic.className=loading?'spinning':'';
+  ic.textContent=loading?'⟳':'✓';
+  document.getElementById('sc-sttxt').innerHTML=msg;
 }
-function scoutSetScanBtn(loading) {
-  const btn  = document.getElementById('scout-scan-btn');
-  const icon = document.getElementById('scout-scan-icon');
-  btn.disabled = loading;
-  icon.className = loading ? 'spinning' : '';
-  icon.textContent = loading ? '⟳' : '▶';
-}
-function scoutToggleDesc(id) {
-  document.getElementById('rdesc-' + id)?.classList.toggle('expanded');
+function scBtn(loading){
+  const btn=document.getElementById('btn-scan');
+  const ic=document.getElementById('ic-scan');
+  btn.disabled=loading;
+  ic.className=loading?'spinning':'';
+  ic.textContent=loading?'⟳':'▶';
 }
 
+// SETTINGS
+function saveKey(){const k=document.getElementById('set-key').value.trim();if(k){APIKEY=k;localStorage.setItem('anthropic_key',k);toast('✓ Clé API sauvegardée');}}
+function syncKW(){const kw=document.getElementById('set-kw').value;const e=document.getElementById('sc-kw');if(e)e.value=kw;toast('✓ Mots-clés synchronisés');}
+
+// SYNC BTN
+function triggerSync(){
+  const ic=document.getElementById('sync-ic');
+  ic.className='spinning';
+  toast('⟳ Synchronisation…');
+  setTimeout(()=>{ic.className='';const n=new Date();document.getElementById('lsync').textContent=`Dernière veille: ${n.getHours()}:${String(n.getMinutes()).padStart(2,'0')}`;toast('✓ Veille mise à jour');},2000);
+}
+
+// TOAST
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+// INIT
+renderList('list-dash', OPPS);
+const sk=localStorage.getItem('anthropic_key');
+if(sk){APIKEY=sk;const e=document.getElementById('set-key');if(e)e.value=sk;}
 </script>
 </body>
 </html>
