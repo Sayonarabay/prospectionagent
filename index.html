@@ -803,7 +803,18 @@ async function importResult(i) {
 // AUTH
 // ════════════════════════════════════════════════════════════════
 async function boot(){const{data:{session}}=await SB.auth.getSession();if(session){currentUser=session.user;showApp();}else{document.getElementById('auth-screen').style.display='flex';}}
-function showApp(){document.getElementById('auth-screen').style.display='none';document.getElementById('main-app').style.display='flex';const em=currentUser.email||'';document.getElementById('sb-av').textContent=em[0]?.toUpperCase()||'?';document.getElementById('sb-uname').textContent=em;setSyncOk();loadData();renderSearchUI();}
+function showApp(){
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('main-app').style.display='flex';
+  const em=currentUser.email||'';
+  document.getElementById('sb-av').textContent=em[0]?.toUpperCase()||'?';
+  document.getElementById('sb-uname').textContent=em;
+  // Show loading state immediately
+  document.getElementById('tbl').innerHTML='<tr><td colspan="8"><div class="sp-loading"><div class="spinner"></div> Chargement depuis Supabase…</div></td></tr>';
+  setSyncing();
+  loadData();
+  renderSearchUI();
+}
 async function doLogin(){const email=document.getElementById('a-email').value.trim();const pwd=document.getElementById('a-pwd').value;if(!email||!pwd)return;setErr('');const{data,error}=await SB.auth.signInWithPassword({email,password:pwd});if(error){setErr(error.message);return;}currentUser=data.user;showApp();}
 async function doRegister(){const email=document.getElementById('r-email').value.trim();const pwd=document.getElementById('r-pwd').value;if(!email||!pwd)return;setErr('');const{error}=await SB.auth.signUp({email,password:pwd});if(error){setErr(error.message);return;}toast('Compte créé ! Vérifiez votre email.');showLogin();}
 async function doLogout(){await SB.auth.signOut();currentUser=null;D=[];document.getElementById('main-app').style.display='none';document.getElementById('auth-screen').style.display='flex';}
@@ -817,7 +828,27 @@ function showLogin(){document.getElementById('f-login').style.display='flex';doc
 let D=[],selTags=[],aSt='',aTag='',aSort='score',curId=null;
 const SL={detected:'Détecté',qualified:'Qualifié',in_progress:'En cours',submitted:'Soumis',won:'Gagné',lost:'Perdu'};
 const SRCL={theatre:'Théâtre',musee:'Musée',festival:'Festival',danse:'Danse',orchestre:'Orchestre',ecole:'École',ngo:'Association',public:'Marché public',boamp:'BOAMP',other:'Autre',manual:'Manuel'};
-async function loadData(){setSyncing();try{const{data,error}=await SB.from('opportunities').select('*').eq('user_id',currentUser.id).order('position',{ascending:true});if(error)throw error;D=data||[];setSyncOk();}catch(e){D=[];setSyncErr();toast('Erreur chargement',true);}render();}
+async function loadData(){
+  setSyncing();
+  try {
+    const { data, error } = await SB
+      .from('opportunities')
+      .select('*')
+      .eq('user_id', currentUser.id)
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    D = data || [];
+    setSyncOk();
+    // Update sidebar note with count
+    document.getElementById('sync-lbl').textContent = 'Supabase · ' + D.length + ' offres';
+  } catch(e) {
+    console.error('loadData error:', e);
+    D = [];
+    setSyncErr();
+    toast('Erreur Supabase: ' + (e.message||'inconnue'), true);
+  }
+  render();
+}
 async function persist(opp){const{error}=await SB.from('opportunities').upsert({...opp,user_id:currentUser.id});if(error){console.error(error);toast('Erreur sauvegarde',true);}}
 async function removeFromDB(id){await SB.from('opportunities').delete().eq('id',id).eq('user_id',currentUser.id);}
 async function updatePositionsBatch(ids){const updates=ids.map((id,i)=>({id,position:i,user_id:currentUser.id}));await SB.from('opportunities').upsert(updates,{onConflict:'id'});}
