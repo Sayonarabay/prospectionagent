@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veille Studio — Opportunités</title>
+<title>Veille Studio — Production</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -38,6 +39,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .nb{margin-left:auto;background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
 .ni.on .nb{background:rgba(255,255,255,.2)}
 .sb-foot{padding:9px 7px;border-top:1px solid var(--border)}
+.sb-user{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--rs)}
+.sb-avatar{width:26px;height:26px;border-radius:50%;background:var(--text);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.sb-uname{font-size:12px;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-logout{padding:2px 6px;font-size:10px;color:var(--t3);cursor:pointer;border-radius:4px}
+.sb-logout:hover{color:var(--red);background:var(--red-bg)}
 .sb-note{font-size:11px;color:var(--t3);padding:5px 9px;line-height:1.5}
 
 /* MAIN */
@@ -46,6 +52,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .tb-title{font-size:15px;font-weight:600;flex:1}
 .tb-sub{font-size:12px;color:var(--t3);font-weight:400;margin-left:4px}
 .content{padding:22px}
+
+/* SYNC STATUS */
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--border-s);flex-shrink:0}
+.sync-dot.ok{background:var(--green)}
+.sync-dot.err{background:var(--red)}
+.sync-dot.syncing{background:var(--gold);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sync-label{font-size:11px;color:var(--t3)}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--rs);font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .12s;white-space:nowrap}
@@ -122,19 +136,24 @@ td{padding:10px 12px;vertical-align:middle}
 .dl-u{color:var(--red);font-weight:700}
 
 /* KANBAN */
-.kanban{display:flex;gap:9px;overflow-x:auto;padding-bottom:10px}
+.kanban{display:flex;gap:9px;overflow-x:auto;padding-bottom:10px;align-items:flex-start}
 .kol{min-width:215px;max-width:215px;background:var(--s2);border-radius:var(--r);display:flex;flex-direction:column}
 .kol-h{padding:10px 12px;display:flex;align-items:center;justify-content:space-between}
 .kol-t{font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em}
 .kol-c{background:var(--border-s);color:var(--t3);font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px}
-.kol-cards{padding:0 6px 6px;display:flex;flex-direction:column;gap:5px}
-.kcard{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:9px 10px;cursor:pointer;transition:all .12s;box-shadow:0 1px 3px rgba(26,24,22,.04)}
+.kol-cards{padding:0 6px 6px;display:flex;flex-direction:column;gap:5px;min-height:80px}
+.kol-cards.drag-over{background:rgba(35,85,232,.06);border-radius:6px;outline:2px dashed var(--blue);outline-offset:-3px}
+.kcard{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:9px 10px;cursor:grab;transition:box-shadow .12s,transform .12s,opacity .12s;box-shadow:0 1px 3px rgba(26,24,22,.04);user-select:none}
 .kcard:hover{box-shadow:0 3px 10px rgba(26,24,22,.08);transform:translateY(-1px);border-color:var(--border-s)}
+.kcard.dragging{opacity:.4;transform:scale(.97);cursor:grabbing;box-shadow:none}
+.kcard.drag-ghost{opacity:0;height:0;padding:0;margin:0;border:none;overflow:hidden}
 .kcard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:5px;margin-bottom:5px}
 .kcard-title{font-size:12px;font-weight:500;line-height:1.4;flex:1}
 .kcard-meta{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--t3);margin-top:4px}
 .kcard-budget{font-family:'DM Mono',monospace;font-size:10px;color:var(--t2);margin-top:2px}
 .kol-empty{padding:12px 6px 6px;text-align:center;font-size:11px;color:var(--t3)}
+.drop-indicator{height:3px;background:var(--blue);border-radius:2px;margin:2px 0;display:none}
+.drop-indicator.visible{display:block}
 
 /* DETAIL PANEL */
 .overlay{position:fixed;inset:0;z-index:200;background:rgba(26,24,22,.28);display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .18s}
@@ -150,16 +169,13 @@ td{padding:10px 12px;vertical-align:middle}
 .p-body{padding:16px 20px;flex:1}
 .psec{margin-bottom:20px}
 .psec-t{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:8px}
-
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .ic{padding:8px 10px;background:var(--bg);border-radius:var(--rs)}
 .ic-l{font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:600;color:var(--t3);margin-bottom:2px}
 .ic-v{font-size:13px;font-weight:500;color:var(--text)}
 .ic-v a{color:var(--blue);font-size:12px}
-
 .callout{background:var(--orange-bg);border:1px solid #F5DCC0;border-radius:var(--rs);padding:8px 10px;font-size:13px;color:var(--orange);line-height:1.5;display:flex;gap:7px}
 .callout svg{flex-shrink:0;margin-top:1px}
-
 .tl{display:flex;flex-direction:column}
 .tl-item{display:flex;gap:9px}
 .tl-line{display:flex;flex-direction:column;align-items:center}
@@ -169,7 +185,6 @@ td{padding:10px 12px;vertical-align:middle}
 .tl-body{padding-bottom:10px}
 .tl-ev{font-size:12px;font-weight:500}
 .tl-d{font-size:11px;color:var(--t3)}
-
 .nta{width:100%;min-height:70px;border:1px solid var(--border);border-radius:var(--rs);padding:8px 10px;font-size:13px;font-family:inherit;color:var(--text);resize:vertical;outline:none;transition:border-color .12s;background:var(--white)}
 .nta:focus{border-color:var(--text)}
 .ssel{padding:6px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:inherit;color:var(--text);background:var(--white);cursor:pointer;outline:none}
@@ -183,7 +198,6 @@ td{padding:10px 12px;vertical-align:middle}
 .m-title{font-size:14px;font-weight:600}
 .m-body{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
 .m-foot{padding:11px 20px 16px;border-top:1px solid var(--border);display:flex;gap:7px;justify-content:flex-end}
-
 .fg{display:flex;flex-direction:column;gap:4px}
 .fl{font-size:12px;font-weight:600;color:var(--t2)}
 .fl .req{color:var(--red)}
@@ -192,11 +206,32 @@ td{padding:10px 12px;vertical-align:middle}
 .fta{min-height:80px;resize:vertical}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .fh{font-size:11px;color:var(--t3)}
-
 .tag-opts{display:flex;flex-wrap:wrap;gap:5px}
 .to{display:inline-flex;align-items:center;padding:5px 10px;border-radius:20px;border:1px solid var(--border);font-size:12px;cursor:pointer;background:var(--white);color:var(--t2);transition:all .1s;user-select:none}
 .to:hover{border-color:var(--border-s)}
 .to.on{background:var(--text);border-color:var(--text);color:#fff}
+
+/* AUTH SCREEN */
+.auth-screen{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.auth-box{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:32px;width:380px;max-width:95vw}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.auth-mark{width:34px;height:34px;background:var(--text);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.auth-title{font-size:16px;font-weight:600}
+.auth-sub{font-size:12px;color:var(--t3);margin-top:1px}
+.auth-form{display:flex;flex-direction:column;gap:12px}
+.auth-err{background:var(--red-bg);border:1px solid #f5cccc;border-radius:var(--rs);padding:8px 10px;font-size:12px;color:var(--red);display:none}
+.auth-err.show{display:block}
+.auth-switch{text-align:center;font-size:12px;color:var(--t3);margin-top:8px}
+.auth-switch a{color:var(--blue);cursor:pointer;text-decoration:none}
+.auth-divider{text-align:center;font-size:11px;color:var(--t3);margin:4px 0;position:relative}
+.auth-divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border)}
+.auth-divider span{background:var(--white);padding:0 8px;position:relative}
+
+/* CONFIG MODAL */
+.cfg-modal{background:var(--white);border-radius:12px;width:480px;max-width:100%;max-height:90vh;overflow-y:auto;transform:scale(.96);transition:transform .18s cubic-bezier(.4,0,.2,1)}
+.mov.open .cfg-modal{transform:scale(1)}
+.cfg-notice{background:var(--blue-bg);border:1px solid #D0DAFC;border-radius:var(--rs);padding:10px 12px;font-size:12px;color:#1A3A9A;line-height:1.6;margin-bottom:12px}
+.cfg-tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;background:var(--green-bg);color:var(--green);font-family:'DM Mono',monospace}
 
 /* NOTICE */
 .notice{display:flex;align-items:flex-start;gap:8px;padding:9px 11px;background:var(--blue-bg);border:1px solid #D0DAFC;border-radius:var(--rs);font-size:12px;color:#1A3A9A;margin-bottom:16px;line-height:1.55}
@@ -205,11 +240,16 @@ td{padding:10px 12px;vertical-align:middle}
 /* TOAST */
 .toast{position:fixed;bottom:20px;right:20px;z-index:999;background:var(--text);color:#fff;padding:10px 14px;border-radius:var(--r);font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(26,24,22,.18);transform:translateY(60px);opacity:0;transition:all .22s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:6px}
 .toast.show{transform:translateY(0);opacity:1}
+.toast.err{background:var(--red)}
 
 /* EMPTY */
 .empty{text-align:center;padding:48px 20px;color:var(--t3)}
 .empty svg{width:30px;height:30px;margin-bottom:9px;opacity:.22}
 .empty p{font-size:13px}
+
+/* LOADING */
+.loading-bar{height:2px;background:var(--blue);position:fixed;top:0;left:0;z-index:9999;width:0;transition:width .3s ease;opacity:0}
+.loading-bar.active{opacity:1}
 
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -219,7 +259,80 @@ td{padding:10px 12px;vertical-align:middle}
 </style>
 </head>
 <body>
-<div class="app">
+
+<!-- LOADING BAR -->
+<div class="loading-bar" id="loader"></div>
+
+<!-- AUTH SCREEN -->
+<div class="auth-screen" id="auth-screen" style="display:none">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-mark">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+      </div>
+      <div>
+        <div class="auth-title">Veille Studio</div>
+        <div class="auth-sub">Connexion à votre espace</div>
+      </div>
+    </div>
+    <div id="auth-err" class="auth-err"></div>
+    <div class="auth-form" id="auth-login-form">
+      <div class="fg">
+        <label class="fl">Email</label>
+        <input class="fi" type="email" id="auth-email" placeholder="vous@exemple.com" autocomplete="email">
+      </div>
+      <div class="fg">
+        <label class="fl">Mot de passe</label>
+        <input class="fi" type="password" id="auth-pwd" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn btn-p" style="width:100%;justify-content:center" onclick="doLogin()">Se connecter</button>
+      <div class="auth-divider"><span>ou</span></div>
+      <button class="btn btn-s" style="width:100%;justify-content:center" onclick="showRegister()">Créer un compte</button>
+    </div>
+    <div class="auth-form" id="auth-register-form" style="display:none">
+      <div class="fg">
+        <label class="fl">Email</label>
+        <input class="fi" type="email" id="reg-email" placeholder="vous@exemple.com">
+      </div>
+      <div class="fg">
+        <label class="fl">Mot de passe</label>
+        <input class="fi" type="password" id="reg-pwd" placeholder="Min. 8 caractères">
+      </div>
+      <button class="btn btn-p" style="width:100%;justify-content:center" onclick="doRegister()">Créer mon compte</button>
+      <div class="auth-switch"><a onclick="showLogin()">← Retour à la connexion</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIG MODAL (Supabase credentials) -->
+<div class="mov" id="cfg-mov">
+  <div class="cfg-modal modal">
+    <div class="m-head">
+      <span class="m-title">⚙️ Configuration Supabase</span>
+    </div>
+    <div class="m-body">
+      <div class="cfg-notice">
+        Pour activer la synchronisation cloud, entrez vos clés Supabase.<br>
+        Trouvez-les dans <strong>Project Settings → API</strong> sur <a href="https://supabase.com" target="_blank" style="color:var(--blue)">supabase.com</a>.<br><br>
+        <strong>Sans configuration</strong> : l'app fonctionne en mode <span class="cfg-tag">localStorage</span> uniquement.
+      </div>
+      <div class="fg">
+        <label class="fl">Project URL</label>
+        <input class="fi" id="cfg-url" placeholder="https://xxxx.supabase.co">
+      </div>
+      <div class="fg">
+        <label class="fl">Anon Key (public)</label>
+        <input class="fi" id="cfg-key" placeholder="eyJhbGci...">
+      </div>
+    </div>
+    <div class="m-foot">
+      <button class="btn btn-s" onclick="closeCfg()">Ignorer (mode local)</button>
+      <button class="btn btn-p" onclick="saveCfg()">Connecter Supabase</button>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="main-app" style="display:none">
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -230,7 +343,6 @@ td{padding:10px 12px;vertical-align:middle}
     <h1>Veille Studio</h1>
     <p>Opportunités</p>
   </div>
-
   <nav class="sb-nav">
     <div class="nav-grp">
       <div class="nav-gl">Vues</div>
@@ -244,42 +356,45 @@ td{padding:10px 12px;vertical-align:middle}
         Pipeline
       </div>
     </div>
-
     <div class="nav-grp">
       <div class="nav-gl">Filtres rapides</div>
       <div class="ni" onclick="quickFilter('detected')">
-        <span style="width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0"></span>
-        À valider
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0"></span>À valider
       </div>
       <div class="ni" onclick="quickFilter('qualified')">
-        <span style="width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0"></span>
-        Qualifiés
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0"></span>Qualifiés
       </div>
       <div class="ni" onclick="quickFilter('in_progress')">
-        <span style="width:7px;height:7px;border-radius:50%;background:#1A55C8;flex-shrink:0"></span>
-        En cours
+        <span style="width:7px;height:7px;border-radius:50%;background:#1A55C8;flex-shrink:0"></span>En cours
       </div>
       <div class="ni" onclick="quickFilter('submitted')">
-        <span style="width:7px;height:7px;border-radius:50%;background:#7A20C0;flex-shrink:0"></span>
-        Soumis
+        <span style="width:7px;height:7px;border-radius:50%;background:#7A20C0;flex-shrink:0"></span>Soumis
       </div>
     </div>
-
     <div class="nav-grp">
       <div class="nav-gl">Actions</div>
       <div class="ni" onclick="openModal()">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg>
-        Ajouter
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg>Ajouter
       </div>
       <div class="ni" onclick="exportCSV()">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-        Export CSV
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>Export CSV
+      </div>
+      <div class="ni" onclick="openCfg()">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Supabase
       </div>
     </div>
   </nav>
-
   <div class="sb-foot">
-    <div class="sb-note">Données : localStorage navigateur.<br>Pour sync auto → connecter Make.com + Supabase.</div>
+    <div class="sb-user" id="sb-user-row" style="display:none">
+      <div class="sb-avatar" id="sb-avatar">?</div>
+      <div class="sb-uname" id="sb-uname">—</div>
+      <span class="sb-logout" onclick="doLogout()" title="Déconnexion">✕</span>
+    </div>
+    <div class="sb-note" id="sb-mode-note">Mode local</div>
+    <div style="padding:5px 9px;display:flex;align-items:center;gap:5px">
+      <div class="sync-dot" id="sync-dot"></div>
+      <span class="sync-label" id="sync-label">Non connecté</span>
+    </div>
   </div>
 </aside>
 
@@ -288,218 +403,163 @@ td{padding:10px 12px;vertical-align:middle}
   <div class="topbar">
     <div class="tb-title" id="tb-title">Opportunités<span class="tb-sub" id="tb-sub"></span></div>
     <button class="btn btn-s btn-sm" onclick="exportCSV()">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-      CSV
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>CSV
     </button>
     <button class="btn btn-p" onclick="openModal()">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg>
-      Nouvelle opportunité
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg>Nouvelle opportunité
     </button>
   </div>
 
   <div class="content">
-
     <div class="kpi-grid">
       <div class="kpi hi"><div class="kl">Total</div><div class="kv" id="k-tot">0</div><div class="ks">opportunités</div></div>
-      <div class="kpi"><div class="kl">À valider</div><div class="kv" id="k-det" style="color:var(--blue)">0</div><div class="ks">détectées</div></div>
-      <div class="kpi"><div class="kl">En cours</div><div class="kv" id="k-inp" style="color:#1A55C8">0</div><div class="ks">dossiers actifs</div></div>
-      <div class="kpi"><div class="kl">Soumis</div><div class="kv" id="k-sub" style="color:#7A20C0">0</div><div class="ks">en attente</div></div>
-      <div class="kpi"><div class="kl">Gagnés</div><div class="kv" id="k-won" style="color:var(--green)">0</div><div class="ks">contrats</div></div>
+      <div class="kpi"><div class="kl">Détectés</div><div class="kv" id="k-det">0</div><div class="ks">à valider</div></div>
+      <div class="kpi"><div class="kl">En cours</div><div class="kv" id="k-inp">0</div><div class="ks">actifs</div></div>
+      <div class="kpi"><div class="kl">Soumis</div><div class="kv" id="k-sub">0</div><div class="ks">en attente</div></div>
+      <div class="kpi"><div class="kl">Gagnés</div><div class="kv" id="k-won">0</div><div class="ks">cette année</div></div>
     </div>
 
-    <!-- LIST -->
-    <div id="v-list" class="fi-anim">
+    <!-- LIST VIEW -->
+    <div id="v-list">
       <div class="filters">
         <div class="sbox">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4-4"/></svg>
-          <input type="text" placeholder="Rechercher..." id="q" oninput="renderList()">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+          <input type="text" id="q" placeholder="Rechercher…" oninput="renderList()">
         </div>
         <div class="chip on" id="c-all" onclick="setChip('')">Tous</div>
         <div class="chip" id="c-detected" onclick="setChip('detected')"><span class="dot" style="background:var(--blue)"></span>Détecté</div>
         <div class="chip" id="c-qualified" onclick="setChip('qualified')"><span class="dot" style="background:var(--gold)"></span>Qualifié</div>
         <div class="chip" id="c-in_progress" onclick="setChip('in_progress')"><span class="dot" style="background:#1A55C8"></span>En cours</div>
         <div class="chip" id="c-submitted" onclick="setChip('submitted')"><span class="dot" style="background:#7A20C0"></span>Soumis</div>
+        <select class="sel" onchange="aSort=this.value;renderList()">
+          <option value="score">Score ↓</option>
+          <option value="deadline">Deadline ↑</option>
+          <option value="date">Récent ↓</option>
+        </select>
         <select class="sel" onchange="aTag=this.value;renderList()">
-          <option value="">Tous les tags</option>
+          <option value="">Tous tags</option>
           <option value="branding">Branding</option>
           <option value="web">Web</option>
           <option value="editorial">Éditorial</option>
           <option value="print">Print</option>
-          <option value="signalétique">Signalétique</option>
+          <option value="sign">Signalétique</option>
           <option value="motion">Motion</option>
         </select>
-        <select class="sel" style="margin-left:auto" onchange="aSort=this.value;renderList()">
-          <option value="score">Score ↓</option>
-          <option value="deadline">Deadline ↑</option>
-          <option value="date">Date ajout ↓</option>
-        </select>
       </div>
-      <div class="tw">
-        <table>
-          <thead><tr>
-            <th style="width:32px">Score</th>
-            <th>Opportunité</th>
-            <th>Tags</th>
-            <th>Source</th>
-            <th>Budget</th>
-            <th>Deadline</th>
-            <th>Statut</th>
-            <th style="width:40px"></th>
-          </tr></thead>
-          <tbody id="tbl"></tbody>
-        </table>
-      </div>
+      <div class="tw"><table><thead><tr>
+        <th style="width:36px">Score</th><th>Opportunité</th><th>Tags</th>
+        <th>Source</th><th>Budget</th><th>Deadline</th><th>Statut</th><th style="width:36px"></th>
+      </tr></thead><tbody id="tbl"></tbody></table></div>
     </div>
 
-    <!-- KANBAN -->
-    <div id="v-kanban" style="display:none" class="fi-anim">
+    <!-- KANBAN VIEW -->
+    <div id="v-kanban" style="display:none">
       <div class="kanban" id="kanban"></div>
     </div>
-
   </div>
 </main>
-</div>
+</div><!-- /.app -->
 
 <!-- DETAIL PANEL -->
 <div class="overlay" id="ov" onclick="ovClick(event)">
   <div class="panel">
     <div class="p-head">
       <div class="p-ht">
-        <div class="p-title" id="d-title">—</div>
-        <button class="p-close" onclick="closePanel()">
-          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
+        <div class="p-title" id="d-title"></div>
+        <button class="p-close" onclick="closePanel()">✕</button>
       </div>
       <div class="p-meta" id="d-meta"></div>
     </div>
     <div class="p-body">
-
-      <div class="psec" id="d-att-sec" style="display:none">
-        <div class="psec-t">Point d'attention</div>
+      <div id="d-att-sec" class="psec" style="display:none">
         <div class="callout">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           <span id="d-att"></span>
         </div>
       </div>
-
       <div class="psec">
         <div class="psec-t">Description</div>
-        <div id="d-desc" style="font-size:13px;color:var(--t2);line-height:1.65;background:var(--bg);border-radius:var(--rs);padding:10px 12px;white-space:pre-wrap"></div>
+        <p id="d-desc" style="font-size:13px;color:var(--t2);line-height:1.6"></p>
       </div>
-
       <div class="psec">
         <div class="psec-t">Informations</div>
         <div class="info-grid" id="d-info"></div>
       </div>
-
       <div class="psec">
-        <div class="psec-t">Changer le statut</div>
-        <div style="display:flex;gap:7px;align-items:center">
+        <div class="psec-t">Statut</div>
+        <div style="display:flex;align-items:center;gap:8px">
           <select class="ssel" id="d-ssel">
             <option value="detected">Détecté</option>
             <option value="qualified">Qualifié</option>
             <option value="in_progress">En cours</option>
             <option value="submitted">Soumis</option>
-            <option value="won">Gagné ✓</option>
-            <option value="lost">Perdu ✗</option>
+            <option value="won">Gagné</option>
+            <option value="lost">Perdu</option>
           </select>
           <button class="btn btn-s btn-sm" onclick="saveStatus()">Enregistrer</button>
         </div>
       </div>
-
+      <div class="psec">
+        <div class="psec-t">Notes</div>
+        <textarea class="nta" id="d-notes" placeholder="Vos notes…"></textarea>
+        <div style="margin-top:6px;display:flex;gap:6px">
+          <button class="btn btn-s btn-sm" onclick="saveNote()">Sauvegarder</button>
+          <button class="btn btn-d btn-sm" onclick="deleteOpp()">Supprimer</button>
+        </div>
+      </div>
       <div class="psec">
         <div class="psec-t">Historique</div>
         <div class="tl" id="d-tl"></div>
-      </div>
-
-      <div class="psec">
-        <div class="psec-t">Notes</div>
-        <textarea class="nta" id="d-notes" placeholder="Notes libres, contacts, étapes suivantes..."></textarea>
-        <div style="margin-top:6px">
-          <button class="btn btn-s btn-sm" onclick="saveNote()">Sauvegarder</button>
-        </div>
-      </div>
-
-      <div class="psec">
-        <button class="btn btn-d btn-sm" onclick="deleteOpp()">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-          Supprimer
-        </button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- ADD MODAL -->
 <div class="mov" id="mov" onclick="movClick(event)">
   <div class="modal">
     <div class="m-head">
-      <div class="m-title">Nouvelle opportunité</div>
-      <button class="p-close" onclick="closeModal()">
-        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
+      <span class="m-title">Nouvelle opportunité</span>
+      <button class="p-close" onclick="closeModal()">✕</button>
     </div>
     <div class="m-body">
       <div class="notice">
-        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
-        Saisie manuelle. Le score est votre estimation (0 = non évalué). L'analyse Claude API se configure séparément dans Make.com.
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        Les données sont sauvegardées dans Supabase (si connecté) ou localStorage.
       </div>
       <div class="fg">
         <label class="fl">Titre <span class="req">*</span></label>
-        <input class="fi" id="f-title" placeholder="Ex : Refonte identité visuelle — collectivité XY">
+        <input class="fi" type="text" id="f-title" placeholder="Ex : Refonte identité visuelle — Mairie de…">
       </div>
       <div class="frow">
-        <div class="fg">
-          <label class="fl">Organisation / Client</label>
-          <input class="fi" id="f-org" placeholder="Nom de l'entité">
-        </div>
-        <div class="fg">
-          <label class="fl">Source</label>
+        <div class="fg"><label class="fl">Organisation</label><input class="fi" type="text" id="f-org" placeholder="Client / Donneur d'ordre"></div>
+        <div class="fg"><label class="fl">Source</label>
           <select class="fsel" id="f-src">
-            <option value="manual">Saisie manuelle</option>
+            <option value="manual">Manuel</option>
             <option value="boamp">BOAMP</option>
-            <option value="place">PLACE (marches-publics.gouv.fr)</option>
+            <option value="place">PLACE</option>
             <option value="maximilien">Maximilien</option>
             <option value="malt">Malt</option>
             <option value="les_bons_freelances">Les Bons Freelances</option>
-            <option value="behance">Behance Jobs</option>
+            <option value="behance">Behance</option>
             <option value="welcometothejungle">Welcome to the Jungle</option>
             <option value="google_alert">Google Alert</option>
-            <option value="linkedin">LinkedIn (signal)</option>
-            <option value="reseau">Réseau / recommandation</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="reseau">Réseau</option>
             <option value="autre">Autre</option>
           </select>
         </div>
       </div>
-      <div class="fg">
-        <label class="fl">Description</label>
-        <textarea class="fta" id="f-desc" placeholder="Texte de l'AO, description du projet, infos utiles..."></textarea>
+      <div class="fg"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="Périmètre, contexte, livrables attendus…"></textarea></div>
+      <div class="frow">
+        <div class="fg"><label class="fl">Budget estimé</label><input class="fi" type="text" id="f-budget" placeholder="ex : 15–25k€"></div>
+        <div class="fg"><label class="fl">Deadline</label><input class="fi" type="date" id="f-deadline"></div>
       </div>
       <div class="frow">
-        <div class="fg">
-          <label class="fl">Budget estimé</label>
-          <input class="fi" id="f-budget" placeholder="Ex : 15 000 €">
-        </div>
-        <div class="fg">
-          <label class="fl">Deadline</label>
-          <input class="fi" type="date" id="f-deadline">
-        </div>
+        <div class="fg"><label class="fl">Localisation</label><input class="fi" type="text" id="f-loc" placeholder="Paris, Remote…"></div>
+        <div class="fg"><label class="fl">Score (0–10)</label><input class="fi" type="number" id="f-score" min="0" max="10" placeholder="0–10"><div class="fh">Pertinence / intérêt stratégique</div></div>
       </div>
-      <div class="fg">
-        <label class="fl">URL source</label>
-        <input class="fi" id="f-url" placeholder="https://...">
-      </div>
-      <div class="frow">
-        <div class="fg">
-          <label class="fl">Score (0–10) <span style="font-weight:400;color:var(--t3)">votre estimation</span></label>
-          <input class="fi" id="f-score" type="number" min="0" max="10" placeholder="0 = non évalué">
-          <span class="fh">0 = non évalué. Score IA → via Make.com</span>
-        </div>
-        <div class="fg">
-          <label class="fl">Localisation</label>
-          <input class="fi" id="f-loc" placeholder="Ex : Paris, IDF">
-        </div>
-      </div>
+      <div class="fg"><label class="fl">URL source</label><input class="fi" type="url" id="f-url" placeholder="https://…"></div>
       <div class="fg">
         <label class="fl">Tags</label>
         <div class="tag-opts">
@@ -507,18 +567,15 @@ td{padding:10px 12px;vertical-align:middle}
           <div class="to" onclick="toggleTag(this,'web')">Web</div>
           <div class="to" onclick="toggleTag(this,'editorial')">Éditorial</div>
           <div class="to" onclick="toggleTag(this,'print')">Print</div>
-          <div class="to" onclick="toggleTag(this,'signalétique')">Signalétique</div>
+          <div class="to" onclick="toggleTag(this,'sign')">Signalétique</div>
           <div class="to" onclick="toggleTag(this,'motion')">Motion</div>
         </div>
       </div>
-      <div class="fg">
-        <label class="fl">Notes / Contexte</label>
-        <textarea class="fta" id="f-notes" style="min-height:55px" placeholder="Contacts, remarques, étapes suivantes..."></textarea>
-      </div>
+      <div class="fg"><label class="fl">Note initiale</label><textarea class="fta" id="f-notes" placeholder="Premier ressenti, contacts, infos clés…" style="min-height:55px"></textarea></div>
     </div>
     <div class="m-foot">
       <button class="btn btn-s" onclick="closeModal()">Annuler</button>
-      <button class="btn btn-p" onclick="saveOpp()">Enregistrer</button>
+      <button class="btn btn-p" onclick="saveOpp()">Ajouter</button>
     </div>
   </div>
 </div>
@@ -529,8 +586,154 @@ td{padding:10px 12px;vertical-align:middle}
 </div>
 
 <script>
-// ── STATE ──────────────────────────────────────────────────────
-let D = JSON.parse(localStorage.getItem('vs3') || '[]');
+// ════════════════════════════════════════════════════════════════
+// CONFIG & SUPABASE INIT
+// ════════════════════════════════════════════════════════════════
+let SB = null; // Supabase client
+let currentUser = null;
+let isSupabaseMode = false;
+
+function initSupabase(url, key) {
+  try {
+    SB = supabase.createClient(url, key);
+    isSupabaseMode = true;
+    return true;
+  } catch(e) {
+    console.error('Supabase init failed', e);
+    return false;
+  }
+}
+
+// Load saved config
+const savedCfg = JSON.parse(localStorage.getItem('vs_cfg') || '{}');
+if (savedCfg.url && savedCfg.key) {
+  initSupabase(savedCfg.url, savedCfg.key);
+}
+
+function openCfg() {
+  const cfg = JSON.parse(localStorage.getItem('vs_cfg') || '{}');
+  document.getElementById('cfg-url').value = cfg.url || '';
+  document.getElementById('cfg-key').value = cfg.key || '';
+  document.getElementById('cfg-mov').classList.add('open');
+}
+function closeCfg() {
+  document.getElementById('cfg-mov').classList.remove('open');
+  if (!isSupabaseMode) showApp(false);
+}
+function saveCfg() {
+  const url = document.getElementById('cfg-url').value.trim();
+  const key = document.getElementById('cfg-key').value.trim();
+  if (!url || !key) { toast('URL et clé requis', true); return; }
+  if (initSupabase(url, key)) {
+    localStorage.setItem('vs_cfg', JSON.stringify({url, key}));
+    document.getElementById('cfg-mov').classList.remove('open');
+    toast('Supabase connecté ✓');
+    showApp(true);
+    checkAuth();
+  } else {
+    toast('Connexion échouée — vérifiez les clés', true);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════════════════
+async function checkAuth() {
+  if (!isSupabaseMode) {
+    showApp(false);
+    return;
+  }
+  const { data: { session } } = await SB.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    onLoggedIn();
+  } else {
+    showAuthScreen();
+  }
+}
+
+function showAuthScreen() {
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('main-app').style.display = 'none';
+}
+
+function showApp(supabaseReady) {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'flex';
+  updateSyncUI();
+  loadData();
+}
+
+function onLoggedIn() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'flex';
+  // Update sidebar user info
+  const email = currentUser.email || '';
+  document.getElementById('sb-avatar').textContent = email[0]?.toUpperCase() || '?';
+  document.getElementById('sb-uname').textContent = email;
+  document.getElementById('sb-user-row').style.display = 'flex';
+  document.getElementById('sb-mode-note').textContent = 'Supabase · RLS actif';
+  updateSyncUI();
+  loadData();
+}
+
+async function doLogin() {
+  const email = document.getElementById('auth-email').value.trim();
+  const pwd = document.getElementById('auth-pwd').value;
+  if (!email || !pwd) return;
+  setAuthErr('');
+  loadStart();
+  const { data, error } = await SB.auth.signInWithPassword({ email, password: pwd });
+  loadEnd();
+  if (error) { setAuthErr(error.message); return; }
+  currentUser = data.user;
+  onLoggedIn();
+}
+
+async function doRegister() {
+  const email = document.getElementById('reg-email').value.trim();
+  const pwd = document.getElementById('reg-pwd').value;
+  if (!email || !pwd) return;
+  setAuthErr('');
+  loadStart();
+  const { data, error } = await SB.auth.signUp({ email, password: pwd });
+  loadEnd();
+  if (error) { setAuthErr(error.message); return; }
+  toast('Compte créé ! Vérifiez votre email.');
+  showLogin();
+}
+
+async function doLogout() {
+  if (SB) await SB.auth.signOut();
+  currentUser = null;
+  D = [];
+  render();
+  showAuthScreen();
+}
+
+function showLogin() { document.getElementById('auth-login-form').style.display='flex'; document.getElementById('auth-register-form').style.display='none'; setAuthErr(''); }
+function showRegister() { document.getElementById('auth-login-form').style.display='none'; document.getElementById('auth-register-form').style.display='flex'; setAuthErr(''); }
+function setAuthErr(msg) { const el = document.getElementById('auth-err'); el.textContent = msg; el.classList.toggle('show', !!msg); }
+
+function updateSyncUI() {
+  const dot = document.getElementById('sync-dot');
+  const lbl = document.getElementById('sync-label');
+  if (isSupabaseMode && currentUser) {
+    dot.className = 'sync-dot ok';
+    lbl.textContent = 'Sync cloud actif';
+  } else if (isSupabaseMode) {
+    dot.className = 'sync-dot err';
+    lbl.textContent = 'Auth requise';
+  } else {
+    dot.className = 'sync-dot';
+    lbl.textContent = 'Mode localStorage';
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════
+let D = [];
 let selTags = [];
 let aSt = '', aTag = '', aSort = 'score';
 let curId = null;
@@ -538,43 +741,189 @@ let curId = null;
 const SL = {detected:'Détecté',qualified:'Qualifié',in_progress:'En cours',submitted:'Soumis',won:'Gagné',lost:'Perdu'};
 const SRCL = {boamp:'BOAMP',place:'PLACE',maximilien:'Maximilien',malt:'Malt',les_bons_freelances:'LBF',behance:'Behance',welcometothejungle:'WtJ',google_alert:'Google Alert',linkedin:'LinkedIn',reseau:'Réseau',manual:'Manuel',autre:'Autre'};
 
-// Données démo — clairement marquées
-if (D.length === 0) {
+// ════════════════════════════════════════════════════════════════
+// DATA LAYER — localStorage fallback + Supabase
+// ════════════════════════════════════════════════════════════════
+async function loadData() {
+  loadStart();
+  setSyncing();
+  if (isSupabaseMode && currentUser) {
+    try {
+      const { data, error } = await SB
+        .from('opportunities')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .order('position', { ascending: true });
+      if (error) throw error;
+      D = (data || []).map(dbToLocal);
+      setSyncOk();
+    } catch(e) {
+      console.error('Load error', e);
+      D = localLoad();
+      setSyncErr();
+      toast('Chargement local (Supabase indisponible)', true);
+    }
+  } else {
+    D = localLoad();
+    setSyncIdle();
+  }
+  loadEnd();
+  render();
+}
+
+async function saveOppDB(opp) {
+  if (isSupabaseMode && currentUser) {
+    setSyncing();
+    try {
+      const row = localToDB(opp);
+      const { error } = await SB.from('opportunities').upsert(row);
+      if (error) throw error;
+      setSyncOk();
+    } catch(e) {
+      console.error('Save error', e);
+      setSyncErr();
+      toast('Sauvegarde locale uniquement', true);
+    }
+  }
+  localSave();
+}
+
+async function deleteOppDB(id) {
+  localDeleteOne(id);
+  if (isSupabaseMode && currentUser) {
+    try {
+      await SB.from('opportunities').delete().eq('id', id).eq('user_id', currentUser.id);
+    } catch(e) { console.error('Delete error', e); }
+  }
+  localSave();
+}
+
+async function updatePositions(statusKey, orderedIds) {
+  if (isSupabaseMode && currentUser) {
+    const updates = orderedIds.map((id, i) => ({ id, position: i, user_id: currentUser.id }));
+    try {
+      await SB.from('opportunities').upsert(updates, { onConflict: 'id' });
+    } catch(e) { console.error('Position update error', e); }
+  }
+}
+
+// Local helpers
+function localLoad() {
+  const raw = localStorage.getItem('vs3');
+  if (raw) return JSON.parse(raw);
+  return getDemoData();
+}
+function localSave() { localStorage.setItem('vs3', JSON.stringify(D)); }
+function localDeleteOne(id) { D = D.filter(x => x.id !== id); }
+
+function localToDB(o) {
+  return {
+    id: o.id,
+    user_id: currentUser?.id,
+    title: o.title,
+    organization: o.organization || null,
+    source: o.source || 'manual',
+    source_url: o.source_url || null,
+    description: o.description || null,
+    score: o.score || 0,
+    tags: o.tags || [],
+    budget: o.budget || null,
+    deadline: o.deadline || null,
+    location: o.location || null,
+    detected_at: o.detected_at,
+    status: o.status,
+    is_manual: o.is_manual !== false,
+    notes: o.notes || '',
+    attention: o.attention || null,
+    timeline: o.timeline || [],
+    position: o.position || 0
+  };
+}
+
+function dbToLocal(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    organization: row.organization,
+    source: row.source,
+    source_url: row.source_url,
+    description: row.description,
+    score: row.score || 0,
+    tags: row.tags || [],
+    budget: row.budget,
+    deadline: row.deadline,
+    location: row.location,
+    detected_at: row.detected_at,
+    status: row.status,
+    is_manual: row.is_manual,
+    notes: row.notes,
+    attention: row.attention,
+    timeline: row.timeline || [],
+    position: row.position || 0
+  };
+}
+
+function getDemoData() {
   const td = new Date().toISOString().split('T')[0];
   const tl = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
-  D = [
-    {id:'d1',title:'[DÉMO] Refonte identité visuelle',organization:'Exemple Collectivité',source:'boamp',source_url:'',description:'Exemple de marché public. Remplacez par vos vraies opportunités via le formulaire ci-dessus ou via Make.com.',score:0,tags:['branding'],budget:'',deadline:'',location:'Paris',detected_at:td,status:'detected',is_manual:false,notes:'Entrée de démonstration — supprimer et saisir vos vraies opportunités.',attention:null,timeline:[{s:'detected',d:tl}]},
-    {id:'d2',title:'[DÉMO] Mission éditoriale',organization:'Exemple Association',source:'malt',source_url:'',description:'Exemple de mission freelance. Score non évalué (0). Modifiez via le formulaire.',score:0,tags:['editorial','print'],budget:'',deadline:'',location:'Remote',detected_at:td,status:'qualified',is_manual:true,notes:'',attention:null,timeline:[{s:'detected',d:tl},{s:'qualified',d:tl}]}
+  return [
+    {id:'d1',title:'[DÉMO] Refonte identité visuelle',organization:'Exemple Collectivité',source:'boamp',score:0,tags:['branding'],budget:'',deadline:'',location:'Paris',detected_at:td,status:'detected',is_manual:false,notes:'Entrée de démonstration.',attention:null,timeline:[{s:'detected',d:tl}],position:0},
+    {id:'d2',title:'[DÉMO] Mission éditoriale',organization:'Exemple Association',source:'malt',score:0,tags:['editorial','print'],budget:'',deadline:'',location:'Remote',detected_at:td,status:'qualified',is_manual:true,notes:'',attention:null,timeline:[{s:'detected',d:tl},{s:'qualified',d:tl}],position:0}
   ];
-  save();
 }
 
-function today(){return new Date().toISOString().split('T')[0]}
-function tday(){return new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}
-function save(){localStorage.setItem('vs3',JSON.stringify(D))}
+// Sync UI helpers
+function setSyncing() {
+  const d = document.getElementById('sync-dot');
+  const l = document.getElementById('sync-label');
+  if (d) { d.className = 'sync-dot syncing'; l.textContent = 'Synchronisation…'; }
+}
+function setSyncOk() {
+  const d = document.getElementById('sync-dot');
+  const l = document.getElementById('sync-label');
+  if (d) { d.className = 'sync-dot ok'; l.textContent = 'Synchronisé'; }
+}
+function setSyncErr() {
+  const d = document.getElementById('sync-dot');
+  const l = document.getElementById('sync-label');
+  if (d) { d.className = 'sync-dot err'; l.textContent = 'Erreur sync'; }
+}
+function setSyncIdle() {
+  const d = document.getElementById('sync-dot');
+  const l = document.getElementById('sync-label');
+  if (d) { d.className = 'sync-dot'; l.textContent = isSupabaseMode ? 'Connecté' : 'Mode local'; }
+}
 
-// ── HELPERS ────────────────────────────────────────────────────
-function scCls(s){
-  if(!s&&s!==0)return'sc-n';
-  if(s===0)return'sc-n';
-  if(s>=8)return'sc-h';if(s>=5)return'sc-m';return'sc-l';
+// Loading bar
+function loadStart() {
+  const b = document.getElementById('loader');
+  b.style.width = '60%'; b.classList.add('active');
 }
-function scLbl(s){return(!s&&s!==0)||s===0?'?':s}
-function rTags(tags){
-  if(!tags||!tags.length)return'';
-  return tags.map(t=>`<span class="tag t-${t==='signalétique'?'sign':t}">${t}</span>`).join('');
+function loadEnd() {
+  const b = document.getElementById('loader');
+  b.style.width = '100%';
+  setTimeout(() => { b.style.width = '0'; b.classList.remove('active'); }, 300);
 }
+
+// ════════════════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════════════════
+function today(){ return new Date().toISOString().split('T')[0]; }
+function tday(){ return new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short'}); }
+function scCls(s){ if(!s&&s!==0)return'sc-n'; if(s===0)return'sc-n'; if(s>=8)return'sc-h'; if(s>=5)return'sc-m'; return'sc-l'; }
+function scLbl(s){ return(!s&&s!==0)||s===0?'?':s; }
+function rTags(tags){ if(!tags||!tags.length)return''; return tags.map(t=>`<span class="tag t-${t==='signalétique'?'sign':t}">${t}</span>`).join(''); }
 function fmtDL(d){
   if(!d)return'—';
   const dt=new Date(d);const now=new Date();
-  const diff=Math.ceil((dt-now)/(864e5));
+  const diff=Math.ceil((dt-now)/864e5);
   const str=dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
   if(diff<0)return`<span class="dl-u">Échu</span>`;
   if(diff<=7)return`<span class="dl-u">⚠ ${str}</span>`;
   if(diff<=14)return`<span class="dl-s">${str}</span>`;
   return str;
 }
-function srcL(s){return SRCL[s]||s}
+function srcL(s){ return SRCL[s]||s; }
 
 function getFiltered(){
   let d=[...D];
@@ -588,7 +937,9 @@ function getFiltered(){
   return d;
 }
 
-// ── RENDER TABLE ───────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════════════
 function renderList(){
   const rows=getFiltered();
   document.getElementById('tb-sub').textContent=` — ${rows.length} entrée${rows.length!==1?'s':''}`;
@@ -613,38 +964,144 @@ function renderList(){
   </tr>`).join('');
 }
 
-// ── RENDER KANBAN ──────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// KANBAN WITH NATIVE DRAG & DROP
+// ════════════════════════════════════════════════════════════════
+const COLS = [
+  {k:'detected',l:'Détecté',c:'var(--blue)'},
+  {k:'qualified',l:'Qualifié',c:'var(--gold)'},
+  {k:'in_progress',l:'En cours',c:'#1A55C8'},
+  {k:'submitted',l:'Soumis',c:'#7A20C0'},
+  {k:'won',l:'Gagné ✓',c:'var(--green)'},
+  {k:'lost',l:'Perdu ✗',c:'var(--t3)'},
+];
+
+let dragId = null;
+let dragSourceCol = null;
+
 function renderKanban(){
-  const cols=[
-    {k:'detected',l:'Détecté',c:'var(--blue)'},
-    {k:'qualified',l:'Qualifié',c:'var(--gold)'},
-    {k:'in_progress',l:'En cours',c:'#1A55C8'},
-    {k:'submitted',l:'Soumis',c:'#7A20C0'},
-    {k:'won',l:'Gagné ✓',c:'var(--green)'},
-    {k:'lost',l:'Perdu ✗',c:'var(--t3)'},
-  ];
-  document.getElementById('kanban').innerHTML=cols.map(col=>{
-    const cards=D.filter(o=>o.status===col.k);
-    return`<div class="kol">
-      <div class="kol-h"><span class="kol-t" style="color:${col.c}">${col.l}</span><span class="kol-c">${cards.length}</span></div>
-      <div class="kol-cards">${cards.length?cards.map(o=>`
-        <div class="kcard" onclick="openDetail('${o.id}')">
-          <div class="kcard-top">
-            <div class="kcard-title">${o.title}</div>
-            <div class="sc ${scCls(o.score)}" style="width:22px;height:22px;font-size:10px">${scLbl(o.score)}</div>
-          </div>
-          <div>${rTags(o.tags)}</div>
-          <div class="kcard-meta">
-            <span>${o.organization?o.organization.substring(0,20):srcL(o.source)}</span>
-            ${o.deadline?`<span class="mono" style="font-size:10px">${fmtDL(o.deadline)}</span>`:''}
-          </div>
-          ${o.budget?`<div class="kcard-budget">${o.budget}</div>`:''}
-        </div>`).join(''):'<div class="kol-empty">Aucune</div>'}
-      </div></div>`;
+  const kb = document.getElementById('kanban');
+  kb.innerHTML = COLS.map(col => {
+    const cards = D
+      .filter(o => o.status === col.k)
+      .sort((a,b) => (a.position||0) - (b.position||0));
+    return `<div class="kol" data-col="${col.k}">
+      <div class="kol-h">
+        <span class="kol-t" style="color:${col.c}">${col.l}</span>
+        <span class="kol-c">${cards.length}</span>
+      </div>
+      <div class="kol-cards" id="col-${col.k}"
+        ondragover="onDragOver(event)"
+        ondragleave="onDragLeave(event)"
+        ondrop="onDrop(event,'${col.k}')">
+        ${cards.length ? cards.map(o => renderKCard(o)).join('') : '<div class="kol-empty" id="empty-'+col.k+'">Aucune</div>'}
+      </div>
+    </div>`;
   }).join('');
+
+  // Attach drag listeners
+  kb.querySelectorAll('.kcard').forEach(card => {
+    card.addEventListener('dragstart', onDragStart);
+    card.addEventListener('dragend', onDragEnd);
+  });
 }
 
-// ── KPIS ───────────────────────────────────────────────────────
+function renderKCard(o){
+  return `<div class="kcard" draggable="true" data-id="${o.id}" data-status="${o.status}" onclick="openDetail('${o.id}')">
+    <div class="kcard-top">
+      <div class="kcard-title">${o.title}</div>
+      <div class="sc ${scCls(o.score)}" style="width:22px;height:22px;font-size:10px">${scLbl(o.score)}</div>
+    </div>
+    <div>${rTags(o.tags)}</div>
+    <div class="kcard-meta">
+      <span>${o.organization ? o.organization.substring(0,20) : srcL(o.source)}</span>
+      ${o.deadline ? `<span class="mono" style="font-size:10px">${fmtDL(o.deadline)}</span>` : ''}
+    </div>
+    ${o.budget ? `<div class="kcard-budget">${o.budget}</div>` : ''}
+  </div>`;
+}
+
+function onDragStart(e) {
+  dragId = e.currentTarget.dataset.id;
+  dragSourceCol = e.currentTarget.dataset.status;
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', dragId);
+  // Prevent click from firing after drag
+  e.currentTarget.addEventListener('click', e2 => e2.stopPropagation(), { once: true });
+}
+
+function onDragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+  document.querySelectorAll('.kol-cards').forEach(c => c.classList.remove('drag-over'));
+  dragId = null;
+  dragSourceCol = null;
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const col = e.currentTarget;
+  col.classList.add('drag-over');
+}
+
+function onDragLeave(e) {
+  // Only remove if leaving the container itself, not a child
+  if (!e.currentTarget.contains(e.relatedTarget)) {
+    e.currentTarget.classList.remove('drag-over');
+  }
+}
+
+async function onDrop(e, targetCol) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!dragId) return;
+
+  const opp = D.find(x => x.id === dragId);
+  if (!opp) return;
+
+  const oldStatus = opp.status;
+  const newStatus = targetCol;
+
+  // Find drop position from mouse Y
+  const container = e.currentTarget;
+  const cards = [...container.querySelectorAll('.kcard:not(.dragging)')];
+  let insertIndex = cards.length;
+  for (let i = 0; i < cards.length; i++) {
+    const rect = cards[i].getBoundingClientRect();
+    if (e.clientY < rect.top + rect.height / 2) {
+      insertIndex = i;
+      break;
+    }
+  }
+
+  // Update status & position
+  opp.status = newStatus;
+  if (oldStatus !== newStatus) {
+    opp.timeline = [...(opp.timeline||[]), {s: newStatus, d: tday()}];
+  }
+
+  // Reorder within new column
+  const colItems = D
+    .filter(x => x.status === newStatus && x.id !== dragId)
+    .sort((a,b) => (a.position||0) - (b.position||0));
+
+  colItems.splice(insertIndex, 0, opp);
+  colItems.forEach((x, i) => { x.position = i; });
+
+  // Persist
+  await saveOppDB(opp);
+  const idsInOrder = colItems.map(x => x.id);
+  await updatePositions(newStatus, idsInOrder);
+  localSave();
+
+  render();
+  if (oldStatus !== newStatus) toast(`→ ${SL[newStatus]}`);
+}
+
+// ════════════════════════════════════════════════════════════════
+// KPIs
+// ════════════════════════════════════════════════════════════════
 function updateKPIs(){
   document.getElementById('k-tot').textContent=D.length;
   document.getElementById('k-det').textContent=D.filter(o=>o.status==='detected').length;
@@ -654,9 +1111,11 @@ function updateKPIs(){
   document.getElementById('nb').textContent=D.filter(o=>o.status==='detected').length;
 }
 
-function render(){renderList();renderKanban();updateKPIs()}
+function render(){ renderList(); renderKanban(); updateKPIs(); }
 
-// ── VIEWS ──────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// VIEWS & FILTERS
+// ════════════════════════════════════════════════════════════════
 function showView(v){
   document.getElementById('v-list').style.display=v==='list'?'block':'none';
   document.getElementById('v-kanban').style.display=v==='kanban'?'block':'none';
@@ -664,8 +1123,6 @@ function showView(v){
   document.getElementById('ni-kanban').classList.toggle('on',v==='kanban');
   render();
 }
-
-// ── FILTERS ────────────────────────────────────────────────────
 function setChip(s){
   aSt=s;
   ['all','detected','qualified','in_progress','submitted'].forEach(k=>{
@@ -674,9 +1131,11 @@ function setChip(s){
   });
   renderList();
 }
-function quickFilter(s){setChip(s);showView('list')}
+function quickFilter(s){ setChip(s); showView('list'); }
 
-// ── DETAIL ─────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// DETAIL PANEL
+// ════════════════════════════════════════════════════════════════
 function openDetail(id){
   const o=D.find(x=>x.id===id);if(!o)return;
   curId=id;
@@ -685,8 +1144,7 @@ function openDetail(id){
     <span class="st s-${o.status}">${SL[o.status]||o.status}</span>
     <div class="sc ${scCls(o.score)}" style="font-size:11px">${scLbl(o.score)}</div>
     ${rTags(o.tags)}
-    <span style="font-size:10px;color:var(--t3)">${o.is_manual?'✏ Manuel':'⚡ Auto'}</span>
-  `;
+    <span style="font-size:10px;color:var(--t3)">${o.is_manual?'✏ Manuel':'⚡ Auto'}</span>`;
   const as=document.getElementById('d-att-sec');
   if(o.attention){as.style.display='block';document.getElementById('d-att').textContent=o.attention}
   else{as.style.display='none'}
@@ -698,8 +1156,7 @@ function openDetail(id){
     <div class="ic"><div class="ic-l">Deadline</div><div class="ic-v mono">${o.deadline?new Date(o.deadline).toLocaleDateString('fr-FR'):'—'}</div></div>
     <div class="ic"><div class="ic-l">Localisation</div><div class="ic-v">${o.location||'—'}</div></div>
     <div class="ic"><div class="ic-l">Ajouté le</div><div class="ic-v mono">${o.detected_at?new Date(o.detected_at).toLocaleDateString('fr-FR'):'—'}</div></div>
-    ${o.source_url?`<div class="ic" style="grid-column:1/-1"><div class="ic-l">URL source</div><div class="ic-v"><a href="${o.source_url}" target="_blank" rel="noopener">Ouvrir ↗</a></div></div>`:''}
-  `;
+    ${o.source_url?`<div class="ic" style="grid-column:1/-1"><div class="ic-l">URL source</div><div class="ic-v"><a href="${o.source_url}" target="_blank" rel="noopener">Ouvrir ↗</a></div></div>`:''}`;
   document.getElementById('d-ssel').value=o.status;
   document.getElementById('d-notes').value=o.notes||'';
   const evts=o.timeline||[];
@@ -716,36 +1173,46 @@ function openDetail(id){
     </div>`).join('');
   document.getElementById('ov').classList.add('open');
 }
+function ovClick(e){ if(e.target===document.getElementById('ov'))closePanel(); }
+function closePanel(){ document.getElementById('ov').classList.remove('open'); curId=null; }
 
-function ovClick(e){if(e.target===document.getElementById('ov'))closePanel()}
-function closePanel(){document.getElementById('ov').classList.remove('open');curId=null}
-
-function saveStatus(){
+async function saveStatus(){
   if(!curId)return;
   const o=D.find(x=>x.id===curId);
   const ns=document.getElementById('d-ssel').value;
   if(o.status!==ns){
     o.status=ns;
     o.timeline=[...(o.timeline||[]),{s:ns,d:tday()}];
-    save();render();openDetail(curId);
+    await saveOppDB(o);
+    render();
+    openDetail(curId);
     toast('Statut → '+SL[ns]);
   }
 }
-function saveNote(){
+
+async function saveNote(){
   if(!curId)return;
-  D.find(x=>x.id===curId).notes=document.getElementById('d-notes').value;
-  save();toast('Note enregistrée');
-}
-function deleteOpp(){
-  if(!curId)return;
-  if(!confirm('Supprimer cette opportunité ?'))return;
-  D=D.filter(x=>x.id!==curId);closePanel();save();render();toast('Supprimé');
+  const o=D.find(x=>x.id===curId);
+  o.notes=document.getElementById('d-notes').value;
+  await saveOppDB(o);
+  toast('Note enregistrée');
 }
 
-// ── MODAL ──────────────────────────────────────────────────────
-function openModal(){document.getElementById('mov').classList.add('open')}
-function closeModal(){document.getElementById('mov').classList.remove('open');resetForm()}
-function movClick(e){if(e.target===document.getElementById('mov'))closeModal()}
+async function deleteOpp(){
+  if(!curId)return;
+  if(!confirm('Supprimer cette opportunité ?'))return;
+  await deleteOppDB(curId);
+  closePanel();
+  render();
+  toast('Supprimé');
+}
+
+// ════════════════════════════════════════════════════════════════
+// ADD MODAL
+// ════════════════════════════════════════════════════════════════
+function openModal(){ document.getElementById('mov').classList.add('open'); }
+function closeModal(){ document.getElementById('mov').classList.remove('open'); resetForm(); }
+function movClick(e){ if(e.target===document.getElementById('mov'))closeModal(); }
 
 function toggleTag(el,tag){
   el.classList.toggle('on');
@@ -758,13 +1225,15 @@ function resetForm(){
   selTags=[];document.querySelectorAll('.to').forEach(t=>t.classList.remove('on'));
 }
 
-function saveOpp(){
+async function saveOpp(){
   const title=document.getElementById('f-title').value.trim();
   if(!title){alert('Le titre est obligatoire.');return}
   const sr=document.getElementById('f-score').value;
   const score=sr!==''?Math.min(10,Math.max(0,parseInt(sr)||0)):0;
-  D.unshift({
-    id:Date.now().toString(),title,
+  const maxPos = D.filter(x=>x.status==='detected').reduce((m,x)=>Math.max(m,(x.position||0)),0);
+  const opp = {
+    id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+    title,
     organization:document.getElementById('f-org').value.trim()||null,
     source:document.getElementById('f-src').value,
     source_url:document.getElementById('f-url').value.trim()||null,
@@ -775,12 +1244,19 @@ function saveOpp(){
     location:document.getElementById('f-loc').value.trim()||null,
     detected_at:today(),status:'detected',is_manual:true,
     notes:document.getElementById('f-notes').value.trim()||'',
-    attention:null,timeline:[{s:'detected',d:tday()}]
-  });
-  save();render();closeModal();toast('Opportunité ajoutée');
+    attention:null,timeline:[{s:'detected',d:tday()}],
+    position: maxPos + 1
+  };
+  D.unshift(opp);
+  await saveOppDB(opp);
+  render();
+  closeModal();
+  toast('Opportunité ajoutée');
 }
 
-// ── EXPORT ─────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// EXPORT
+// ════════════════════════════════════════════════════════════════
 function exportCSV(){
   const h=['Titre','Organisation','Score','Statut','Tags','Source','Budget','Deadline','Localisation','Date ajout'];
   const rows=D.map(o=>[
@@ -802,21 +1278,48 @@ function exportCSV(){
   toast('CSV téléchargé');
 }
 
-// ── TOAST ──────────────────────────────────────────────────────
-function toast(msg){
+// ════════════════════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════════════════════
+function toast(msg, isErr=false){
   const t=document.getElementById('toast');
   document.getElementById('tmsg').textContent=msg;
+  t.classList.toggle('err', isErr);
   t.classList.add('show');
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2600);
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-// ── KEYBOARD ───────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════
+// KEYBOARD
+// ════════════════════════════════════════════════════════════════
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closePanel();closeModal()}
-  if(e.key==='n'&&!e.ctrlKey&&!e.metaKey&&!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))openModal();
+  if(e.key==='Escape'){ closePanel(); closeModal(); }
+  if(e.key==='n'&&!e.ctrlKey&&!e.metaKey&&!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) openModal();
 });
 
-render();
+// ════════════════════════════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════════════════════════════
+(async function boot() {
+  const cfg = JSON.parse(localStorage.getItem('vs_cfg') || '{}');
+  if (!cfg.url || !cfg.key) {
+    // First time — show config or local mode
+    const hasLocalData = !!localStorage.getItem('vs3');
+    if (hasLocalData) {
+      // Already has local data, just load it
+      showApp(false);
+    } else {
+      // Show config modal for first setup
+      document.getElementById('main-app').style.display = 'flex';
+      openCfg();
+      D = getDemoData();
+      render();
+    }
+  } else {
+    // Has config — check auth
+    await checkAuth();
+  }
+})();
 </script>
 </body>
 </html>
